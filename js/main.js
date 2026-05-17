@@ -845,9 +845,11 @@ document.getElementById('signin-btn')?.addEventListener('click', () => {
 document.getElementById('signout-btn')?.addEventListener('click', () => {
   localStorage.removeItem('hyu_session');
   document.getElementById('community-hero').style.display = '';
-  document.getElementById('chat-topbar').style.display = 'none';
   document.getElementById('community-auth').style.display = 'flex';
   document.getElementById('community-chat').style.display = 'none';
+  // Reset sidebar to Schedule panel for next login
+  document.querySelectorAll('#community-chat [data-panel^="cm-"]').forEach((l, i) => l.classList.toggle('active', i === 0));
+  document.querySelectorAll('#community-chat .member-panel').forEach((p, i) => p.classList.toggle('active', i === 0));
 });
 
 function showAuthError(el, msg) { el.textContent = msg; el.style.display = 'block'; }
@@ -857,15 +859,24 @@ function communityShowChat() {
   if (!session) return;
   document.getElementById('community-auth').style.display = 'none';
   document.getElementById('community-hero')?.style && (document.getElementById('community-hero').style.display = 'none');
-  document.getElementById('chat-topbar').style.display = 'flex';
   document.getElementById('community-chat').style.display = 'block';
   document.getElementById('chat-username-display').textContent = session.username;
+  // Set avatar initials
+  const name = session.firstName || session.username;
+  const initials = name.substring(0, 2).toUpperCase();
+  const avatarSm = document.getElementById('comm-avatar-sm');
+  const avatarLg = document.getElementById('comm-avatar-lg');
+  const profileName = document.getElementById('comm-profile-name');
+  if (avatarSm) avatarSm.textContent = initials;
+  if (avatarLg) avatarLg.textContent = initials;
+  if (profileName) profileName.textContent = name;
   const badge = document.getElementById('chat-admin-badge');
   const adminForm = document.getElementById('admin-announce-form');
   if (session.isAdmin) { badge.style.display = 'inline'; adminForm.style.display = 'block'; }
   else { badge.style.display = 'none'; adminForm.style.display = 'none'; }
   renderAnnouncements();
   renderMessages();
+  renderTickets();
 }
 
 // --- Auto-login if session exists ---
@@ -885,23 +896,79 @@ document.addEventListener('DOMContentLoaded', _communityPageCheck);
 const origLinks = document.querySelectorAll('[data-page="community"]');
 origLinks.forEach(el => el.addEventListener('click', () => setTimeout(_communityPageCheck, 50)));
 
+function annId(a) { return a.id || a.timestamp.toString(); }
+
 // --- Announcements ---
 function renderAnnouncements() {
   const list = document.getElementById('announcements-list');
+  const session = getSession();
   const announcements = getAnnouncements();
   if (!announcements.length) {
     list.innerHTML = '<p class="chat-empty">No announcements yet.</p>';
     return;
   }
   list.innerHTML = announcements.map(a => `
-    <div class="announcement-msg">
-      <div class="msg-meta">${a.username} · ${formatTime(a.timestamp)}</div>
+    <div class="announcement-msg" data-id="${annId(a)}">
+      <div class="msg-meta">
+        ${a.username} · ${formatTime(a.timestamp)}${a.edited ? ' · <span class="msg-edited">edited</span>' : ''}
+        ${session?.isAdmin ? `<span class="ann-actions">
+          <button class="ann-action-btn edit">Edit</button>
+          <button class="ann-action-btn delete">Delete</button>
+        </span>` : ''}
+      </div>
       <div class="msg-text">${escapeHtml(a.text)}</div>
       ${a.imageUrl ? `<img src="${a.imageUrl}" alt="Announcement image" />` : ''}
     </div>
   `).join('');
   list.scrollTop = list.scrollHeight;
 }
+
+document.getElementById('announcements-list')?.addEventListener('click', e => {
+  const annEl = e.target.closest('.announcement-msg');
+  if (!annEl) return;
+  const id = annEl.dataset.id;
+
+  if (e.target.closest('.ann-action-btn.delete')) {
+    let anns = getAnnouncements();
+    anns = anns.filter(a => annId(a) !== id);
+    communityStore('announcements', anns);
+    renderAnnouncements();
+    return;
+  }
+
+  if (e.target.closest('.ann-action-btn.edit')) {
+    const ann = getAnnouncements().find(a => annId(a) === id);
+    if (!ann) return;
+    annEl.querySelector('.msg-text').style.display = 'none';
+    const actEl = annEl.querySelector('.ann-actions');
+    if (actEl) actEl.style.display = 'none';
+    const wrap = document.createElement('div');
+    wrap.className = 'msg-edit-wrap';
+    const ta = document.createElement('textarea');
+    ta.className = 'msg-edit-textarea';
+    ta.value = ann.text;
+    const btns = document.createElement('div');
+    btns.className = 'msg-edit-btns';
+    btns.innerHTML = '<button class="ann-save btn btn-primary btn-sm">Save</button><button class="ann-cancel btn btn-outline btn-sm">Cancel</button>';
+    wrap.appendChild(ta); wrap.appendChild(btns);
+    annEl.appendChild(wrap);
+    ta.focus();
+    return;
+  }
+
+  if (e.target.closest('.ann-save')) {
+    const newText = annEl.querySelector('.msg-edit-textarea')?.value.trim();
+    if (!newText) return;
+    const anns = getAnnouncements();
+    const ann = anns.find(a => annId(a) === id);
+    if (ann) { ann.text = newText; ann.edited = true; }
+    communityStore('announcements', anns);
+    renderAnnouncements();
+    return;
+  }
+
+  if (e.target.closest('.ann-cancel')) { renderAnnouncements(); }
+});
 
 let announceImageData = null;
 document.getElementById('announce-img')?.addEventListener('change', e => {
@@ -923,7 +990,7 @@ document.getElementById('post-announce-btn')?.addEventListener('click', () => {
   const text = document.getElementById('announce-input').value.trim();
   if (!text) return;
   const announcements = getAnnouncements();
-  announcements.push({ username: session.username, text, imageUrl: announceImageData || null, timestamp: Date.now() });
+  announcements.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2), username: session.username, text, imageUrl: announceImageData || null, timestamp: Date.now() });
   communityStore('announcements', announcements);
   document.getElementById('announce-input').value = '';
   document.getElementById('announce-img-preview').style.display = 'none';
@@ -932,6 +999,8 @@ document.getElementById('post-announce-btn')?.addEventListener('click', () => {
 });
 
 // --- Chat messages ---
+function msgId(m) { return m.id || m.timestamp.toString(); }
+
 function renderMessages() {
   const session = getSession();
   const msgs = getMessages();
@@ -940,10 +1009,18 @@ function renderMessages() {
   container.innerHTML = msgs.map(m => {
     const isOwn = session && m.username === session.username;
     const textWithMentions = escapeHtml(m.text).replace(/@(\w+)/g, '<span class="msg-mention">@$1</span>');
+    const editedMark = m.edited ? ' · <span class="msg-edited">edited</span>' : '';
+    const canAct = isOwn || session?.isAdmin;
+    const actions = canAct ? `
+      <div class="msg-actions">
+        <button class="msg-action-btn edit">Edit</button>
+        <button class="msg-action-btn delete">Delete</button>
+      </div>` : '';
     return `
-      <div class="chat-msg ${isOwn ? 'own' : 'other'}">
-        <div class="msg-info">${isOwn ? '' : m.username + ' · '}${formatTime(m.timestamp)}</div>
+      <div class="chat-msg ${isOwn ? 'own' : 'other'}${(!isOwn && session?.isAdmin) ? ' admin-can-act' : ''}" data-id="${msgId(m)}">
+        <div class="msg-info">${isOwn ? '' : m.username + ' · '}${formatTime(m.timestamp)}${editedMark}</div>
         <div class="msg-bubble">${textWithMentions}</div>
+        ${actions}
       </div>
     `;
   }).join('');
@@ -957,12 +1034,63 @@ function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
   const msgs = getMessages();
-  msgs.push({ username: session.username, text, timestamp: Date.now() });
+  msgs.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2), username: session.username, text, timestamp: Date.now() });
   communityStore('messages', msgs);
   input.value = '';
   mentionDropdown.style.display = 'none';
   renderMessages();
 }
+
+// --- Edit / Delete message ---
+document.getElementById('chat-messages')?.addEventListener('click', e => {
+  const msgEl = e.target.closest('.chat-msg');
+  if (!msgEl) return;
+  const id = msgEl.dataset.id;
+
+  if (e.target.closest('.msg-action-btn.delete')) {
+    let msgs = getMessages();
+    msgs = msgs.filter(m => msgId(m) !== id);
+    communityStore('messages', msgs);
+    renderMessages();
+    return;
+  }
+
+  if (e.target.closest('.msg-action-btn.edit')) {
+    const msgs = getMessages();
+    const msg = msgs.find(m => msgId(m) === id);
+    if (!msg) return;
+    msgEl.querySelector('.msg-bubble').style.display = 'none';
+    msgEl.querySelector('.msg-actions').style.display = 'none';
+    const wrap = document.createElement('div');
+    wrap.className = 'msg-edit-wrap';
+    const ta = document.createElement('textarea');
+    ta.className = 'msg-edit-textarea';
+    ta.value = msg.text;
+    const btns = document.createElement('div');
+    btns.className = 'msg-edit-btns';
+    btns.innerHTML = '<button class="msg-save btn btn-primary btn-sm">Save</button><button class="msg-cancel btn btn-outline btn-sm">Cancel</button>';
+    wrap.appendChild(ta); wrap.appendChild(btns);
+    msgEl.appendChild(wrap);
+    ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length);
+    return;
+  }
+
+  if (e.target.closest('.msg-save')) {
+    const wrap = msgEl.querySelector('.msg-edit-wrap');
+    const newText = wrap?.querySelector('.msg-edit-textarea').value.trim();
+    if (!newText) return;
+    const msgs = getMessages();
+    const msg = msgs.find(m => msgId(m) === id);
+    if (msg) { msg.text = newText; msg.edited = true; }
+    communityStore('messages', msgs);
+    renderMessages();
+    return;
+  }
+
+  if (e.target.closest('.msg-cancel')) {
+    renderMessages();
+  }
+});
 
 document.getElementById('send-msg-btn')?.addEventListener('click', sendMessage);
 document.getElementById('chat-input')?.addEventListener('keydown', e => {
@@ -1036,27 +1164,234 @@ function formatTime(ts) {
   return d.toLocaleDateString('en-GB', { day:'numeric', month:'short' }) + ' ' + d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
 }
 
-// --- Community top tabs (Chat / Members Area) ---
-document.querySelectorAll('.chat-topbar-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.chat-topbar-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.community-tab-panel').forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('ctab-' + tab.dataset.ctab).classList.add('active');
-  });
-});
-
-// Members sidebar inside community tab
+// Members sidebar panel switching (scoped to the containing grid)
 document.querySelectorAll('[data-panel^="cm-"]').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const panelId = link.dataset.panel;
-    document.querySelectorAll('[data-panel^="cm-"]').forEach(l => l.classList.remove('active'));
-    document.querySelectorAll('#ctab-members .member-panel').forEach(p => p.classList.remove('active'));
+    const container = link.closest('.comm-dashboard, .members-grid');
+    if (!container) return;
+    container.querySelectorAll('[data-panel^="cm-"]').forEach(l => l.classList.remove('active'));
+    container.querySelectorAll('.member-panel').forEach(p => p.classList.remove('active'));
     link.classList.add('active');
     const panel = document.getElementById(panelId);
     if (panel) { panel.classList.add('active'); panel.style.opacity = '0'; requestAnimationFrame(() => { panel.style.transition = 'opacity 0.3s'; panel.style.opacity = '1'; }); }
   });
+});
+
+// --- Star rating ---
+let currentRating = 0;
+const starBtns = document.querySelectorAll('#star-rating .star');
+starBtns.forEach((star, idx) => {
+  star.addEventListener('mouseover', () => {
+    starBtns.forEach((s, i) => s.classList.toggle('lit', i <= idx));
+  });
+  star.addEventListener('mouseout', () => {
+    starBtns.forEach((s, i) => s.classList.toggle('lit', i < currentRating));
+  });
+  star.addEventListener('click', () => {
+    currentRating = idx + 1;
+    starBtns.forEach((s, i) => s.classList.toggle('lit', i < currentRating));
+  });
+});
+
+// --- Testimonial submit ---
+document.getElementById('testi-submit-btn')?.addEventListener('click', () => {
+  const session = getSession();
+  const quote = document.getElementById('testi-quote').value.trim();
+  const role  = document.getElementById('testi-role').value.trim();
+  const errEl = document.getElementById('testi-error');
+  const okEl  = document.getElementById('testi-success');
+  errEl.style.display = 'none';
+  okEl.style.display  = 'none';
+  if (!currentRating)  return showAuthError(errEl, 'Please select a star rating.');
+  if (quote.length < 20) return showAuthError(errEl, 'Please write at least a sentence about your experience.');
+  const testimonials = communityGet('testimonials') || [];
+  testimonials.push({
+    username:  session.username,
+    firstName: session.firstName || session.username,
+    quote,
+    role: role || (session.firstName || session.username),
+    rating:    currentRating,
+    timestamp: Date.now()
+  });
+  communityStore('testimonials', testimonials);
+  okEl.style.display = 'block';
+  document.getElementById('testi-quote').value = '';
+  document.getElementById('testi-role').value  = '';
+  currentRating = 0;
+  starBtns.forEach(s => s.classList.remove('lit'));
+  renderHomepageTestimonials();
+});
+
+// --- Render member-submitted testimonials on home page ---
+function renderHomepageTestimonials() {
+  const grid = document.querySelector('.testimonials-grid');
+  if (!grid) return;
+  grid.querySelectorAll('.testimonial-card.user-submitted').forEach(el => el.remove());
+  const testimonials = communityGet('testimonials') || [];
+  testimonials.forEach(t => {
+    const initials  = (t.firstName || t.username).substring(0, 2).toUpperCase();
+    const starStr   = '★'.repeat(t.rating) + '☆'.repeat(5 - t.rating);
+    const card = document.createElement('div');
+    card.className = 'testimonial-card user-submitted reveal';
+    card.innerHTML = `
+      <div class="testimonial-stars">${starStr}</div>
+      <p class="testimonial-quote">${escapeHtml(t.quote)}</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar" style="font-size:0.8rem;">${initials}</div>
+        <div>
+          <div class="testimonial-name">${escapeHtml(t.firstName || t.username)}</div>
+          <div class="testimonial-role">${escapeHtml(t.role)}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+document.addEventListener('DOMContentLoaded', renderHomepageTestimonials);
+
+// === MY TICKETS ===
+
+function getTickets() {
+  const session = getSession();
+  if (!session) return [];
+  const raw = localStorage.getItem('hyu_tickets_' + session.username);
+  return raw ? JSON.parse(raw) : [];
+}
+
+function storeTickets(tickets) {
+  const session = getSession();
+  if (!session) return;
+  localStorage.setItem('hyu_tickets_' + session.username, JSON.stringify(tickets));
+}
+
+function generateBarcodeSVG(ref) {
+  const chars = (ref || 'TICKET').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  const bars = [{ w: 3, g: 2 }, { w: 1.5, g: 1.5 }];
+  for (let i = 0; i < chars.length; i++) {
+    const code = chars.charCodeAt(i);
+    for (let b = 7; b >= 0; b--) {
+      bars.push({ w: (code >> b) & 1 ? 3 : 1.5, g: 1.5 });
+    }
+  }
+  bars.push({ w: 1.5, g: 1.5 }, { w: 3, g: 0 });
+
+  const h = 72;
+  let x = 4, rects = '';
+  bars.forEach(b => {
+    rects += `<rect x="${x.toFixed(1)}" y="0" width="${b.w.toFixed(1)}" height="${h}" fill="white"/>`;
+    x += b.w + b.g;
+  });
+  const W = (x + 4).toFixed(0);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${h}" viewBox="0 0 ${W} ${h}" style="background:#111;border-radius:4px;padding:8px 4px;box-sizing:border-box;">${rects}</svg>`;
+}
+
+function showTicketModal(ticket) {
+  const modal = document.getElementById('ticket-modal');
+  if (!modal) return;
+  document.getElementById('tm-event').textContent = ticket.event;
+  const d = ticket.date ? new Date(ticket.date + 'T12:00:00').toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : 'Date TBC';
+  document.getElementById('tm-date').textContent = d;
+  document.getElementById('tm-location').textContent = ticket.location || 'Location TBC';
+  document.getElementById('tm-qty').textContent = ticket.qty + (ticket.qty === 1 ? ' ticket' : ' tickets');
+  document.getElementById('tm-ref').textContent = ticket.ref;
+  const barcodeEl = document.getElementById('tm-barcode');
+  barcodeEl.innerHTML = generateBarcodeSVG(ticket.ref);
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTicketModal() {
+  const modal = document.getElementById('ticket-modal');
+  if (modal) modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function renderTickets() {
+  const list = document.getElementById('tickets-list');
+  const empty = document.getElementById('tickets-empty');
+  if (!list) return;
+  const tickets = getTickets();
+  if (tickets.length === 0) {
+    list.innerHTML = '';
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  list.innerHTML = tickets.map((t, i) => {
+    const dateStr = t.date ? new Date(t.date + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Date TBC';
+    return `<div class="ticket-card" data-ticket-idx="${i}">
+      <div class="ticket-card-left">
+        <div class="ticket-card-icon">🎟️</div>
+        <div class="ticket-card-info">
+          <h4>${escapeHtml(t.event)}</h4>
+          <p>${escapeHtml(dateStr)} · ${escapeHtml(t.location || 'Location TBC')} · Ref: <strong>${escapeHtml(t.ref)}</strong></p>
+        </div>
+      </div>
+      <div class="ticket-card-actions">
+        <span class="ticket-card-badge">${t.qty} ticket${t.qty !== 1 ? 's' : ''}</span>
+        <button class="ticket-delete-btn" data-del-ticket="${i}" title="Remove ticket">✕ Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Ticket card interactions
+document.addEventListener('click', e => {
+  const delBtn = e.target.closest('[data-del-ticket]');
+  if (delBtn) {
+    e.stopPropagation();
+    const idx = parseInt(delBtn.dataset.delTicket, 10);
+    const tickets = getTickets();
+    tickets.splice(idx, 1);
+    storeTickets(tickets);
+    renderTickets();
+    return;
+  }
+  const card = e.target.closest('.ticket-card[data-ticket-idx]');
+  if (card) {
+    const idx = parseInt(card.dataset.ticketIdx, 10);
+    const t = getTickets()[idx];
+    if (t) showTicketModal(t);
+  }
+});
+
+document.getElementById('ticket-modal-close')?.addEventListener('click', closeTicketModal);
+document.querySelector('.ticket-modal-backdrop')?.addEventListener('click', closeTicketModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeTicketModal(); });
+
+document.getElementById('add-ticket-btn')?.addEventListener('click', () => {
+  const form = document.getElementById('add-ticket-form');
+  if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
+});
+
+document.getElementById('cancel-ticket-btn')?.addEventListener('click', () => {
+  const form = document.getElementById('add-ticket-form');
+  if (form) form.style.display = 'none';
+  const err = document.getElementById('ticket-form-error');
+  if (err) err.style.display = 'none';
+});
+
+document.getElementById('save-ticket-btn')?.addEventListener('click', () => {
+  const event = document.getElementById('ticket-event').value.trim();
+  const date = document.getElementById('ticket-date').value;
+  const location = document.getElementById('ticket-location').value.trim();
+  const ref = document.getElementById('ticket-ref').value.trim();
+  const qty = parseInt(document.getElementById('ticket-qty').value, 10) || 1;
+  const errEl = document.getElementById('ticket-form-error');
+  if (!event || !ref) {
+    errEl.textContent = 'Event name and booking reference are required.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  const tickets = getTickets();
+  tickets.unshift({ event, date, location, ref, qty, added: Date.now() });
+  storeTickets(tickets);
+  renderTickets();
+  ['ticket-event', 'ticket-date', 'ticket-location', 'ticket-ref'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('ticket-qty').value = '1';
+  document.getElementById('add-ticket-form').style.display = 'none';
 });
 
 // --- Nav dropdown toggle (touch/click support) ---

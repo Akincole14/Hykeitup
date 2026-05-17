@@ -231,7 +231,7 @@
         <div class="testimonial-stars">★★★★★</div>
         <p class="testimonial-quote">I spend 10 hours a day at a desk — finding a group that gets you outside every month and actually challenges you physically has been a game changer. The Snowdon trip was one of the best days of my year.</p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar">RB</div>
+          <div class="testimonial-avatar"><img src="images/img4.jpg" alt="Ryan B." /></div>
           <div>
             <div class="testimonial-name">Ryan B.</div>
             <div class="testimonial-role">Engineering · Member since 2024</div>
@@ -242,7 +242,7 @@
         <div class="testimonial-stars">★★★★★</div>
         <p class="testimonial-quote">I moved to London not knowing anyone. Within two hikes I had a proper group of friends. There's something about being out in nature together — it strips away the small talk and you connect on a completely different level.</p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar">ZP</div>
+          <div class="testimonial-avatar"><img src="images/img5.jpg" alt="Zara P." /></div>
           <div>
             <div class="testimonial-name">Zara P.</div>
             <div class="testimonial-role">Healthcare · Member since 2024</div>
@@ -253,7 +253,7 @@
         <div class="testimonial-stars">★★★★★</div>
         <p class="testimonial-quote">Every hyke takes you somewhere completely new. The group is so diverse — people from every industry and background — and everyone is completely unpretentious out on the trail. Nothing like it.</p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar">AO</div>
+          <div class="testimonial-avatar"><img src="images/img3.jpg" alt="Amara O." /></div>
           <div>
             <div class="testimonial-name">Amara O.</div>
             <div class="testimonial-role">Architecture · Member since 2025</div>
@@ -1088,132 +1088,214 @@
     </div>
   </div>
 
-  <!-- Community Sub Nav (shown after login) -->
-  <div id="chat-topbar" class="chat-topbar" style="display:none;">
-    <div class="chat-topbar-left">
-      <span class="chat-welcome">Welcome, <strong id="chat-username-display"></strong></span>
-      <span id="chat-admin-badge" class="chat-admin-badge" style="display:none;">Admin</span>
-    </div>
-    <div class="chat-topbar-tabs">
-      <button class="chat-topbar-tab active" data-ctab="members">👥 My Dashboard</button>
-      <button class="chat-topbar-tab" data-ctab="chat">💬 HIU Community Chat</button>
-    </div>
-    <button class="btn btn-outline btn-sm" id="signout-btn">Sign Out</button>
-  </div>
-
-  <!-- Chat Panel (shown after login) -->
+  <!-- Community Dashboard (shown after login) -->
   <div id="community-chat" class="community-chat" style="display:none;">
 
-    <!-- Tab: Chat -->
-    <div class="community-tab-panel" id="ctab-chat">
-    <div class="chat-layout">
-
-      <!-- Announcements -->
-      <aside class="chat-announcements">
-        <div class="chat-panel-header">
-          <span>📢 Announcements</span>
-        </div>
-        <div id="announcements-list" class="announcements-list"></div>
-        <div id="admin-announce-form" class="admin-post-form" style="display:none;">
-          <textarea id="announce-input" placeholder="Write an announcement..." rows="3"></textarea>
-          <div class="admin-post-actions">
-            <label class="admin-img-label">
-              📎 Add Image
-              <input type="file" id="announce-img" accept="image/*" style="display:none;" />
-            </label>
-            <button class="btn btn-primary btn-sm" id="post-announce-btn">Post</button>
+    <div id="comm-header" class="comm-header">
+      <div class="comm-header-inner">
+        <div class="comm-user">
+          <div class="comm-avatar-sm" id="comm-avatar-sm"></div>
+          <div>
+            <div class="comm-welcome">Welcome back, <strong id="chat-username-display"></strong></div>
+            <div class="comm-since">Hyke It Up Member</div>
           </div>
-          <div id="announce-img-preview" class="img-preview" style="display:none;"></div>
+          <span id="chat-admin-badge" class="chat-admin-badge" style="display:none;">Admin</span>
         </div>
+        <button class="btn btn-outline btn-sm" id="signout-btn">Sign Out</button>
+      </div>
+    </div>
+
+    <div class="comm-dashboard">
+
+      <aside class="comm-sidebar">
+        <div class="comm-profile-card">
+          <div class="comm-avatar-lg" id="comm-avatar-lg"></div>
+          <div class="comm-profile-name" id="comm-profile-name"></div>
+          <div class="comm-profile-tag">Member</div>
+        </div>
+        <ul class="sidebar-nav">
+          <li><a href="#" data-panel="cm-panel-tickets" class="active">🎟️ My Tickets</a></li>
+          <li><a href="#" data-panel="cm-panel-resources">📦 Resources</a></li>
+          <li><a href="#" data-panel="cm-panel-directory">👥 Directory</a></li>
+          <li><a href="#" data-panel="cm-panel-chat">💬 Community Chat</a></li>
+          <li><a href="#" data-panel="cm-panel-testimonial">⭐ Leave a Review</a></li>
+        </ul>
       </aside>
 
-      <!-- Main Chat -->
-      <main class="chat-main">
-        <div class="chat-panel-header">
-          <span>💬 Community Chat</span>
+      <main class="comm-main">
+
+        <div id="cm-panel-tickets" class="member-panel active">
+          <div class="panel-title-row">
+            <div class="panel-title">My Tickets</div>
+            <button class="btn btn-primary btn-sm" id="add-ticket-btn">+ Add Ticket</button>
+          </div>
+          <p style="color:var(--mid);margin-bottom:1.5rem;font-size:0.9rem;">Enter your Ticket Tailor booking reference from your confirmation email to save your ticket here.</p>
+
+          <div id="add-ticket-form" class="add-ticket-form" style="display:none;">
+            <div class="ticket-form-grid">
+              <div class="form-group">
+                <label for="ticket-event">Event Name</label>
+                <input type="text" id="ticket-event" placeholder="e.g. Snowdon Summit Challenge" />
+              </div>
+              <div class="form-group">
+                <label for="ticket-date">Event Date</label>
+                <input type="date" id="ticket-date" />
+              </div>
+              <div class="form-group">
+                <label for="ticket-location">Location</label>
+                <input type="text" id="ticket-location" placeholder="e.g. Snowdonia National Park, Wales" />
+              </div>
+              <div class="form-group">
+                <label for="ticket-ref">Booking Reference</label>
+                <input type="text" id="ticket-ref" placeholder="e.g. TT-ABC123" />
+              </div>
+              <div class="form-group">
+                <label for="ticket-qty">Number of Tickets</label>
+                <input type="number" id="ticket-qty" value="1" min="1" max="10" />
+              </div>
+            </div>
+            <div id="ticket-form-error" class="auth-error" style="display:none;"></div>
+            <div class="ticket-form-actions">
+              <button class="btn btn-primary btn-sm" id="save-ticket-btn">Save Ticket</button>
+              <button class="btn btn-outline btn-sm" id="cancel-ticket-btn">Cancel</button>
+            </div>
+          </div>
+
+          <div id="tickets-list" class="tickets-list"></div>
+          <div id="tickets-empty" class="tickets-empty">
+            <div class="tickets-empty-icon">🎟️</div>
+            <p>No tickets saved yet. Click <strong>+ Add Ticket</strong> and enter your booking reference from your Ticket Tailor confirmation email.</p>
+          </div>
         </div>
-        <div id="chat-messages" class="chat-messages"></div>
-        <div class="chat-input-wrap">
-          <div id="mention-dropdown" class="mention-dropdown" style="display:none;"></div>
-          <textarea id="chat-input" class="chat-input" placeholder="Message the community… type @ to mention someone" rows="2"></textarea>
-          <button class="btn btn-primary btn-sm" id="send-msg-btn">Send</button>
+
+        <div id="cm-panel-resources" class="member-panel">
+          <div class="panel-title">Hiker's Toolkit</div>
+          <div class="resources-grid">
+            <div class="resource-card"><div class="icon">🗺️</div><h4>Route Maps</h4><p>GPX files and printable maps for all upcoming hikes.</p></div>
+            <div class="resource-card"><div class="icon">🎒</div><h4>Kit List</h4><p>What to bring on major vs mini hikes.</p></div>
+            <div class="resource-card"><div class="icon">🚌</div><h4>Travel Info</h4><p>Coach pickups, train options and parking guides.</p></div>
+            <div class="resource-card"><div class="icon">🩹</div><h4>Safety Guide</h4><p>Emergency contacts, trail safety and first aid basics.</p></div>
+            <div class="resource-card"><div class="icon">📸</div><h4>Photo Albums</h4><p>Full-resolution photos from every hyke we've done.</p></div>
+            <div class="resource-card"><div class="icon">💬</div><h4>Community Chat</h4><p>Join the WhatsApp group and stay in the loop.</p></div>
+          </div>
         </div>
+
+        <div id="cm-panel-directory" class="member-panel">
+          <div class="panel-title">Community Directory</div>
+          <div class="members-list-grid">
+            <div class="member-pill"><div class="avatar">JA</div><div class="info"><h5>James A.</h5><span>Finance · London</span></div></div>
+            <div class="member-pill"><div class="avatar">SC</div><div class="info"><h5>Sarah C.</h5><span>Technology · London</span></div></div>
+            <div class="member-pill"><div class="avatar">MO</div><div class="info"><h5>Marcus O.</h5><span>Law · London</span></div></div>
+            <div class="member-pill"><div class="avatar">PL</div><div class="info"><h5>Priya L.</h5><span>Healthcare · London</span></div></div>
+            <div class="member-pill"><div class="avatar">TK</div><div class="info"><h5>Tom K.</h5><span>Marketing · London</span></div></div>
+            <div class="member-pill"><div class="avatar">AO</div><div class="info"><h5>Amara O.</h5><span>Architecture · London</span></div></div>
+            <div class="member-pill"><div class="avatar">RB</div><div class="info"><h5>Ryan B.</h5><span>Engineering · London</span></div></div>
+            <div class="member-pill"><div class="avatar">LH</div><div class="info"><h5>Lisa H.</h5><span>Media · London</span></div></div>
+            <div class="member-pill"><div class="avatar">DM</div><div class="info"><h5>David M.</h5><span>Consulting · London</span></div></div>
+            <div class="member-pill"><div class="avatar">NK</div><div class="info"><h5>Nina K.</h5><span>Education · London</span></div></div>
+            <div class="member-pill"><div class="avatar">OA</div><div class="info"><h5>Oliver A.</h5><span>Finance · London</span></div></div>
+            <div class="member-pill"><div class="avatar">ZP</div><div class="info"><h5>Zara P.</h5><span>Healthcare · London</span></div></div>
+          </div>
+        </div>
+
+        <div id="cm-panel-chat" class="member-panel">
+          <div class="chat-layout">
+            <aside class="chat-announcements">
+              <div class="chat-panel-header"><span>📢 Announcements</span></div>
+              <div id="announcements-list" class="announcements-list"></div>
+              <div id="admin-announce-form" class="admin-post-form" style="display:none;">
+                <textarea id="announce-input" placeholder="Write an announcement..." rows="3"></textarea>
+                <div class="admin-post-actions">
+                  <label class="admin-img-label">
+                    📎 Add Image
+                    <input type="file" id="announce-img" accept="image/*" style="display:none;" />
+                  </label>
+                  <button class="btn btn-primary btn-sm" id="post-announce-btn">Post</button>
+                </div>
+                <div id="announce-img-preview" class="img-preview" style="display:none;"></div>
+              </div>
+            </aside>
+            <main class="chat-main">
+              <div class="chat-panel-header"><span>💬 Community Chat</span></div>
+              <div id="chat-messages" class="chat-messages"></div>
+              <div class="chat-input-wrap">
+                <div id="mention-dropdown" class="mention-dropdown" style="display:none;"></div>
+                <textarea id="chat-input" class="chat-input" placeholder="Message the community… type @ to mention someone" rows="2"></textarea>
+                <button class="btn btn-primary btn-sm" id="send-msg-btn">Send</button>
+              </div>
+            </main>
+          </div>
+        </div>
+
+        <div id="cm-panel-testimonial" class="member-panel">
+          <div class="panel-title">Leave a Review</div>
+          <p style="color:var(--mid);margin-bottom:2rem;">Share your Hyke It Up experience. Your review may be featured on our homepage.</p>
+          <div class="testi-form-wrap">
+            <div class="star-rating-wrap">
+              <label class="form-group-label">Your Rating</label>
+              <div class="star-rating" id="star-rating">
+                <button type="button" class="star" data-val="1">★</button>
+                <button type="button" class="star" data-val="2">★</button>
+                <button type="button" class="star" data-val="3">★</button>
+                <button type="button" class="star" data-val="4">★</button>
+                <button type="button" class="star" data-val="5">★</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="testi-quote">Your Review</label>
+              <textarea id="testi-quote" rows="5" placeholder="Tell us about your experience — the trails, the people, what it meant to you..."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="testi-role">Role / Industry <span class="form-optional">(shown on homepage)</span></label>
+              <input type="text" id="testi-role" placeholder="e.g. Finance · Member since 2024" />
+            </div>
+            <div id="testi-error" class="auth-error" style="display:none;"></div>
+            <div id="testi-success" class="auth-success" style="display:none;">⭐ Thanks! Your review has been submitted and will appear on the homepage.</div>
+            <button class="btn btn-primary" id="testi-submit-btn">Submit Review →</button>
+          </div>
+        </div>
+
       </main>
-
     </div>
-    </div><!-- /ctab-chat -->
-
-    <!-- Tab: Members Area -->
-    <div class="community-tab-panel active" id="ctab-members">
-      <div class="members-wrap">
-        <div class="members-grid">
-          <aside class="members-sidebar">
-            <div class="sidebar-title">My Dashboard</div>
-            <ul class="sidebar-nav">
-              <li><a href="#" data-panel="cm-panel-schedule" class="active">📅 Hyke Schedule</a></li>
-              <li><a href="#" data-panel="cm-panel-resources">📦 Resources</a></li>
-              <li><a href="#" data-panel="cm-panel-directory">👥 Directory</a></li>
-            </ul>
-          </aside>
-          <main>
-            <div id="cm-panel-schedule" class="member-panel active">
-              <div class="panel-title">Hyke Schedule — June 2026</div>
-              <div class="schedule-list">
-                <div class="schedule-item">
-                  <div class="schedule-date"><div class="day">7</div><div class="month">Jun</div></div>
-                  <div class="schedule-info"><h4>Snowdon Summit Challenge</h4><p>Snowdonia National Park, Wales · Meet 6:30am · Coach departs 7am</p><span class="badge badge-major">Major Hyke</span></div>
-                </div>
-                <div class="schedule-item mini">
-                  <div class="schedule-date"><div class="day">14</div><div class="month">Jun</div></div>
-                  <div class="schedule-info"><h4>South Downs Morning Walk</h4><p>Eastbourne to Seaford, Sussex · Meet 8am at Eastbourne Station</p><span class="badge badge-mini">Mini Hyke</span></div>
-                </div>
-                <div class="schedule-item mini">
-                  <div class="schedule-date"><div class="day">21</div><div class="month">Jun</div></div>
-                  <div class="schedule-info"><h4>Peak District Loop</h4><p>Stanage Edge, Derbyshire · Meet 8:30am at Hathersage Station</p><span class="badge badge-mini">Mini Hyke</span></div>
-                </div>
-                <div class="schedule-item mini">
-                  <div class="schedule-date"><div class="day">28</div><div class="month">Jun</div></div>
-                  <div class="schedule-info"><h4>Box Hill Sunrise Walk</h4><p>Box Hill, Surrey · Meet 7am at Box Hill &amp; Westhumble Station</p><span class="badge badge-mini">Mini Hyke</span></div>
-                </div>
-              </div>
-            </div>
-            <div id="cm-panel-resources" class="member-panel">
-              <div class="panel-title">Hiker's Toolkit</div>
-              <div class="resources-grid">
-                <div class="resource-card"><div class="icon">🗺️</div><h4>Route Maps</h4><p>GPX files and printable maps for all upcoming hikes.</p></div>
-                <div class="resource-card"><div class="icon">🎒</div><h4>Kit List</h4><p>What to bring on major vs mini hikes.</p></div>
-                <div class="resource-card"><div class="icon">🚌</div><h4>Travel Info</h4><p>Coach pickups, train options and parking guides.</p></div>
-                <div class="resource-card"><div class="icon">🩹</div><h4>Safety Guide</h4><p>Emergency contacts, trail safety and first aid basics.</p></div>
-                <div class="resource-card"><div class="icon">📸</div><h4>Photo Albums</h4><p>Full-resolution photos from every hyke we've done.</p></div>
-                <div class="resource-card"><div class="icon">💬</div><h4>Community Chat</h4><p>Join the WhatsApp group and stay in the loop.</p></div>
-              </div>
-            </div>
-            <div id="cm-panel-directory" class="member-panel">
-              <div class="panel-title">Community Directory</div>
-              <div class="members-list-grid">
-                <div class="member-pill"><div class="avatar">JA</div><div class="info"><h5>James A.</h5><span>Finance · London</span></div></div>
-                <div class="member-pill"><div class="avatar">SC</div><div class="info"><h5>Sarah C.</h5><span>Technology · London</span></div></div>
-                <div class="member-pill"><div class="avatar">MO</div><div class="info"><h5>Marcus O.</h5><span>Law · London</span></div></div>
-                <div class="member-pill"><div class="avatar">PL</div><div class="info"><h5>Priya L.</h5><span>Healthcare · London</span></div></div>
-                <div class="member-pill"><div class="avatar">TK</div><div class="info"><h5>Tom K.</h5><span>Marketing · London</span></div></div>
-                <div class="member-pill"><div class="avatar">AO</div><div class="info"><h5>Amara O.</h5><span>Architecture · London</span></div></div>
-                <div class="member-pill"><div class="avatar">RB</div><div class="info"><h5>Ryan B.</h5><span>Engineering · London</span></div></div>
-                <div class="member-pill"><div class="avatar">LH</div><div class="info"><h5>Lisa H.</h5><span>Media · London</span></div></div>
-                <div class="member-pill"><div class="avatar">DM</div><div class="info"><h5>David M.</h5><span>Consulting · London</span></div></div>
-                <div class="member-pill"><div class="avatar">NK</div><div class="info"><h5>Nina K.</h5><span>Education · London</span></div></div>
-                <div class="member-pill"><div class="avatar">OA</div><div class="info"><h5>Oliver A.</h5><span>Finance · London</span></div></div>
-                <div class="member-pill"><div class="avatar">ZP</div><div class="info"><h5>Zara P.</h5><span>Healthcare · London</span></div></div>
-              </div>
-            </div>
-          </main>
-        </div>
-      </div>
-    </div><!-- /ctab-members -->
-
   </div><!-- /community-chat -->
 
 </div><!-- /community -->
 
+
+<!-- ===== TICKET MODAL ===== -->
+<div id="ticket-modal" class="ticket-modal" style="display:none;" role="dialog" aria-modal="true">
+  <div class="ticket-modal-backdrop"></div>
+  <div class="ticket-modal-inner">
+    <button class="ticket-modal-close" id="ticket-modal-close" aria-label="Close">✕</button>
+    <div class="ticket-full">
+      <div class="ticket-full-header">
+        <div class="ticket-full-tag">Hyke It Up</div>
+        <div class="ticket-full-event" id="tm-event"></div>
+      </div>
+      <div class="ticket-full-details">
+        <div class="ticket-detail-item">
+          <span class="ticket-detail-label">📅 Date</span>
+          <span class="ticket-detail-val" id="tm-date"></span>
+        </div>
+        <div class="ticket-detail-item">
+          <span class="ticket-detail-label">📍 Location</span>
+          <span class="ticket-detail-val" id="tm-location"></span>
+        </div>
+        <div class="ticket-detail-item">
+          <span class="ticket-detail-label">🎟️ Tickets</span>
+          <span class="ticket-detail-val" id="tm-qty"></span>
+        </div>
+        <div class="ticket-detail-item">
+          <span class="ticket-detail-label">📋 Booking Ref</span>
+          <span class="ticket-detail-val ticket-ref-display" id="tm-ref"></span>
+        </div>
+      </div>
+      <div class="ticket-barcode-wrap">
+        <div id="tm-barcode" class="ticket-barcode"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ===== FOOTER ===== -->
 <footer>
