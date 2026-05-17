@@ -44,11 +44,15 @@
     <li><a href="#" data-page="members">Members Area</a></li>
     <li><a href="#" data-page="gallery">Gallery</a></li>
     <li><a href="#" data-page="tickets">Book Tickets</a></li>
-    <li><a href="#" data-page="contact" class="nav-cta">Join The Team</a></li>
+
+    <li class="nav-mobile-cta"><a href="#" data-page="contact" class="nav-cta">Join The Team</a></li>
   </ul>
-  <button class="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-right">
+    <a href="#" data-page="contact" class="nav-cta">Contact Us / Join The Team</a>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <!-- Lightbox -->
@@ -65,8 +69,18 @@
 
   <!-- Hero -->
   <section class="hero">
-    <div class="hero-bg parallax-layer"></div>
+    <div class="hero-carousel">
+      <div class="hero-slide active" style="background-image:url('images/img6.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('images/img1.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('images/img2.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('images/img4.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('images/img5.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('images/img7.jpg')"></div>
+    </div>
     <div class="hero-overlay"></div>
+    <button class="hero-arrow hero-arrow-prev" aria-label="Previous">&#8249;</button>
+    <button class="hero-arrow hero-arrow-next" aria-label="Next">&#8250;</button>
+    <div class="hero-dots"></div>
 
     <!-- Floating mountain silhouette -->
     <svg class="hero-mountains" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 220" preserveAspectRatio="none">
@@ -81,24 +95,6 @@
         <a href="#" class="btn btn-primary" data-page="contact">Join the Community</a>
         <a href="#" class="btn btn-outline" data-page="about">Learn More</a>
       </div>
-      <div class="stats-bar">
-        <div class="stat">
-          <span class="stat-number" data-target="200" data-suffix="+">200+</span>
-          <span class="stat-label">Members</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number" data-target="50" data-suffix="+">50+</span>
-          <span class="stat-label">Hikes Done</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number" data-target="12" data-suffix="+">12+</span>
-          <span class="stat-label">Industries</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number" data-target="3" data-suffix="×">3×</span>
-          <span class="stat-label">Monthly Hikes</span>
-        </div>
-      </div>
     </div>
 
     <div class="scroll-cue">
@@ -106,6 +102,28 @@
       <div class="scroll-cue-line"></div>
     </div>
   </section>
+
+  <!-- Stats -->
+  <div class="stats-section">
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-number" data-target="7000" data-suffix="+">7,000+</span>
+        <span class="stat-label">Members</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" data-target="50" data-suffix="+">50+</span>
+        <span class="stat-label">Hykes Completed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" data-target="12" data-suffix="+">12+</span>
+        <span class="stat-label">Industries</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">250–400</span>
+        <span class="stat-label">Monthly Hykers</span>
+      </div>
+    </div>
+  </div>
 
   <!-- Features -->
   <section class="section">
@@ -563,96 +581,383 @@
     <p>Whether you're ready to join, have a question, or want to partner with us — we'd love to hear from you.</p>
   </div>
 
-  <div class="contact-wrap">
-    <div class="contact-grid">
+  <!-- Tab Navigation -->
+  <div class="contact-tabs-wrap">
+    <div class="contact-tabs">
+      <button class="contact-tab active" data-tab="enquiries">Enquiries</button>
+      <button class="contact-tab" data-tab="join">Join Our Team</button>
+      <button class="contact-tab" data-tab="partners">Partnerships</button>
+    </div>
+  </div>
 
-      <div class="contact-info reveal-left">
-        <div class="section-label">Say Hello</div>
-        <h3>We'd Love to Hear From You</h3>
-        <p style="margin-top:0.7rem; margin-bottom:2rem;">Get in touch and we'll get back to you as soon as possible. You can also find us on Instagram and TikTok at <strong style="color:rgba(255,255,255,0.85);">@hykeitup</strong>.</p>
+  <!-- Tab: Enquiries -->
+  <div class="contact-panel active" id="panel-enquiries">
+    <div class="contact-wrap">
+      <div class="contact-grid">
 
-        <div class="contact-details">
-          <div class="contact-item">
-            <div class="contact-icon">📧</div>
-            <div class="contact-text"><h5>Email</h5><p>Hykeitupofficial@gmail.com</p></div>
+        <div class="contact-info reveal-left">
+          <div class="section-label">Say Hello</div>
+          <h3>We'd Love to Hear From You</h3>
+          <p style="margin-top:0.7rem; margin-bottom:2rem;">Get in touch and we'll get back to you as soon as possible. You can also find us on Instagram and TikTok at <strong style="color:rgba(255,255,255,0.85);">@hykeitup</strong>.</p>
+          <div class="contact-details">
+            <div class="contact-item">
+              <div class="contact-icon">📧</div>
+              <div class="contact-text"><h5>Email</h5><p>Hykeitupofficial@gmail.com</p></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div class="contact-text"><h5>Based In</h5><p>London, United Kingdom</p></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📅</div>
+              <div class="contact-text"><h5>Hyke Frequency</h5><p>1 major + up to 3 mini hykes per month</p></div>
+            </div>
           </div>
-          <div class="contact-item">
-            <div class="contact-icon">📍</div>
-            <div class="contact-text"><h5>Based In</h5><p>London, United Kingdom</p></div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon">📅</div>
-            <div class="contact-text"><h5>Hyke Frequency</h5><p>1 major + up to 3 mini hykes per month</p></div>
+          <div class="socials">
+            <button class="social-btn" title="Instagram">📷</button>
+            <button class="social-btn" title="TikTok">🎵</button>
+            <button class="social-btn" title="WhatsApp">💬</button>
           </div>
         </div>
 
-        <div class="socials">
-          <button class="social-btn" title="Instagram">📷</button>
-          <button class="social-btn" title="TikTok">🎵</button>
-          <button class="social-btn" title="WhatsApp">💬</button>
+        <div class="form-wrap reveal-right">
+          <h3 class="form-title">Send Us a Message</h3>
+          <form id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" placeholder="Your first name" required />
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Your last name" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="your@email.com" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number <span class="form-optional">(optional)</span></label>
+              <input type="tel" id="phone" name="phone" placeholder="+44 7000 000000" />
+            </div>
+            <div class="form-group">
+              <label for="industry">Your Industry</label>
+              <select id="industry" name="industry">
+                <option value="">Select your industry</option>
+                <option>Finance &amp; Banking</option>
+                <option>Technology</option>
+                <option>Law</option>
+                <option>Healthcare</option>
+                <option>Marketing &amp; Media</option>
+                <option>Engineering</option>
+                <option>Architecture &amp; Design</option>
+                <option>Consulting</option>
+                <option>Education</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="hikeType">I'm interested in</label>
+              <select id="hikeType" name="hikeType">
+                <option value="">Select hyke type</option>
+                <option>Major hykes (monthly)</option>
+                <option>Mini hykes (weekends)</option>
+                <option>Both major and mini hykes</option>
+                <option>Just exploring the community</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message (optional)</label>
+              <textarea id="message" name="message" placeholder="Tell us a bit about yourself or ask us anything..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">Send Message →</button>
+          </form>
+          <div id="formSuccess" class="form-success">
+            <div class="icon">🎉</div>
+            <h3>Message sent!</h3>
+            <p>Thanks for reaching out. We'll be in touch within 48 hours.</p>
+          </div>
         </div>
+
       </div>
+    </div>
+  </div>
 
-      <div class="form-wrap reveal-right">
-        <h3 class="form-title">Join the Community</h3>
-        <form id="contactForm">
+  <!-- Tab: Join Our Team -->
+  <div class="contact-panel" id="panel-join">
+    <div class="contact-extra-section">
+      <div class="contact-extra-inner">
+        <div class="contact-extra-header">
+          <div class="section-label">Volunteer With Us</div>
+          <h2>Apply for a Voluntary Role</h2>
+          <p>Hyke It Up runs on passion. If you'd like to give your time and skills to help grow our community, we'd love to hear from you.</p>
+        </div>
+        <form id="volunteerForm" class="contact-extra-form">
           <div class="form-row">
             <div class="form-group">
-              <label for="firstName">First Name</label>
-              <input type="text" id="firstName" name="firstName" placeholder="Your first name" required />
+              <label for="volFirstName">First Name</label>
+              <input type="text" id="volFirstName" name="volFirstName" placeholder="Your first name" required />
             </div>
             <div class="form-group">
-              <label for="lastName">Last Name</label>
-              <input type="text" id="lastName" name="lastName" placeholder="Your last name" required />
+              <label for="volLastName">Last Name</label>
+              <input type="text" id="volLastName" name="volLastName" placeholder="Your last name" required />
             </div>
           </div>
           <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="your@email.com" required />
+            <label for="volEmail">Email Address</label>
+            <input type="email" id="volEmail" name="volEmail" placeholder="your@email.com" required />
           </div>
           <div class="form-group">
-            <label for="industry">Your Industry</label>
-            <select id="industry" name="industry">
-              <option value="">Select your industry</option>
-              <option>Finance &amp; Banking</option>
-              <option>Technology</option>
-              <option>Law</option>
-              <option>Healthcare</option>
-              <option>Marketing &amp; Media</option>
-              <option>Engineering</option>
-              <option>Architecture &amp; Design</option>
-              <option>Consulting</option>
-              <option>Education</option>
+            <label for="volPhone">Phone Number <span class="form-optional">(optional)</span></label>
+            <input type="tel" id="volPhone" name="volPhone" placeholder="+44 7000 000000" />
+          </div>
+          <div class="form-group">
+            <label for="volRole">Role You're Interested In</label>
+            <select id="volRole" name="volRole">
+              <option value="">Select a role</option>
+              <option>Hike Leader / Guide</option>
+              <option>Photography &amp; Content</option>
+              <option>Social Media &amp; Marketing</option>
+              <option>Event Logistics</option>
+              <option>Community Wellbeing</option>
+              <option>Safety &amp; First Aid</option>
               <option>Other</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="hikeType">I'm interested in</label>
-            <select id="hikeType" name="hikeType">
-              <option value="">Select hyke type</option>
-              <option>Major hykes (monthly)</option>
-              <option>Mini hykes (weekends)</option>
-              <option>Both major and mini hykes</option>
-              <option>Just exploring the community</option>
+            <label for="volWhy">Why do you want to volunteer?</label>
+            <textarea id="volWhy" name="volWhy" placeholder="Tell us about yourself, your skills, and why you'd like to get involved..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit">Submit Application →</button>
+        </form>
+        <div id="volunteerSuccess" class="form-success" style="display:none;">
+          <div class="icon">🙌</div>
+          <h3>Application received!</h3>
+          <p>Thanks for wanting to volunteer with us. We'll review your application and be in touch within a week.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Partners -->
+  <div class="contact-panel" id="panel-partners">
+    <div class="contact-extra-section">
+      <div class="contact-extra-inner">
+        <div class="contact-extra-header">
+          <div class="section-label">Work With Us</div>
+          <h2>Partner With Hyke It Up</h2>
+          <p>We're building one of the UK's most engaged outdoor communities. Partnering with us means putting your brand in front of thousands of active, socially connected millennials who trust our recommendations.</p>
+        </div>
+
+        <div class="cp-why-grid">
+          <div class="cp-why-item">
+            <div class="cp-why-num">7,000+</div>
+            <div class="cp-why-label">Active Community Members</div>
+            <p>A fast-growing network of outdoor enthusiasts across the UK, built entirely through word of mouth and authentic content.</p>
+          </div>
+          <div class="cp-why-item">
+            <div class="cp-why-num">24+</div>
+            <div class="cp-why-label">Events Annually</div>
+            <p>From major full-day summit challenges to local mini hykes — consistent, high-quality touchpoints for your brand throughout the year.</p>
+          </div>
+          <div class="cp-why-item">
+            <div class="cp-why-num">90%</div>
+            <div class="cp-why-label">Member Retention Rate</div>
+            <p>Our members keep coming back. That loyalty means your partnership delivers repeated exposure to a genuinely engaged audience.</p>
+          </div>
+        </div>
+
+        <div class="cp-divider">
+          <div class="section-label" style="margin-bottom:0.5rem;">Partnership Options</div>
+          <h3 style="margin-bottom:1.5rem;">Ways to Get Involved</h3>
+        </div>
+        <div class="contact-partner-types">
+          <div class="contact-partner-card">
+            <div class="partner-card-icon">🏔️</div>
+            <h4>Event Sponsorship</h4>
+            <p>Sponsor a hyke with your branding across all event communications and social content.</p>
+          </div>
+          <div class="contact-partner-card">
+            <div class="partner-card-icon">🤝</div>
+            <h4>Brand Collaboration</h4>
+            <p>Co-create content, offer member discounts, or run co-branded campaigns.</p>
+          </div>
+          <div class="contact-partner-card">
+            <div class="partner-card-icon">🎁</div>
+            <h4>Product Gifting</h4>
+            <p>Get your gear in the hands of passionate outdoor enthusiasts on our hikes.</p>
+          </div>
+          <div class="contact-partner-card">
+            <div class="partner-card-icon">📸</div>
+            <h4>Media &amp; Press</h4>
+            <p>Feature stories, interviews, and behind-the-scenes access to our events.</p>
+          </div>
+        </div>
+        <form id="contactPartnerForm" class="contact-extra-form" style="margin-top:2.5rem;">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cpName">Your Name</label>
+              <input type="text" id="cpName" name="cpName" placeholder="Your full name" required />
+            </div>
+            <div class="form-group">
+              <label for="cpCompany">Company / Organisation</label>
+              <input type="text" id="cpCompany" name="cpCompany" placeholder="Your company name" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cpEmail">Email Address</label>
+            <input type="email" id="cpEmail" name="cpEmail" placeholder="you@company.com" required />
+          </div>
+          <div class="form-group">
+            <label for="cpPhone">Phone Number <span class="form-optional">(optional)</span></label>
+            <input type="tel" id="cpPhone" name="cpPhone" placeholder="+44 7000 000000" />
+          </div>
+          <div class="form-group">
+            <label for="cpType">Type of Partnership</label>
+            <select id="cpType" name="cpType">
+              <option value="">Select partnership type</option>
+              <option>Event Sponsorship</option>
+              <option>Brand Collaboration</option>
+              <option>Product Gifting / Testing</option>
+              <option>Co-hosted Event</option>
+              <option>Media &amp; Press</option>
+              <option>Other</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="message">Message (optional)</label>
-            <textarea id="message" name="message" placeholder="Tell us a bit about yourself or ask us anything..."></textarea>
+            <label for="cpMessage">Tell us more</label>
+            <textarea id="cpMessage" name="cpMessage" placeholder="Describe your idea and what you're hoping to achieve..."></textarea>
           </div>
-          <button type="submit" class="btn btn-primary form-submit">Send Message →</button>
+          <button type="submit" class="btn btn-primary form-submit">Send Enquiry →</button>
         </form>
-        <div id="formSuccess" class="form-success">
-          <div class="icon">🎉</div>
-          <h3>You're on the list!</h3>
-          <p>Thanks for reaching out. We'll be in touch within 48 hours with everything you need to get started with Hyke It Up.</p>
+        <div id="contactPartnerSuccess" class="form-success" style="display:none;">
+          <div class="icon">🤝</div>
+          <h3>Enquiry received!</h3>
+          <p>Thanks for reaching out. We'll get back to you within 3 business days.</p>
         </div>
       </div>
-
     </div>
   </div>
 
 </div><!-- /contact -->
+
+
+<!-- ========================================= -->
+<!-- ============== PARTNERS ================ -->
+<!-- ========================================= -->
+<div id="partners" class="page">
+
+  <div class="partners-hero">
+    <div class="section-label">Work With Us</div>
+    <h1>Partners &amp; Sponsors</h1>
+    <p>Join forces with a fast-growing outdoor community. We work with brands and organisations who share our values of adventure, inclusion, and wellbeing.</p>
+  </div>
+
+  <div class="partners-why">
+    <div class="partners-why-inner">
+      <div class="section-label">Why Partner With Us</div>
+      <h2>Reach an Engaged, Active Community</h2>
+      <p>Our members are ambitious professionals who are passionate about the outdoors. A partnership with Hyke It Up puts your brand in front of a highly engaged, growing audience.</p>
+      <div class="partners-stats">
+        <div class="partner-stat">
+          <span class="partner-stat-num">7,000+</span>
+          <span class="partner-stat-label">Active Members</span>
+        </div>
+        <div class="partner-stat">
+          <span class="partner-stat-num">24+</span>
+          <span class="partner-stat-label">Events Annually</span>
+        </div>
+        <div class="partner-stat">
+          <span class="partner-stat-num">10k+</span>
+          <span class="partner-stat-label">Social Reach</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="partners-types">
+    <div class="partners-types-inner">
+      <div class="section-label">Partnership Options</div>
+      <h2>Ways to Get Involved</h2>
+      <div class="partner-cards">
+        <div class="partner-card reveal">
+          <div class="partner-card-icon">🏔️</div>
+          <h4>Event Sponsorship</h4>
+          <p>Sponsor a major or mini hyke, with your branding featured across all event communications, social content, and on the day.</p>
+        </div>
+        <div class="partner-card reveal delay-1">
+          <div class="partner-card-icon">🤝</div>
+          <h4>Brand Collaboration</h4>
+          <p>Co-create content, offer exclusive member discounts, or run co-branded campaigns across our platforms.</p>
+        </div>
+        <div class="partner-card reveal delay-2">
+          <div class="partner-card-icon">🎁</div>
+          <h4>Product Gifting</h4>
+          <p>Get your gear or products in the hands of outdoor enthusiasts. We integrate product testing naturally into our hikes.</p>
+        </div>
+        <div class="partner-card reveal">
+          <div class="partner-card-icon">📸</div>
+          <h4>Media &amp; Press</h4>
+          <p>Feature stories, interview opportunities, and behind-the-scenes access to our community events for your publication.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="partners-enquiry reveal">
+    <div class="partners-enquiry-inner">
+      <div class="contact-extra-header">
+        <div class="section-label">Get In Touch</div>
+        <h2>Partnership Enquiries</h2>
+        <p>Interested in working with us? Tell us about your brand and what you have in mind — we'll get back to you within 3 business days.</p>
+      </div>
+      <form id="partnerForm" class="contact-extra-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="partnerName">Your Name</label>
+            <input type="text" id="partnerName" name="partnerName" placeholder="Your full name" required />
+          </div>
+          <div class="form-group">
+            <label for="partnerCompany">Company / Organisation</label>
+            <input type="text" id="partnerCompany" name="partnerCompany" placeholder="Your company name" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="partnerEmail">Email Address</label>
+          <input type="email" id="partnerEmail" name="partnerEmail" placeholder="you@company.com" required />
+        </div>
+        <div class="form-group">
+          <label for="partnerPhone">Phone Number <span class="form-optional">(optional)</span></label>
+          <input type="tel" id="partnerPhone" name="partnerPhone" placeholder="+44 7000 000000" />
+        </div>
+        <div class="form-group">
+          <label for="partnerType">Type of Partnership</label>
+          <select id="partnerType" name="partnerType">
+            <option value="">Select partnership type</option>
+            <option>Event Sponsorship</option>
+            <option>Brand Collaboration</option>
+            <option>Product Gifting / Testing</option>
+            <option>Co-hosted Event</option>
+            <option>Media &amp; Press</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="partnerMessage">Tell us more</label>
+          <textarea id="partnerMessage" name="partnerMessage" placeholder="Describe your idea, what you're hoping to achieve, and any relevant details..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary form-submit">Send Enquiry →</button>
+      </form>
+      <div id="partnerSuccess" class="form-success" style="display:none;">
+        <div class="icon">🤝</div>
+        <h3>Enquiry received!</h3>
+        <p>Thanks for reaching out. A member of our team will get back to you within 3 business days.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /partners -->
 
 
 <!-- ========================================= -->

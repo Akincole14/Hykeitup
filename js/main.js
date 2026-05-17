@@ -75,17 +75,43 @@ function triggerReveal() {
   });
 }
 
-// === PARALLAX HERO BG ===
-const heroBg = document.querySelector('.hero-bg');
-if (heroBg) {
-  heroBg.classList.add('zoomed'); // trigger the CSS zoom transition on load
-  window.addEventListener('scroll', () => {
-    if (document.getElementById('home').classList.contains('active')) {
-      const offset = window.scrollY * 0.4;
-      heroBg.style.transform = `scale(1) translateY(${offset}px)`;
-    }
+// === HERO CAROUSEL ===
+(function () {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dotsContainer = document.querySelector('.hero-dots');
+  if (!slides.length) return;
+
+  let current = 0;
+  let timer;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
   });
-}
+
+  function goTo(index) {
+    slides[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    current = (index + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+    resetTimer();
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  document.querySelector('.hero-arrow-prev')?.addEventListener('click', () => goTo(current - 1));
+  document.querySelector('.hero-arrow-next')?.addEventListener('click', () => goTo(current + 1));
+
+  resetTimer();
+})();
 
 // === ANIMATED STATS COUNTER ===
 function animateStats() {
@@ -213,6 +239,56 @@ contactForm?.addEventListener('submit', async e => {
     btn.disabled = false;
     btn.style.background = 'rgba(224,82,82,0.8)';
   }
+});
+
+function handleExtraForm(formId, successId) {
+  const form = document.getElementById(formId);
+  form?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = form.querySelector('.form-submit');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' },
+      });
+      if (res.ok) {
+        form.style.transition = 'opacity 0.4s';
+        form.style.opacity = '0';
+        setTimeout(() => {
+          form.style.display = 'none';
+          const success = document.getElementById(successId);
+          success.style.display = 'block';
+          success.style.opacity = '0';
+          requestAnimationFrame(() => { success.style.transition = 'opacity 0.5s'; success.style.opacity = '1'; });
+        }, 400);
+      } else {
+        btn.textContent = 'Try again →';
+        btn.disabled = false;
+        btn.style.background = 'rgba(224,82,82,0.8)';
+      }
+    } catch {
+      btn.textContent = 'Try again →';
+      btn.disabled = false;
+      btn.style.background = 'rgba(224,82,82,0.8)';
+    }
+  });
+}
+
+handleExtraForm('volunteerForm', 'volunteerSuccess');
+handleExtraForm('partnerForm', 'partnerSuccess');
+handleExtraForm('contactPartnerForm', 'contactPartnerSuccess');
+
+// === CONTACT PAGE TABS ===
+document.querySelectorAll('.contact-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.contact-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.contact-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+  });
 });
 
 // === SCROLL CUE ===
