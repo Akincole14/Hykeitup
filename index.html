@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyke It Up — City Professionals Who Hyke</title>
+  <meta name="description" content="A community of city working professionals who share a passion for hiking. Monthly major hikes and weekend mini hikes across the UK." />
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="images/logo.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hykeitup.com" />
+  <meta property="og:title" content="Hyke It Up — City Professionals Who Hyke" />
+  <meta property="og:description" content="A community of millennial city professionals who leave the boardroom behind and hit the trails together — every month, across the UK." />
+  <meta property="og:image" content="https://hykeitup.com/images/img6.jpg" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Hyke It Up — City Professionals Who Hyke" />
+  <meta name="twitter:description" content="A community of millennial city professionals who leave the boardroom behind and hit the trails together — every month, across the UK." />
+  <meta name="twitter:image" content="https://hykeitup.com/images/img6.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress-bar"></div>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <a class="nav-logo" href="#" data-page="home">
+    <img src="images/logo.png" alt="Hyke It Up" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" data-page="home" class="active">Home</a></li>
+    <li><a href="#" data-page="about">About</a></li>
+    <li><a href="#" data-page="members">Members Area</a></li>
+    <li><a href="#" data-page="gallery">Gallery</a></li>
+    <li><a href="#" data-page="tickets">Book Tickets</a></li>
+    <li><a href="#" data-page="contact" class="nav-cta">Join The Team</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox">
+  <button id="lightbox-close" class="lightbox-close">✕</button>
+  <img id="lightbox-img" src="" alt="Gallery image" />
+</div>
+
+
+<!-- ========================================= -->
+<!-- ================= HOME ================= -->
+<!-- ========================================= -->
+<div id="home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg parallax-layer"></div>
+    <div class="hero-overlay"></div>
+
+    <!-- Floating mountain silhouette -->
+    <svg class="hero-mountains" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 220" preserveAspectRatio="none">
+      <path fill="white" d="M0,220 L0,140 L120,60 L200,110 L320,20 L440,90 L520,40 L620,100 L720,10 L820,80 L920,30 L1020,95 L1100,45 L1200,110 L1320,55 L1440,90 L1440,220 Z"/>
+    </svg>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">A Community for Millennials · UK Hiking</div>
+      <h1>Find Your <em>Path</em></h1>
+      <p>Navigating life as a 30-40 something year old has its peaks and troughs. At a stage in life where we thought we'd all have it figured out, we're all in fact still trying to find our path and navigate the ultimate trail of life, adulthood.</p>
+      <div class="btn-group">
+        <a href="#" class="btn btn-primary" data-page="contact">Join the Community</a>
+        <a href="#" class="btn btn-outline" data-page="about">Learn More</a>
+      </div>
+      <div class="stats-bar">
+        <div class="stat">
+          <span class="stat-number" data-target="200" data-suffix="+">200+</span>
+          <span class="stat-label">Members</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="50" data-suffix="+">50+</span>
+          <span class="stat-label">Hikes Done</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="12" data-suffix="+">12+</span>
+          <span class="stat-label">Industries</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="3" data-suffix="×">3×</span>
+          <span class="stat-label">Monthly Hikes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <div class="scroll-cue-line"></div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section">
+    <div class="section-header centered">
+      <div class="section-label reveal">Why Hyke It Up</div>
+      <h2 class="section-title reveal delay-1">More Than Just a Walk</h2>
+      <p class="section-sub reveal delay-2">We blend the outdoors with genuine community. Every hyke is a chance to explore, connect and recharge.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal delay-1">
+        <div class="feature-icon">🏔️</div>
+        <h3>Monthly Major Hykes</h3>
+        <p>Every month we tackle a significant trail together — a proper challenge that rewards you with unforgettable views.</p>
+      </div>
+      <div class="feature-card reveal delay-2">
+        <div class="feature-icon">🥾</div>
+        <h3>Weekend Mini Hykes</h3>
+        <p>New mini hikes every remaining weekend keep the momentum going for those who can't get enough of the trails.</p>
+      </div>
+      <div class="feature-card reveal delay-3">
+        <div class="feature-icon">🤝</div>
+        <h3>Pro Networking</h3>
+        <p>Connect with professionals from finance, tech, law, creative industries and more — united by a love of the outdoors.</p>
+      </div>
+      <div class="feature-card reveal delay-4">
+        <div class="feature-icon">📍</div>
+        <h3>Curated Routes</h3>
+        <p>Every route is hand-picked for the right balance of scenery, challenge and accessibility from the city.</p>
+      </div>
+      <div class="feature-card reveal delay-5">
+        <div class="feature-icon">🌱</div>
+        <h3>Wellness First</h3>
+        <p>The best antidote to the city grind is fresh air and green space. Our hikes are as good for the mind as the body.</p>
+      </div>
+      <div class="feature-card reveal delay-6">
+        <div class="feature-icon">📸</div>
+        <h3>Shared Memories</h3>
+        <p>Every adventure is captured and shared in our gallery — moments you'll look back on long after the boots come off.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section section-alt">
+    <div class="section-header centered">
+      <div class="section-label reveal">From the Community</div>
+      <h2 class="section-title reveal delay-1">What Our Members Say</h2>
+      <p class="section-sub reveal delay-2">Real people, real adventures. Here's what Hyke It Up means to them.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal delay-1">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">I spend 10 hours a day at a desk — finding a group that gets you outside every month and actually challenges you physically has been a game changer. The Snowdon trip was one of the best days of my year.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">RB</div>
+          <div>
+            <div class="testimonial-name">Ryan B.</div>
+            <div class="testimonial-role">Engineering · Member since 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal delay-2">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">I moved to London not knowing anyone. Within two hikes I had a proper group of friends. There's something about being out in nature together — it strips away the small talk and you connect on a completely different level.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">ZP</div>
+          <div>
+            <div class="testimonial-name">Zara P.</div>
+            <div class="testimonial-role">Healthcare · Member since 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal delay-3">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">Every hyke takes you somewhere completely new. The group is so diverse — people from every industry and background — and everyone is completely unpretentious out on the trail. Nothing like it.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AO</div>
+          <div>
+            <div class="testimonial-name">Amara O.</div>
+            <div class="testimonial-role">Architecture · Member since 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Hykes -->
+  <section class="section hikes-bg">
+    <div class="section-header">
+      <div class="section-label reveal">Coming Up</div>
+      <h2 class="section-title reveal delay-1">Upcoming Hykes</h2>
+      <p class="section-sub reveal delay-2">Secure your spot — major and mini hykes fill up fast.</p>
+    </div>
+    <div class="hikes-grid">
+      <div class="hike-card reveal delay-1">
+        <div class="hike-img">
+          <img src="images/img4.jpg" alt="Snowdon" />
+          <span class="hike-tag">Major Hyke</span>
+        </div>
+        <div class="hike-body">
+          <h3>Snowdon Summit Challenge</h3>
+          <p>Conquer the highest peak in Wales with sweeping panoramic views across Snowdonia National Park.</p>
+          <div class="hike-meta">
+            <span>📅 7 Jun 2026</span>
+            <span>📍 Wales</span>
+            <span>⏱ Full Day</span>
+          </div>
+          <a href="#" class="btn btn-primary" data-page="tickets" data-hike="snowdon" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
+        </div>
+      </div>
+      <div class="hike-card reveal delay-2">
+        <div class="hike-img">
+          <img src="images/img1.jpg" alt="South Downs" />
+          <span class="hike-tag mini">Mini Hyke</span>
+        </div>
+        <div class="hike-body">
+          <h3>South Downs Morning Walk</h3>
+          <p>A crisp early-morning walk along the South Downs Way — back in time for lunch.</p>
+          <div class="hike-meta">
+            <span>📅 14 Jun 2026</span>
+            <span>📍 Sussex</span>
+            <span>⏱ Half Day</span>
+          </div>
+          <a href="#" class="btn btn-primary" data-page="tickets" data-hike="south-downs" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
+        </div>
+      </div>
+      <div class="hike-card reveal delay-3">
+        <div class="hike-img">
+          <img src="images/img3.jpg" alt="Peak District" />
+          <span class="hike-tag mini">Mini Hyke</span>
+        </div>
+        <div class="hike-body">
+          <h3>Peak District Loop</h3>
+          <p>Rolling moorland, dramatic edges and a well-earned pub stop at the end. A true classic.</p>
+          <div class="hike-meta">
+            <span>📅 21 Jun 2026</span>
+            <span>📍 Derbyshire</span>
+            <span>⏱ Half Day</span>
+          </div>
+          <a href="#" class="btn btn-primary" data-page="tickets" data-hike="peak-district" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="cta-banner">
+    <h2 class="reveal">Ready to Leave the Office Behind?</h2>
+    <p class="reveal delay-1">Join hundreds of city professionals who've found their tribe on the trails. Your next adventure is waiting.</p>
+    <a href="#" class="btn btn-dark reveal delay-2" data-page="contact">Get in Touch →</a>
+  </section>
+
+</div><!-- /home -->
+
+
+<!-- ========================================= -->
+<!-- ================ ABOUT ================= -->
+<!-- ========================================= -->
+<div id="about" class="page">
+
+  <section class="section" style="padding-top: 8rem;">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal-left">
+        <img src="images/img2.jpg" alt="Hyke It Up community" class="about-img" />
+        <div class="about-badge">
+          <strong>2020</strong>
+          <span>Founded</span>
+        </div>
+      </div>
+      <div class="about-text reveal-right">
+        <div class="section-label">Our Story</div>
+        <h2>An Impulse Idea That<br />Became a Movement</h2>
+        <p style="margin-top:1rem;">Hyke It Up was an impulse idea our Founder Sable created in April 2024. After searching for local hiking clubs without success, she decided to create one with co-founder Akin.</p>
+        <p style="margin-top:1rem;">A community for millennials to meet up once a month across different locations in the U.K to get fit and explore the outdoors while networking and meeting new people.</p>
+        <p style="margin-top:1rem;">The community aims to help millennials make friends, build community vibes, and support one another through life's journey — on the trail and beyond.</p>
+        <ul class="values-list">
+          <li>Community-led, community-owned</li>
+          <li>All fitness levels welcome</li>
+          <li>Safety briefings on every hyke</li>
+          <li>No hiking experience needed to join</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="section hikes-bg">
+    <div class="section-header centered">
+      <div class="section-label reveal">What We Stand For</div>
+      <h2 class="section-title reveal delay-1">Our Values</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal delay-1">
+        <div class="feature-icon">🧭</div>
+        <h3>Adventure</h3>
+        <p>We seek out routes that challenge and inspire — from misty moorlands to dramatic coastal paths.</p>
+      </div>
+      <div class="feature-card reveal delay-2">
+        <div class="feature-icon">🤝</div>
+        <h3>Community</h3>
+        <p>No one hikes alone in Hyke It Up. We look after each other on the trail and celebrate together at the end.</p>
+      </div>
+      <div class="feature-card reveal delay-3">
+        <div class="feature-icon">💚</div>
+        <h3>Wellbeing</h3>
+        <p>Mental and physical health sit at the heart of everything we do. Fresh air, movement and connection are powerful medicine.</p>
+      </div>
+      <div class="feature-card reveal delay-4">
+        <div class="feature-icon">🌍</div>
+        <h3>Respect for Nature</h3>
+        <p>We leave no trace, follow the countryside code and actively support conservation of the landscapes we love.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="section">
+    <div class="section-header centered">
+      <div class="section-label reveal">The Crew</div>
+      <h2 class="section-title reveal delay-1">Community Leaders</h2>
+      <p class="section-sub reveal delay-2">Real professionals, real hikers. Our volunteer leads keep the community running smoothly.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal delay-1">
+        <div class="team-avatar">JA</div>
+        <h3>James A.</h3>
+        <div class="role">Founder & Lead</div>
+        <div class="industry">📊 Finance</div>
+      </div>
+      <div class="team-card reveal delay-2">
+        <div class="team-avatar">SC</div>
+        <h3>Sarah C.</h3>
+        <div class="role">Route Planner</div>
+        <div class="industry">💻 Technology</div>
+      </div>
+      <div class="team-card reveal delay-3">
+        <div class="team-avatar">MO</div>
+        <h3>Marcus O.</h3>
+        <div class="role">Safety Lead</div>
+        <div class="industry">⚖️ Law</div>
+      </div>
+      <div class="team-card reveal delay-4">
+        <div class="team-avatar">PL</div>
+        <h3>Priya L.</h3>
+        <div class="role">Community Manager</div>
+        <div class="industry">🏥 Healthcare</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /about -->
+
+
+<!-- ========================================= -->
+<!-- ============= MEMBERS AREA ============= -->
+<!-- ========================================= -->
+<div id="members" class="page">
+
+  <div class="members-hero">
+    <h1>Members Area</h1>
+    <p>Your hub for schedules, resources and the full community directory.</p>
+    <a href="#" class="btn btn-primary" data-page="contact">Not a member? Join Us →</a>
+  </div>
+
+  <div class="members-wrap">
+    <div class="members-grid">
+      <aside class="members-sidebar">
+        <div class="sidebar-title">My Dashboard</div>
+        <ul class="sidebar-nav">
+          <li><a href="#" data-panel="panel-schedule" class="active">📅 Hyke Schedule</a></li>
+          <li><a href="#" data-panel="panel-resources">📦 Resources</a></li>
+          <li><a href="#" data-panel="panel-directory">👥 Directory</a></li>
+        </ul>
+      </aside>
+
+      <main>
+        <!-- Schedule -->
+        <div id="panel-schedule" class="member-panel active">
+          <div class="panel-title">Hyke Schedule — June 2026</div>
+          <div class="schedule-list">
+            <div class="schedule-item">
+              <div class="schedule-date"><div class="day">7</div><div class="month">Jun</div></div>
+              <div class="schedule-info">
+                <h4>Snowdon Summit Challenge</h4>
+                <p>Snowdonia National Park, Wales · Meet 6:30am · Coach departs 7am</p>
+                <span class="badge badge-major">Major Hyke</span>
+              </div>
+            </div>
+            <div class="schedule-item mini">
+              <div class="schedule-date"><div class="day">14</div><div class="month">Jun</div></div>
+              <div class="schedule-info">
+                <h4>South Downs Morning Walk</h4>
+                <p>Eastbourne to Seaford, Sussex · Meet 8am at Eastbourne Station</p>
+                <span class="badge badge-mini">Mini Hyke</span>
+              </div>
+            </div>
+            <div class="schedule-item mini">
+              <div class="schedule-date"><div class="day">21</div><div class="month">Jun</div></div>
+              <div class="schedule-info">
+                <h4>Peak District Loop</h4>
+                <p>Stanage Edge, Derbyshire · Meet 8:30am at Hathersage Station</p>
+                <span class="badge badge-mini">Mini Hyke</span>
+              </div>
+            </div>
+            <div class="schedule-item mini">
+              <div class="schedule-date"><div class="day">28</div><div class="month">Jun</div></div>
+              <div class="schedule-info">
+                <h4>Box Hill Sunrise Walk</h4>
+                <p>Box Hill, Surrey · Meet 7am at Box Hill &amp; Westhumble Station</p>
+                <span class="badge badge-mini">Mini Hyke</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resources -->
+        <div id="panel-resources" class="member-panel">
+          <div class="panel-title">Hiker's Toolkit</div>
+          <div class="resources-grid">
+            <div class="resource-card"><div class="icon">🗺️</div><h4>Route Maps</h4><p>GPX files and printable maps for all upcoming hikes.</p></div>
+            <div class="resource-card"><div class="icon">🎒</div><h4>Kit List</h4><p>What to bring on major vs mini hikes.</p></div>
+            <div class="resource-card"><div class="icon">🚌</div><h4>Travel Info</h4><p>Coach pickups, train options and parking guides.</p></div>
+            <div class="resource-card"><div class="icon">🩹</div><h4>Safety Guide</h4><p>Emergency contacts, trail safety and first aid basics.</p></div>
+            <div class="resource-card"><div class="icon">📸</div><h4>Photo Albums</h4><p>Full-resolution photos from every hyke we've done.</p></div>
+            <div class="resource-card"><div class="icon">💬</div><h4>Community Chat</h4><p>Join the WhatsApp group and stay in the loop.</p></div>
+          </div>
+        </div>
+
+        <!-- Directory -->
+        <div id="panel-directory" class="member-panel">
+          <div class="panel-title">Community Directory</div>
+          <div class="members-list-grid">
+            <div class="member-pill"><div class="avatar">JA</div><div class="info"><h5>James A.</h5><span>Finance · London</span></div></div>
+            <div class="member-pill"><div class="avatar">SC</div><div class="info"><h5>Sarah C.</h5><span>Technology · London</span></div></div>
+            <div class="member-pill"><div class="avatar">MO</div><div class="info"><h5>Marcus O.</h5><span>Law · London</span></div></div>
+            <div class="member-pill"><div class="avatar">PL</div><div class="info"><h5>Priya L.</h5><span>Healthcare · London</span></div></div>
+            <div class="member-pill"><div class="avatar">TK</div><div class="info"><h5>Tom K.</h5><span>Marketing · London</span></div></div>
+            <div class="member-pill"><div class="avatar">AO</div><div class="info"><h5>Amara O.</h5><span>Architecture · London</span></div></div>
+            <div class="member-pill"><div class="avatar">RB</div><div class="info"><h5>Ryan B.</h5><span>Engineering · London</span></div></div>
+            <div class="member-pill"><div class="avatar">LH</div><div class="info"><h5>Lisa H.</h5><span>Media · London</span></div></div>
+            <div class="member-pill"><div class="avatar">DM</div><div class="info"><h5>David M.</h5><span>Consulting · London</span></div></div>
+            <div class="member-pill"><div class="avatar">NK</div><div class="info"><h5>Nina K.</h5><span>Education · London</span></div></div>
+            <div class="member-pill"><div class="avatar">OA</div><div class="info"><h5>Oliver A.</h5><span>Finance · London</span></div></div>
+            <div class="member-pill"><div class="avatar">ZP</div><div class="info"><h5>Zara P.</h5><span>Healthcare · London</span></div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+</div><!-- /members -->
+
+
+<!-- ========================================= -->
+<!-- =============== GALLERY ================ -->
+<!-- ========================================= -->
+<div id="gallery" class="page">
+
+  <div class="gallery-hero">
+    <h1>Our Gallery</h1>
+    <p>Moments from the trail — every photo tells a story of adventure, friendship and the great outdoors.</p>
+  </div>
+
+  <div class="gallery-wrap">
+    <div class="gallery-filter">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="major">Major Hykes</button>
+      <button class="filter-btn" data-filter="mini">Mini Hykes</button>
+      <button class="filter-btn" data-filter="people">Community</button>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item wide reveal" data-category="major">
+        <img src="images/img6.jpg" alt="Group hyke" class="gallery-img" />
+        <div class="gallery-overlay"><span>Snowdon Summit · May 2026</span></div>
+      </div>
+      <div class="gallery-item reveal delay-1" data-category="people">
+        <img src="images/img7.jpg" alt="Group photo" class="gallery-img" />
+        <div class="gallery-overlay"><span>Group moment</span></div>
+      </div>
+      <div class="gallery-item reveal delay-2" data-category="major">
+        <img src="images/img4.jpg" alt="Trail hyke" class="gallery-img" />
+        <div class="gallery-overlay"><span>Ben Nevis · Apr 2026</span></div>
+      </div>
+      <div class="gallery-item reveal delay-1" data-category="mini">
+        <img src="images/img1.jpg" alt="Hiking trail" class="gallery-img" />
+        <div class="gallery-overlay"><span>South Downs · May 2026</span></div>
+      </div>
+      <div class="gallery-item reveal delay-2" data-category="mini">
+        <img src="images/img5.jpg" alt="Hiking with pole" class="gallery-img" />
+        <div class="gallery-overlay"><span>Brecon Beacons · Mar 2026</span></div>
+      </div>
+      <div class="gallery-item wide reveal delay-3" data-category="people">
+        <img src="images/img2.jpg" alt="Hyke hoodie" class="gallery-img" />
+        <div class="gallery-overlay"><span>Post-hyke celebrations</span></div>
+      </div>
+      <div class="gallery-item reveal delay-1" data-category="major">
+        <img src="images/img3.jpg" alt="Community chat" class="gallery-img" />
+        <div class="gallery-overlay"><span>Helvellyn · Feb 2026</span></div>
+      </div>
+      <div class="gallery-item reveal delay-2" data-category="mini">
+        <img src="images/img6.jpg" alt="Group on trail" class="gallery-img" />
+        <div class="gallery-overlay"><span>Chilterns · Apr 2026</span></div>
+      </div>
+    </div>
+
+    <!-- Instagram -->
+    <div class="instagram-section">
+      <div class="instagram-header reveal">
+        <h3>Follow Our Journey</h3>
+        <p>@hykeitup on Instagram &amp; TikTok</p>
+      </div>
+      <div class="instagram-grid">
+        <div class="instagram-tile reveal delay-1">
+          <img src="images/img6.jpg" alt="Hyke photo" loading="lazy" />
+          <div class="instagram-overlay"><span>❤️ 284</span></div>
+        </div>
+        <div class="instagram-tile reveal delay-2">
+          <img src="images/img1.jpg" alt="Hyke photo" loading="lazy" />
+          <div class="instagram-overlay"><span>❤️ 197</span></div>
+        </div>
+        <div class="instagram-tile reveal delay-3">
+          <img src="images/img2.jpg" alt="Hyke photo" loading="lazy" />
+          <div class="instagram-overlay"><span>❤️ 412</span></div>
+        </div>
+        <div class="instagram-tile reveal delay-4">
+          <img src="images/img3.jpg" alt="Hyke photo" loading="lazy" />
+          <div class="instagram-overlay"><span>❤️ 156</span></div>
+        </div>
+        <div class="instagram-tile reveal delay-5">
+          <img src="images/img4.jpg" alt="Hyke photo" loading="lazy" />
+          <div class="instagram-overlay"><span>❤️ 338</span></div>
+        </div>
+        <div class="instagram-tile reveal delay-6">
+          <img src="images/img5.jpg" alt="Hyke photo" loading="lazy" />
+          <div class="instagram-overlay"><span>❤️ 221</span></div>
+        </div>
+      </div>
+      <a href="https://instagram.com/hykeitup" target="_blank" rel="noopener noreferrer" class="instagram-follow-btn">
+        📷 Follow @hykeitup
+      </a>
+    </div>
+
+  </div>
+</div><!-- /gallery -->
+
+
+<!-- ========================================= -->
+<!-- =============== CONTACT ================ -->
+<!-- ========================================= -->
+<div id="contact" class="page">
+
+  <div class="contact-hero">
+    <h1>Get Involved</h1>
+    <p>Whether you're ready to join, have a question, or want to partner with us — we'd love to hear from you.</p>
+  </div>
+
+  <div class="contact-wrap">
+    <div class="contact-grid">
+
+      <div class="contact-info reveal-left">
+        <div class="section-label">Say Hello</div>
+        <h3>We'd Love to Hear From You</h3>
+        <p style="margin-top:0.7rem; margin-bottom:2rem;">Get in touch and we'll get back to you as soon as possible. You can also find us on Instagram and TikTok at <strong style="color:rgba(255,255,255,0.85);">@hykeitup</strong>.</p>
+
+        <div class="contact-details">
+          <div class="contact-item">
+            <div class="contact-icon">📧</div>
+            <div class="contact-text"><h5>Email</h5><p>Hykeitupofficial@gmail.com</p></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div class="contact-text"><h5>Based In</h5><p>London, United Kingdom</p></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📅</div>
+            <div class="contact-text"><h5>Hyke Frequency</h5><p>1 major + up to 3 mini hykes per month</p></div>
+          </div>
+        </div>
+
+        <div class="socials">
+          <button class="social-btn" title="Instagram">📷</button>
+          <button class="social-btn" title="TikTok">🎵</button>
+          <button class="social-btn" title="WhatsApp">💬</button>
+        </div>
+      </div>
+
+      <div class="form-wrap reveal-right">
+        <h3 class="form-title">Join the Community</h3>
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" name="firstName" placeholder="Your first name" required />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" name="lastName" placeholder="Your last name" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="industry">Your Industry</label>
+            <select id="industry" name="industry">
+              <option value="">Select your industry</option>
+              <option>Finance &amp; Banking</option>
+              <option>Technology</option>
+              <option>Law</option>
+              <option>Healthcare</option>
+              <option>Marketing &amp; Media</option>
+              <option>Engineering</option>
+              <option>Architecture &amp; Design</option>
+              <option>Consulting</option>
+              <option>Education</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="hikeType">I'm interested in</label>
+            <select id="hikeType" name="hikeType">
+              <option value="">Select hyke type</option>
+              <option>Major hykes (monthly)</option>
+              <option>Mini hykes (weekends)</option>
+              <option>Both major and mini hykes</option>
+              <option>Just exploring the community</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message (optional)</label>
+            <textarea id="message" name="message" placeholder="Tell us a bit about yourself or ask us anything..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit">Send Message →</button>
+        </form>
+        <div id="formSuccess" class="form-success">
+          <div class="icon">🎉</div>
+          <h3>You're on the list!</h3>
+          <p>Thanks for reaching out. We'll be in touch within 48 hours with everything you need to get started with Hyke It Up.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /contact -->
+
+
+<!-- ========================================= -->
+<!-- =============== TICKETS ================ -->
+<!-- ========================================= -->
+<div id="tickets" class="page">
+
+  <div class="tickets-hero">
+    <div class="tickets-hero-bg"></div>
+    <div class="tickets-hero-overlay"></div>
+    <div class="tickets-hero-content">
+      <div class="section-label">Adventure Awaits</div>
+      <h1>Book a Hyke</h1>
+      <p>Secure your spot in under 3 minutes. Payments handled securely by Stripe.</p>
+    </div>
+  </div>
+
+  <div class="tickets-wrap">
+
+    <!-- Step Indicator -->
+    <div class="step-indicator">
+      <div class="step-item active" data-step="1">
+        <div class="step-circle"><span>1</span></div>
+        <span class="step-label">Choose Hyke</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" data-step="2">
+        <div class="step-circle"><span>2</span></div>
+        <span class="step-label">Your Details</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" data-step="3">
+        <div class="step-circle"><span>3</span></div>
+        <span class="step-label">Payment</span>
+      </div>
+    </div>
+
+    <!-- Step 1: Choose Hyke -->
+    <div id="ticket-step-1" class="ticket-step active">
+      <h3 class="step-heading">Select Your Hyke</h3>
+      <div id="hike-options" class="hike-options"></div>
+
+      <div class="quantity-section">
+        <div class="qty-label">Number of Tickets</div>
+        <div class="quantity-stepper">
+          <button class="qty-btn" id="qty-minus" disabled>−</button>
+          <span id="qty-display">1</span>
+          <button class="qty-btn" id="qty-plus">+</button>
+        </div>
+        <div id="qty-note" class="qty-note">Select a hyke to see available spots</div>
+      </div>
+
+      <div class="step-footer">
+        <div class="step-price-preview">
+          <span>Estimated Total</span>
+          <strong id="step1-total">—</strong>
+        </div>
+        <button class="btn btn-primary" id="step1-next" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Your Details -->
+    <div id="ticket-step-2" class="ticket-step">
+      <h3 class="step-heading">Your Details</h3>
+      <form id="attendee-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" id="t-first" placeholder="First name" />
+          </div>
+          <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" id="t-last" placeholder="Last name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="t-email" placeholder="your@email.com" />
+          <span class="field-hint">Your ticket confirmation will be sent here</span>
+        </div>
+        <div class="form-group">
+          <label>Mobile Number *</label>
+          <input type="tel" id="t-phone" placeholder="+44 7700 000000" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Emergency Contact Name *</label>
+            <input type="text" id="t-em-name" placeholder="Full name" />
+          </div>
+          <div class="form-group">
+            <label>Emergency Contact Phone *</label>
+            <input type="tel" id="t-em-phone" placeholder="+44 7700 000000" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Fitness Level *</label>
+          <select id="t-fitness">
+            <option value="">Select your level</option>
+            <option value="beginner">Beginner — occasional walker</option>
+            <option value="intermediate">Intermediate — regular hiker</option>
+            <option value="experienced">Experienced — avid hiker</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Medical / Dietary Requirements</label>
+          <textarea id="t-medical" placeholder="Any medical conditions, allergies or dietary needs (optional)"></textarea>
+        </div>
+      </form>
+      <div class="step-footer">
+        <button class="btn btn-outline" id="step2-back">← Back</button>
+        <button class="btn btn-primary" id="step2-next">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Payment -->
+    <div id="ticket-step-3" class="ticket-step">
+      <div class="checkout-grid">
+
+        <div class="checkout-payment">
+          <h3 class="step-heading">Secure Payment</h3>
+          <div class="stripe-badge">
+            <span>🔒</span>
+            <span>Secured by <strong>Stripe</strong> · Visa · Mastercard · Apple Pay · Google Pay</span>
+          </div>
+          <div id="payment-element-wrap">
+            <div id="payment-loading" class="payment-loading">
+              <div class="payment-spinner"></div>
+              <p>Connecting to secure payment…</p>
+            </div>
+            <div id="payment-element"></div>
+          </div>
+          <div id="payment-error" class="payment-error" style="display:none;"></div>
+          <div class="step-footer">
+            <button class="btn btn-outline" id="step3-back">← Back</button>
+            <button class="btn btn-primary" id="pay-btn" disabled>
+              <span id="pay-btn-text">Pay Now</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="checkout-summary">
+          <div class="order-summary-card">
+            <div class="order-summary-title">Order Summary</div>
+            <div id="order-summary-body"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div id="ticket-success" class="ticket-success" style="display:none;">
+      <div class="success-icon">🎉</div>
+      <h2>Booking Confirmed!</h2>
+      <p>You're on the trail. Check your inbox for your ticket and everything you need for the day.</p>
+      <div id="booking-ref" class="booking-ref"></div>
+      <div class="success-actions">
+        <a href="#" class="btn btn-primary" data-page="home">Back to Home</a>
+        <a href="#" class="btn btn-outline" data-page="members">Members Area</a>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /tickets -->
+
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="images/logo.png" alt="Hyke It Up" class="footer-logo" />
+      <p>A community of city working professionals who leave the boardroom behind and hit the trails together — every month, across the UK.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Navigation</h5>
+      <ul>
+        <li><a href="#" data-page="home">Home</a></li>
+        <li><a href="#" data-page="about">About</a></li>
+        <li><a href="#" data-page="members">Members Area</a></li>
+        <li><a href="#" data-page="gallery">Gallery</a></li>
+        <li><a href="#" data-page="tickets">Book Tickets</a></li>
+        <li><a href="#" data-page="contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Connect</h5>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">TikTok</a></li>
+        <li><a href="#">WhatsApp Community</a></li>
+        <li><a href="#">Hykeitupofficial@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Hyke It Up. All rights reserved.</span>
+    <span>Made with 🧡 for the hiking community</span>
+  </div>
+</footer>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
