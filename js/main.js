@@ -53,6 +53,7 @@ document.querySelectorAll('[data-page]').forEach(el => {
   el.addEventListener('click', e => {
     e.preventDefault();
     if (el.dataset.hike) pendingHikeId = el.dataset.hike;
+    if (el.dataset.communityTab) communityOpenTab(el.dataset.communityTab);
     showPage(el.dataset.page);
   });
 });
@@ -696,3 +697,377 @@ function initTicketPage() {
 }
 
 initTicketPage();
+
+// =============================================
+// === COMMUNITY SYSTEM ========================
+// =============================================
+
+const ADMIN_USERNAME = 'hykeitup_admin';
+const ADMIN_PASSWORD = 'HykeAdmin2024!';
+
+function communityStore(key, val) { localStorage.setItem('hyu_' + key, JSON.stringify(val)); }
+function communityGet(key) { try { return JSON.parse(localStorage.getItem('hyu_' + key)); } catch { return null; } }
+
+// Seed admin account + example content if not present
+(function seedAdmin() {
+  const users = communityGet('users') || [];
+  if (!users.find(u => u.username === ADMIN_USERNAME)) {
+    users.push({ username: ADMIN_USERNAME, email: 'admin@hykeitup.com', password: ADMIN_PASSWORD, firstName: 'Admin', lastName: '', isAdmin: true, joinedAt: Date.now() });
+    users.push({ username: 'sable_hikes', email: 'sable@hykeitup.com', password: 'demo', firstName: 'Sable', lastName: '', isAdmin: false, joinedAt: Date.now() - 86400000 });
+    users.push({ username: 'akin_trails', email: 'akin@hykeitup.com', password: 'demo', firstName: 'Akin', lastName: '', isAdmin: false, joinedAt: Date.now() - 43200000 });
+    communityStore('users', users);
+  }
+
+  if (!communityGet('announcements')) {
+    communityStore('announcements', [
+      {
+        username: ADMIN_USERNAME,
+        text: '🏔️ June Major Hyke — Snowdon Summit is now OPEN for bookings! Spaces are limited so grab yours via the Book Tickets page. Kit list and meeting point details will be shared closer to the date. See you on the trail! 🧡',
+        imageUrl: null,
+        timestamp: Date.now() - 3600000
+      },
+      {
+        username: ADMIN_USERNAME,
+        text: '📋 Community Guidelines Reminder: Please keep conversations respectful and on-topic. This is a safe space for everyone. Any questions, DM us directly.',
+        imageUrl: null,
+        timestamp: Date.now() - 7200000
+      }
+    ]);
+  }
+
+  if (!communityGet('messages')) {
+    communityStore('messages', [
+      { username: 'sable_hikes', text: 'Hey everyone! So excited for the Snowdon hyke next month 🙌 who else is going?', timestamp: Date.now() - 5400000 },
+      { username: 'akin_trails', text: '@sable_hikes I\'m in! Already booked my spot. Can\'t wait!', timestamp: Date.now() - 4800000 },
+      { username: 'sable_hikes', text: 'Amazing! @akin_trails let\'s coordinate travel from London, might be cheaper to share a car 🚗', timestamp: Date.now() - 4200000 },
+      { username: 'akin_trails', text: 'Great idea! Drop me a message and we can sort the details 👍', timestamp: Date.now() - 3000000 },
+    ]);
+  }
+})();
+
+function getSession() { return communityGet('session'); }
+function getUsers() { return communityGet('users') || []; }
+function getMessages() { return communityGet('messages') || []; }
+function getAnnouncements() { return communityGet('announcements') || []; }
+
+// --- Auth tab switching ---
+function communityOpenTab(tab) {
+  document.querySelectorAll('.community-auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.community-auth-panel').forEach(p => p.classList.remove('active'));
+  const btn = document.querySelector(`.community-auth-tab[data-auth="${tab}"]`);
+  const panel = document.getElementById('auth-' + tab);
+  if (btn) btn.classList.add('active');
+  if (panel) panel.classList.add('active');
+}
+
+document.querySelectorAll('.community-auth-tab').forEach(tab => {
+  tab.addEventListener('click', () => communityOpenTab(tab.dataset.auth));
+});
+
+// --- Forgot Password ---
+document.getElementById('forgot-link')?.addEventListener('click', () => {
+  document.querySelectorAll('.community-auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.community-auth-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('auth-forgot').classList.add('active');
+  document.getElementById('forgot-error').style.display = 'none';
+  document.getElementById('forgot-success').style.display = 'none';
+  ['fp-username','fp-email','fp-newpw','fp-confirmpw'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+});
+
+document.getElementById('back-to-signin')?.addEventListener('click', () => communityOpenTab('signin'));
+
+document.getElementById('fp-submit-btn')?.addEventListener('click', () => {
+  const username = document.getElementById('fp-username').value.trim().toLowerCase();
+  const email    = document.getElementById('fp-email').value.trim().toLowerCase();
+  const newpw    = document.getElementById('fp-newpw').value;
+  const confirmpw = document.getElementById('fp-confirmpw').value;
+  const errEl    = document.getElementById('forgot-error');
+  const successEl = document.getElementById('forgot-success');
+
+  errEl.style.display = 'none';
+  successEl.style.display = 'none';
+
+  if (!username || !email || !newpw || !confirmpw) return showAuthError(errEl, 'Please fill in all fields.');
+  if (newpw.length < 6) return showAuthError(errEl, 'Password must be at least 6 characters.');
+  if (newpw !== confirmpw) return showAuthError(errEl, 'Passwords do not match.');
+
+  const users = getUsers();
+  const user = users.find(u => u.username === username && u.email.toLowerCase() === email);
+  if (!user) return showAuthError(errEl, 'No account found with that username and email.');
+
+  user.password = newpw;
+  communityStore('users', users);
+  successEl.style.display = 'block';
+  document.getElementById('fp-newpw').value = '';
+  document.getElementById('fp-confirmpw').value = '';
+  setTimeout(() => communityOpenTab('signin'), 2000);
+});
+
+// --- Register ---
+document.getElementById('register-btn')?.addEventListener('click', () => {
+  const first    = document.getElementById('reg-first').value.trim();
+  const last     = document.getElementById('reg-last').value.trim();
+  const username = document.getElementById('reg-username').value.trim().toLowerCase().replace(/\s+/g, '_');
+  const email    = document.getElementById('reg-email').value.trim();
+  const phone    = document.getElementById('reg-phone').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const errEl    = document.getElementById('register-error');
+
+  errEl.style.display = 'none';
+  if (!first || !username || !email || !password) return showAuthError(errEl, 'Please fill in all fields.');
+  if (password.length < 6) return showAuthError(errEl, 'Password must be at least 6 characters.');
+
+  const users = getUsers();
+  if (users.find(u => u.username === username)) return showAuthError(errEl, 'That username is already taken.');
+  if (users.find(u => u.email === email)) return showAuthError(errEl, 'An account with that email already exists.');
+
+  users.push({ username, email, phone, password, firstName: first, lastName: last, isAdmin: false, joinedAt: Date.now() });
+  communityStore('users', users);
+  communityStore('session', { username, isAdmin: false, firstName: first });
+  communityShowChat();
+});
+
+// --- Sign In ---
+document.getElementById('signin-btn')?.addEventListener('click', () => {
+  const username = document.getElementById('si-username').value.trim().toLowerCase();
+  const password = document.getElementById('si-password').value;
+  const errEl    = document.getElementById('signin-error');
+  errEl.style.display = 'none';
+
+  const user = getUsers().find(u => u.username === username && u.password === password);
+  if (!user) return showAuthError(errEl, 'Incorrect username or password.');
+
+  communityStore('session', { username: user.username, isAdmin: user.isAdmin, firstName: user.firstName });
+  communityShowChat();
+});
+
+// --- Sign Out ---
+document.getElementById('signout-btn')?.addEventListener('click', () => {
+  localStorage.removeItem('hyu_session');
+  document.getElementById('community-hero').style.display = '';
+  document.getElementById('chat-topbar').style.display = 'none';
+  document.getElementById('community-auth').style.display = 'flex';
+  document.getElementById('community-chat').style.display = 'none';
+});
+
+function showAuthError(el, msg) { el.textContent = msg; el.style.display = 'block'; }
+
+function communityShowChat() {
+  const session = getSession();
+  if (!session) return;
+  document.getElementById('community-auth').style.display = 'none';
+  document.getElementById('community-hero')?.style && (document.getElementById('community-hero').style.display = 'none');
+  document.getElementById('chat-topbar').style.display = 'flex';
+  document.getElementById('community-chat').style.display = 'block';
+  document.getElementById('chat-username-display').textContent = session.username;
+  const badge = document.getElementById('chat-admin-badge');
+  const adminForm = document.getElementById('admin-announce-form');
+  if (session.isAdmin) { badge.style.display = 'inline'; adminForm.style.display = 'block'; }
+  else { badge.style.display = 'none'; adminForm.style.display = 'none'; }
+  renderAnnouncements();
+  renderMessages();
+}
+
+// --- Auto-login if session exists ---
+document.getElementById('community')?.addEventListener('community:enter', communityShowChat);
+
+// Check session when community page is shown
+const _origShowPage = window._origShowPage || showPage;
+const _communityPageCheck = function() {
+  if (document.getElementById('community')?.classList.contains('active')) {
+    const session = getSession();
+    if (session) communityShowChat();
+  }
+};
+document.addEventListener('DOMContentLoaded', _communityPageCheck);
+
+// Hook into page routing to check session when community page is navigated to
+const origLinks = document.querySelectorAll('[data-page="community"]');
+origLinks.forEach(el => el.addEventListener('click', () => setTimeout(_communityPageCheck, 50)));
+
+// --- Announcements ---
+function renderAnnouncements() {
+  const list = document.getElementById('announcements-list');
+  const announcements = getAnnouncements();
+  if (!announcements.length) {
+    list.innerHTML = '<p class="chat-empty">No announcements yet.</p>';
+    return;
+  }
+  list.innerHTML = announcements.map(a => `
+    <div class="announcement-msg">
+      <div class="msg-meta">${a.username} · ${formatTime(a.timestamp)}</div>
+      <div class="msg-text">${escapeHtml(a.text)}</div>
+      ${a.imageUrl ? `<img src="${a.imageUrl}" alt="Announcement image" />` : ''}
+    </div>
+  `).join('');
+  list.scrollTop = list.scrollHeight;
+}
+
+let announceImageData = null;
+document.getElementById('announce-img')?.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    announceImageData = ev.target.result;
+    const preview = document.getElementById('announce-img-preview');
+    preview.style.display = 'block';
+    preview.innerHTML = `<img src="${announceImageData}" alt="preview" />`;
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('post-announce-btn')?.addEventListener('click', () => {
+  const session = getSession();
+  if (!session?.isAdmin) return;
+  const text = document.getElementById('announce-input').value.trim();
+  if (!text) return;
+  const announcements = getAnnouncements();
+  announcements.push({ username: session.username, text, imageUrl: announceImageData || null, timestamp: Date.now() });
+  communityStore('announcements', announcements);
+  document.getElementById('announce-input').value = '';
+  document.getElementById('announce-img-preview').style.display = 'none';
+  announceImageData = null;
+  renderAnnouncements();
+});
+
+// --- Chat messages ---
+function renderMessages() {
+  const session = getSession();
+  const msgs = getMessages();
+  const container = document.getElementById('chat-messages');
+  if (!msgs.length) { container.innerHTML = '<p class="chat-empty">No messages yet. Start the conversation!</p>'; return; }
+  container.innerHTML = msgs.map(m => {
+    const isOwn = session && m.username === session.username;
+    const textWithMentions = escapeHtml(m.text).replace(/@(\w+)/g, '<span class="msg-mention">@$1</span>');
+    return `
+      <div class="chat-msg ${isOwn ? 'own' : 'other'}">
+        <div class="msg-info">${isOwn ? '' : m.username + ' · '}${formatTime(m.timestamp)}</div>
+        <div class="msg-bubble">${textWithMentions}</div>
+      </div>
+    `;
+  }).join('');
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendMessage() {
+  const session = getSession();
+  if (!session) return;
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const msgs = getMessages();
+  msgs.push({ username: session.username, text, timestamp: Date.now() });
+  communityStore('messages', msgs);
+  input.value = '';
+  mentionDropdown.style.display = 'none';
+  renderMessages();
+}
+
+document.getElementById('send-msg-btn')?.addEventListener('click', sendMessage);
+document.getElementById('chat-input')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+
+// --- @ Mention dropdown ---
+const mentionDropdown = document.getElementById('mention-dropdown');
+let mentionQuery = '';
+let mentionStart = -1;
+let selectedMention = 0;
+
+document.getElementById('chat-input')?.addEventListener('input', e => {
+  const val = e.target.value;
+  const cursor = e.target.selectionStart;
+  const textBefore = val.slice(0, cursor);
+  const match = textBefore.match(/@(\w*)$/);
+
+  if (match) {
+    mentionQuery = match[1].toLowerCase();
+    mentionStart = textBefore.lastIndexOf('@');
+    const users = getUsers().filter(u => u.username !== getSession()?.username && u.username.toLowerCase().includes(mentionQuery));
+    if (users.length) {
+      selectedMention = 0;
+      mentionDropdown.style.display = 'block';
+      mentionDropdown.innerHTML = users.slice(0, 6).map((u, i) =>
+        `<div class="mention-item${i === 0 ? ' selected' : ''}" data-username="${u.username}">@${u.username}</div>`
+      ).join('');
+      mentionDropdown.querySelectorAll('.mention-item').forEach(item => {
+        item.addEventListener('click', () => insertMention(item.dataset.username));
+      });
+    } else {
+      mentionDropdown.style.display = 'none';
+    }
+  } else {
+    mentionDropdown.style.display = 'none';
+  }
+});
+
+document.getElementById('chat-input')?.addEventListener('keydown', e => {
+  if (mentionDropdown.style.display === 'none') return;
+  const items = mentionDropdown.querySelectorAll('.mention-item');
+  if (e.key === 'ArrowDown') { e.preventDefault(); selectedMention = Math.min(selectedMention + 1, items.length - 1); updateMentionSelection(items); }
+  if (e.key === 'ArrowUp')   { e.preventDefault(); selectedMention = Math.max(selectedMention - 1, 0); updateMentionSelection(items); }
+  if (e.key === 'Tab' || e.key === 'Enter') {
+    if (items[selectedMention]) { e.preventDefault(); insertMention(items[selectedMention].dataset.username); }
+  }
+  if (e.key === 'Escape') mentionDropdown.style.display = 'none';
+});
+
+function updateMentionSelection(items) {
+  items.forEach((item, i) => item.classList.toggle('selected', i === selectedMention));
+}
+
+function insertMention(username) {
+  const input = document.getElementById('chat-input');
+  const val = input.value;
+  const before = val.slice(0, mentionStart);
+  const after  = val.slice(input.selectionStart);
+  input.value = before + '@' + username + ' ' + after;
+  input.focus();
+  mentionDropdown.style.display = 'none';
+}
+
+// --- Utilities ---
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function formatTime(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString('en-GB', { day:'numeric', month:'short' }) + ' ' + d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+}
+
+// --- Community top tabs (Chat / Members Area) ---
+document.querySelectorAll('.chat-topbar-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.chat-topbar-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.community-tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('ctab-' + tab.dataset.ctab).classList.add('active');
+  });
+});
+
+// Members sidebar inside community tab
+document.querySelectorAll('[data-panel^="cm-"]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const panelId = link.dataset.panel;
+    document.querySelectorAll('[data-panel^="cm-"]').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('#ctab-members .member-panel').forEach(p => p.classList.remove('active'));
+    link.classList.add('active');
+    const panel = document.getElementById(panelId);
+    if (panel) { panel.classList.add('active'); panel.style.opacity = '0'; requestAnimationFrame(() => { panel.style.transition = 'opacity 0.3s'; panel.style.opacity = '1'; }); }
+  });
+});
+
+// --- Nav dropdown toggle (touch/click support) ---
+document.querySelectorAll('.nav-dropdown-wrap').forEach(wrap => {
+  wrap.querySelector('.nav-dropdown-trigger')?.addEventListener('click', e => {
+    e.preventDefault();
+    wrap.classList.toggle('open');
+  });
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.nav-dropdown-wrap')) {
+    document.querySelectorAll('.nav-dropdown-wrap').forEach(w => w.classList.remove('open'));
+  }
+});

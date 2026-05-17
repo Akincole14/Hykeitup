@@ -41,9 +41,9 @@
   <ul class="nav-links">
     <li><a href="#" data-page="home" class="active">Home</a></li>
     <li><a href="#" data-page="about">About</a></li>
-    <li><a href="#" data-page="members">Members Area</a></li>
+    <li><a href="#" data-page="tickets">Upcoming Hykes</a></li>
     <li><a href="#" data-page="gallery">Gallery</a></li>
-    <li><a href="#" data-page="tickets">Book Tickets</a></li>
+    <li><a href="#" data-page="community">Community</a></li>
 
     <li class="nav-mobile-cta"><a href="#" data-page="contact" class="nav-cta">Join The Team</a></li>
   </ul>
@@ -67,7 +67,8 @@
 <!-- ========================================= -->
 <div id="home" class="page active">
 
-  <!-- Hero -->
+  <!-- Hero + Stats -->
+  <div class="hero-wrapper">
   <section class="hero">
     <div class="hero-carousel">
       <div class="hero-slide active" style="background-image:url('images/img6.jpg')"></div>
@@ -82,13 +83,9 @@
     <button class="hero-arrow hero-arrow-next" aria-label="Next">&#8250;</button>
     <div class="hero-dots"></div>
 
-    <!-- Floating mountain silhouette -->
-    <svg class="hero-mountains" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 220" preserveAspectRatio="none">
-      <path fill="white" d="M0,220 L0,140 L120,60 L200,110 L320,20 L440,90 L520,40 L620,100 L720,10 L820,80 L920,30 L1020,95 L1100,45 L1200,110 L1320,55 L1440,90 L1440,220 Z"/>
-    </svg>
 
     <div class="hero-content">
-      <div class="hero-eyebrow">A Community for Millennials · UK Hiking</div>
+      <div class="hero-eyebrow">A Community For Millennials</div>
       <h1>Find Your <em>Path</em></h1>
       <p>Navigating life as a 30-40 something year old has its peaks and troughs. At a stage in life where we thought we'd all have it figured out, we're all in fact still trying to find our path and navigate the ultimate trail of life, adulthood.</p>
       <div class="btn-group">
@@ -97,10 +94,6 @@
       </div>
     </div>
 
-    <div class="scroll-cue">
-      <span>Scroll</span>
-      <div class="scroll-cue-line"></div>
-    </div>
   </section>
 
   <!-- Stats -->
@@ -124,6 +117,7 @@
       </div>
     </div>
   </div>
+  </div><!-- /hero-wrapper -->
 
   <!-- Features -->
   <section class="section">
@@ -210,11 +204,11 @@
     </div>
   </section>
 
-  <!-- Upcoming Hykes -->
+  <!-- Upcoming Hykess -->
   <section class="section hikes-bg">
     <div class="section-header">
       <div class="section-label reveal">Coming Up</div>
-      <h2 class="section-title reveal delay-1">Upcoming Hykes</h2>
+      <h2 class="section-title reveal delay-1">Upcoming Hykess</h2>
       <p class="section-sub reveal delay-2">Secure your spot — major and mini hykes fill up fast.</p>
     </div>
     <div class="hikes-grid">
@@ -231,7 +225,7 @@
             <span>📍 Wales</span>
             <span>⏱ Full Day</span>
           </div>
-          <a href="#" class="btn btn-primary" data-page="tickets" data-hike="snowdon" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
+          <a href="https://www.tickettailor.com/events/hykeitup" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
         </div>
       </div>
       <div class="hike-card reveal delay-2">
@@ -247,7 +241,7 @@
             <span>📍 Sussex</span>
             <span>⏱ Half Day</span>
           </div>
-          <a href="#" class="btn btn-primary" data-page="tickets" data-hike="south-downs" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
+          <a href="https://www.tickettailor.com/events/hykeitup" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
         </div>
       </div>
       <div class="hike-card reveal delay-3">
@@ -263,7 +257,7 @@
             <span>📍 Derbyshire</span>
             <span>⏱ Half Day</span>
           </div>
-          <a href="#" class="btn btn-primary" data-page="tickets" data-hike="peak-district" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
+          <a href="https://www.tickettailor.com/events/hykeitup" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
         </div>
       </div>
     </div>
@@ -970,158 +964,255 @@
     <div class="tickets-hero-overlay"></div>
     <div class="tickets-hero-content">
       <div class="section-label">Adventure Awaits</div>
-      <h1>Book a Hyke</h1>
-      <p>Secure your spot in under 3 minutes. Payments handled securely by Stripe.</p>
+      <h1>Upcoming Hykes</h1>
+      <p>Browse our upcoming events and secure your spot in just a few clicks.</p>
     </div>
   </div>
 
-  <div class="tickets-wrap">
-
-    <!-- Step Indicator -->
-    <div class="step-indicator">
-      <div class="step-item active" data-step="1">
-        <div class="step-circle"><span>1</span></div>
-        <span class="step-label">Choose Hyke</span>
-      </div>
-      <div class="step-connector"></div>
-      <div class="step-item" data-step="2">
-        <div class="step-circle"><span>2</span></div>
-        <span class="step-label">Your Details</span>
-      </div>
-      <div class="step-connector"></div>
-      <div class="step-item" data-step="3">
-        <div class="step-circle"><span>3</span></div>
-        <span class="step-label">Payment</span>
-      </div>
-    </div>
-
-    <!-- Step 1: Choose Hyke -->
-    <div id="ticket-step-1" class="ticket-step active">
-      <h3 class="step-heading">Select Your Hyke</h3>
-      <div id="hike-options" class="hike-options"></div>
-
-      <div class="quantity-section">
-        <div class="qty-label">Number of Tickets</div>
-        <div class="quantity-stepper">
-          <button class="qty-btn" id="qty-minus" disabled>−</button>
-          <span id="qty-display">1</span>
-          <button class="qty-btn" id="qty-plus">+</button>
-        </div>
-        <div id="qty-note" class="qty-note">Select a hyke to see available spots</div>
-      </div>
-
-      <div class="step-footer">
-        <div class="step-price-preview">
-          <span>Estimated Total</span>
-          <strong id="step1-total">—</strong>
-        </div>
-        <button class="btn btn-primary" id="step1-next" disabled>Continue →</button>
-      </div>
-    </div>
-
-    <!-- Step 2: Your Details -->
-    <div id="ticket-step-2" class="ticket-step">
-      <h3 class="step-heading">Your Details</h3>
-      <form id="attendee-form" novalidate>
-        <div class="form-row">
-          <div class="form-group">
-            <label>First Name *</label>
-            <input type="text" id="t-first" placeholder="First name" />
-          </div>
-          <div class="form-group">
-            <label>Last Name *</label>
-            <input type="text" id="t-last" placeholder="Last name" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Email Address *</label>
-          <input type="email" id="t-email" placeholder="your@email.com" />
-          <span class="field-hint">Your ticket confirmation will be sent here</span>
-        </div>
-        <div class="form-group">
-          <label>Mobile Number *</label>
-          <input type="tel" id="t-phone" placeholder="+44 7700 000000" />
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Emergency Contact Name *</label>
-            <input type="text" id="t-em-name" placeholder="Full name" />
-          </div>
-          <div class="form-group">
-            <label>Emergency Contact Phone *</label>
-            <input type="tel" id="t-em-phone" placeholder="+44 7700 000000" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Fitness Level *</label>
-          <select id="t-fitness">
-            <option value="">Select your level</option>
-            <option value="beginner">Beginner — occasional walker</option>
-            <option value="intermediate">Intermediate — regular hiker</option>
-            <option value="experienced">Experienced — avid hiker</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Medical / Dietary Requirements</label>
-          <textarea id="t-medical" placeholder="Any medical conditions, allergies or dietary needs (optional)"></textarea>
-        </div>
-      </form>
-      <div class="step-footer">
-        <button class="btn btn-outline" id="step2-back">← Back</button>
-        <button class="btn btn-primary" id="step2-next">Continue →</button>
-      </div>
-    </div>
-
-    <!-- Step 3: Payment -->
-    <div id="ticket-step-3" class="ticket-step">
-      <div class="checkout-grid">
-
-        <div class="checkout-payment">
-          <h3 class="step-heading">Secure Payment</h3>
-          <div class="stripe-badge">
-            <span>🔒</span>
-            <span>Secured by <strong>Stripe</strong> · Visa · Mastercard · Apple Pay · Google Pay</span>
-          </div>
-          <div id="payment-element-wrap">
-            <div id="payment-loading" class="payment-loading">
-              <div class="payment-spinner"></div>
-              <p>Connecting to secure payment…</p>
-            </div>
-            <div id="payment-element"></div>
-          </div>
-          <div id="payment-error" class="payment-error" style="display:none;"></div>
-          <div class="step-footer">
-            <button class="btn btn-outline" id="step3-back">← Back</button>
-            <button class="btn btn-primary" id="pay-btn" disabled>
-              <span id="pay-btn-text">Pay Now</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="checkout-summary">
-          <div class="order-summary-card">
-            <div class="order-summary-title">Order Summary</div>
-            <div id="order-summary-body"></div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Success -->
-    <div id="ticket-success" class="ticket-success" style="display:none;">
-      <div class="success-icon">🎉</div>
-      <h2>Booking Confirmed!</h2>
-      <p>You're on the trail. Check your inbox for your ticket and everything you need for the day.</p>
-      <div id="booking-ref" class="booking-ref"></div>
-      <div class="success-actions">
-        <a href="#" class="btn btn-primary" data-page="home">Back to Home</a>
-        <a href="#" class="btn btn-outline" data-page="members">Members Area</a>
-      </div>
-    </div>
-
+  <div class="tt-embed-wrap">
+    <script src="https://cdn.tickettailor.com/js/widgets/min/widget.js"
+      data-url="https://www.tickettailor.com/events/hykeitup"
+      data-type="inline"
+      data-bg-color="#1a1a1a"
+      data-primary-colour="#D44F2C">
+    </script>
+    <noscript>
+      <a href="https://www.tickettailor.com/events/hykeitup" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+        View &amp; Book Upcoming Hykes →
+      </a>
+    </noscript>
   </div>
+
 </div><!-- /tickets -->
+
+
+<!-- ========================================= -->
+<!-- ============= COMMUNITY ================ -->
+<!-- ========================================= -->
+<div id="community" class="page">
+
+  <div class="community-hero" id="community-hero">
+    <div class="section-label">Members Only</div>
+    <h1>The Community</h1>
+    <p>Connect, share, and chat with fellow Hyke It Up members.</p>
+  </div>
+
+  <!-- Auth Panel -->
+  <div id="community-auth" class="community-auth">
+    <div class="community-auth-box">
+      <div class="community-auth-tabs">
+        <button class="community-auth-tab active" data-auth="signin">Sign In</button>
+        <button class="community-auth-tab" data-auth="register">Register</button>
+      </div>
+
+      <!-- Sign In Form -->
+      <div class="community-auth-panel active" id="auth-signin">
+        <h3>Welcome Back</h3>
+        <p class="auth-sub">Sign in to access the community chat.</p>
+        <div class="form-group">
+          <label for="si-username">Username</label>
+          <input type="text" id="si-username" placeholder="Your username" autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="si-password">Password</label>
+          <input type="password" id="si-password" placeholder="Your password" autocomplete="current-password" />
+        </div>
+        <div id="signin-error" class="auth-error" style="display:none;"></div>
+        <button class="btn btn-primary" id="signin-btn" style="width:100%;margin-top:0.5rem;">Sign In →</button>
+        <div style="text-align:center;margin-top:1rem;">
+          <button class="auth-text-link" id="forgot-link">Forgot your password?</button>
+        </div>
+      </div>
+
+      <!-- Forgot Password -->
+      <div class="community-auth-panel" id="auth-forgot">
+        <h3>Reset Password</h3>
+        <p class="auth-sub">Enter your username and email, then choose a new password.</p>
+        <div class="form-group">
+          <label for="fp-username">Username</label>
+          <input type="text" id="fp-username" placeholder="Your username" />
+        </div>
+        <div class="form-group">
+          <label for="fp-email">Email Address</label>
+          <input type="email" id="fp-email" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label for="fp-newpw">New Password</label>
+          <input type="password" id="fp-newpw" placeholder="Choose a new password" />
+        </div>
+        <div class="form-group">
+          <label for="fp-confirmpw">Confirm Password</label>
+          <input type="password" id="fp-confirmpw" placeholder="Confirm new password" />
+        </div>
+        <div id="forgot-error" class="auth-error" style="display:none;"></div>
+        <div id="forgot-success" class="auth-success" style="display:none;">Password updated! You can now sign in.</div>
+        <button class="btn btn-primary" id="fp-submit-btn" style="width:100%;margin-top:0.5rem;">Reset Password →</button>
+        <div style="text-align:center;margin-top:1rem;">
+          <button class="auth-text-link" id="back-to-signin">← Back to Sign In</button>
+        </div>
+      </div>
+
+      <!-- Register Form -->
+      <div class="community-auth-panel" id="auth-register">
+        <h3>Join the Community</h3>
+        <p class="auth-sub">Create your account to get started.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="reg-first">First Name</label>
+            <input type="text" id="reg-first" placeholder="First name" />
+          </div>
+          <div class="form-group">
+            <label for="reg-last">Last Name</label>
+            <input type="text" id="reg-last" placeholder="Last name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="reg-username">Username</label>
+          <input type="text" id="reg-username" placeholder="Choose a username" autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Email Address</label>
+          <input type="email" id="reg-email" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label for="reg-phone">Phone Number <span class="form-optional">(optional)</span></label>
+          <input type="tel" id="reg-phone" placeholder="+44 7000 000000" />
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Password</label>
+          <input type="password" id="reg-password" placeholder="Choose a password" autocomplete="new-password" />
+        </div>
+        <div id="register-error" class="auth-error" style="display:none;"></div>
+        <button class="btn btn-primary" id="register-btn" style="width:100%;margin-top:0.5rem;">Create Account →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Community Sub Nav (shown after login) -->
+  <div id="chat-topbar" class="chat-topbar" style="display:none;">
+    <div class="chat-topbar-left">
+      <span class="chat-welcome">Welcome, <strong id="chat-username-display"></strong></span>
+      <span id="chat-admin-badge" class="chat-admin-badge" style="display:none;">Admin</span>
+    </div>
+    <div class="chat-topbar-tabs">
+      <button class="chat-topbar-tab active" data-ctab="members">👥 My Dashboard</button>
+      <button class="chat-topbar-tab" data-ctab="chat">💬 HIU Community Chat</button>
+    </div>
+    <button class="btn btn-outline btn-sm" id="signout-btn">Sign Out</button>
+  </div>
+
+  <!-- Chat Panel (shown after login) -->
+  <div id="community-chat" class="community-chat" style="display:none;">
+
+    <!-- Tab: Chat -->
+    <div class="community-tab-panel" id="ctab-chat">
+    <div class="chat-layout">
+
+      <!-- Announcements -->
+      <aside class="chat-announcements">
+        <div class="chat-panel-header">
+          <span>📢 Announcements</span>
+        </div>
+        <div id="announcements-list" class="announcements-list"></div>
+        <div id="admin-announce-form" class="admin-post-form" style="display:none;">
+          <textarea id="announce-input" placeholder="Write an announcement..." rows="3"></textarea>
+          <div class="admin-post-actions">
+            <label class="admin-img-label">
+              📎 Add Image
+              <input type="file" id="announce-img" accept="image/*" style="display:none;" />
+            </label>
+            <button class="btn btn-primary btn-sm" id="post-announce-btn">Post</button>
+          </div>
+          <div id="announce-img-preview" class="img-preview" style="display:none;"></div>
+        </div>
+      </aside>
+
+      <!-- Main Chat -->
+      <main class="chat-main">
+        <div class="chat-panel-header">
+          <span>💬 Community Chat</span>
+        </div>
+        <div id="chat-messages" class="chat-messages"></div>
+        <div class="chat-input-wrap">
+          <div id="mention-dropdown" class="mention-dropdown" style="display:none;"></div>
+          <textarea id="chat-input" class="chat-input" placeholder="Message the community… type @ to mention someone" rows="2"></textarea>
+          <button class="btn btn-primary btn-sm" id="send-msg-btn">Send</button>
+        </div>
+      </main>
+
+    </div>
+    </div><!-- /ctab-chat -->
+
+    <!-- Tab: Members Area -->
+    <div class="community-tab-panel active" id="ctab-members">
+      <div class="members-wrap">
+        <div class="members-grid">
+          <aside class="members-sidebar">
+            <div class="sidebar-title">My Dashboard</div>
+            <ul class="sidebar-nav">
+              <li><a href="#" data-panel="cm-panel-schedule" class="active">📅 Hyke Schedule</a></li>
+              <li><a href="#" data-panel="cm-panel-resources">📦 Resources</a></li>
+              <li><a href="#" data-panel="cm-panel-directory">👥 Directory</a></li>
+            </ul>
+          </aside>
+          <main>
+            <div id="cm-panel-schedule" class="member-panel active">
+              <div class="panel-title">Hyke Schedule — June 2026</div>
+              <div class="schedule-list">
+                <div class="schedule-item">
+                  <div class="schedule-date"><div class="day">7</div><div class="month">Jun</div></div>
+                  <div class="schedule-info"><h4>Snowdon Summit Challenge</h4><p>Snowdonia National Park, Wales · Meet 6:30am · Coach departs 7am</p><span class="badge badge-major">Major Hyke</span></div>
+                </div>
+                <div class="schedule-item mini">
+                  <div class="schedule-date"><div class="day">14</div><div class="month">Jun</div></div>
+                  <div class="schedule-info"><h4>South Downs Morning Walk</h4><p>Eastbourne to Seaford, Sussex · Meet 8am at Eastbourne Station</p><span class="badge badge-mini">Mini Hyke</span></div>
+                </div>
+                <div class="schedule-item mini">
+                  <div class="schedule-date"><div class="day">21</div><div class="month">Jun</div></div>
+                  <div class="schedule-info"><h4>Peak District Loop</h4><p>Stanage Edge, Derbyshire · Meet 8:30am at Hathersage Station</p><span class="badge badge-mini">Mini Hyke</span></div>
+                </div>
+                <div class="schedule-item mini">
+                  <div class="schedule-date"><div class="day">28</div><div class="month">Jun</div></div>
+                  <div class="schedule-info"><h4>Box Hill Sunrise Walk</h4><p>Box Hill, Surrey · Meet 7am at Box Hill &amp; Westhumble Station</p><span class="badge badge-mini">Mini Hyke</span></div>
+                </div>
+              </div>
+            </div>
+            <div id="cm-panel-resources" class="member-panel">
+              <div class="panel-title">Hiker's Toolkit</div>
+              <div class="resources-grid">
+                <div class="resource-card"><div class="icon">🗺️</div><h4>Route Maps</h4><p>GPX files and printable maps for all upcoming hikes.</p></div>
+                <div class="resource-card"><div class="icon">🎒</div><h4>Kit List</h4><p>What to bring on major vs mini hikes.</p></div>
+                <div class="resource-card"><div class="icon">🚌</div><h4>Travel Info</h4><p>Coach pickups, train options and parking guides.</p></div>
+                <div class="resource-card"><div class="icon">🩹</div><h4>Safety Guide</h4><p>Emergency contacts, trail safety and first aid basics.</p></div>
+                <div class="resource-card"><div class="icon">📸</div><h4>Photo Albums</h4><p>Full-resolution photos from every hyke we've done.</p></div>
+                <div class="resource-card"><div class="icon">💬</div><h4>Community Chat</h4><p>Join the WhatsApp group and stay in the loop.</p></div>
+              </div>
+            </div>
+            <div id="cm-panel-directory" class="member-panel">
+              <div class="panel-title">Community Directory</div>
+              <div class="members-list-grid">
+                <div class="member-pill"><div class="avatar">JA</div><div class="info"><h5>James A.</h5><span>Finance · London</span></div></div>
+                <div class="member-pill"><div class="avatar">SC</div><div class="info"><h5>Sarah C.</h5><span>Technology · London</span></div></div>
+                <div class="member-pill"><div class="avatar">MO</div><div class="info"><h5>Marcus O.</h5><span>Law · London</span></div></div>
+                <div class="member-pill"><div class="avatar">PL</div><div class="info"><h5>Priya L.</h5><span>Healthcare · London</span></div></div>
+                <div class="member-pill"><div class="avatar">TK</div><div class="info"><h5>Tom K.</h5><span>Marketing · London</span></div></div>
+                <div class="member-pill"><div class="avatar">AO</div><div class="info"><h5>Amara O.</h5><span>Architecture · London</span></div></div>
+                <div class="member-pill"><div class="avatar">RB</div><div class="info"><h5>Ryan B.</h5><span>Engineering · London</span></div></div>
+                <div class="member-pill"><div class="avatar">LH</div><div class="info"><h5>Lisa H.</h5><span>Media · London</span></div></div>
+                <div class="member-pill"><div class="avatar">DM</div><div class="info"><h5>David M.</h5><span>Consulting · London</span></div></div>
+                <div class="member-pill"><div class="avatar">NK</div><div class="info"><h5>Nina K.</h5><span>Education · London</span></div></div>
+                <div class="member-pill"><div class="avatar">OA</div><div class="info"><h5>Oliver A.</h5><span>Finance · London</span></div></div>
+                <div class="member-pill"><div class="avatar">ZP</div><div class="info"><h5>Zara P.</h5><span>Healthcare · London</span></div></div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div><!-- /ctab-members -->
+
+  </div><!-- /community-chat -->
+
+</div><!-- /community -->
 
 
 <!-- ===== FOOTER ===== -->
@@ -1138,7 +1229,7 @@
         <li><a href="#" data-page="about">About</a></li>
         <li><a href="#" data-page="members">Members Area</a></li>
         <li><a href="#" data-page="gallery">Gallery</a></li>
-        <li><a href="#" data-page="tickets">Book Tickets</a></li>
+        <li><a href="#" data-page="tickets">Upcoming Hykes</a></li>
         <li><a href="#" data-page="contact">Contact</a></li>
       </ul>
     </div>
