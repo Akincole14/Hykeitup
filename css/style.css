@@ -1459,8 +1459,7 @@ nav.scrolled {
   margin-top: 0.2rem;
   justify-content: flex-end;
 }
-.chat-msg.own:hover .msg-actions,
-.chat-msg.admin-can-act:hover .msg-actions { display: flex; }
+.chat-msg:hover .msg-actions { display: flex; }
 
 /* Reply to announcement */
 .ann-reply-btn {
@@ -1495,9 +1494,18 @@ nav.scrolled {
   border-left: 3px solid rgba(255,255,255,0.35);
   border-radius: 6px; padding: 0.35rem 0.6rem; margin-bottom: 0.4rem;
 }
+.msg-reply-quote.is-jumpable { cursor: pointer; }
+.msg-reply-quote.is-jumpable:hover { background: rgba(0,0,0,0.3); }
 .chat-msg.own .msg-reply-quote { background: rgba(0,0,0,0.2); border-left-color: rgba(255,255,255,0.5); }
+.chat-msg.own .msg-reply-quote.is-jumpable:hover { background: rgba(0,0,0,0.35); }
 .msg-reply-quote-author { font-size: 0.68rem; font-weight: 700; color: rgba(255,255,255,0.75); margin-bottom: 0.1rem; }
 .msg-reply-quote-text { font-size: 0.76rem; color: rgba(255,255,255,0.55); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@keyframes msgHighlight {
+  0%, 20% { box-shadow: 0 0 0 3px var(--brand); border-radius: 16px; }
+  100%     { box-shadow: 0 0 0 0px var(--brand); border-radius: 16px; }
+}
+.chat-msg.msg-highlight .msg-bubble { animation: msgHighlight 1.8s ease-out forwards; }
 
 .ann-actions { display: inline-flex; gap: 0.2rem; margin-left: 0.5rem; vertical-align: middle; }
 .ann-action-btn {

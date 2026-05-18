@@ -907,10 +907,10 @@ function annId(a) { return a.id || a.timestamp.toString(); }
 // --- Announcements ---
 let pendingReply = null;
 
-function setReplyContext(ann) {
-  pendingReply = { text: ann.text, username: ann.username };
-  document.getElementById('reply-preview-author').textContent = '↩ Replying to ' + ann.username;
-  document.getElementById('reply-preview-text').textContent = ann.text;
+function setReplyContext(obj) {
+  pendingReply = { text: obj.text, username: obj.username, id: obj.id || null };
+  document.getElementById('reply-preview-author').textContent = '↩ Replying to ' + obj.username;
+  document.getElementById('reply-preview-text').textContent = obj.text;
   document.getElementById('reply-preview').style.display = 'block';
   document.getElementById('chat-input').focus();
 }
@@ -1041,13 +1041,13 @@ function renderMessages() {
     const textWithMentions = escapeHtml(m.text).replace(/@(\w+)/g, '<span class="msg-mention">@$1</span>');
     const editedMark = m.edited ? ' · <span class="msg-edited">edited</span>' : '';
     const canAct = isOwn || session?.isAdmin;
-    const actions = canAct ? `
+    const actions = `
       <div class="msg-actions">
-        <button class="msg-action-btn edit">Edit</button>
-        <button class="msg-action-btn delete">Delete</button>
-      </div>` : '';
+        <button class="msg-action-btn reply">↩ Reply</button>
+        ${canAct ? '<button class="msg-action-btn edit">Edit</button><button class="msg-action-btn delete">Delete</button>' : ''}
+      </div>`;
     const replyQuote = m.replyTo ? `
-      <div class="msg-reply-quote">
+      <div class="msg-reply-quote${m.replyTo.id ? ' is-jumpable' : ''}" ${m.replyTo.id ? `data-target-id="${m.replyTo.id}"` : ''}>
         <div class="msg-reply-quote-author">↩ ${escapeHtml(m.replyTo.username)}</div>
         <div class="msg-reply-quote-text">${escapeHtml(m.replyTo.text)}</div>
       </div>` : '';
@@ -1081,9 +1081,27 @@ function sendMessage() {
 
 // --- Edit / Delete message ---
 document.getElementById('chat-messages')?.addEventListener('click', e => {
+  // Jump to original message when reply quote is tapped
+  const quote = e.target.closest('.msg-reply-quote.is-jumpable');
+  if (quote) {
+    const targetEl = document.querySelector(`#chat-messages .chat-msg[data-id="${quote.dataset.targetId}"]`);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetEl.classList.add('msg-highlight');
+      setTimeout(() => targetEl.classList.remove('msg-highlight'), 1800);
+    }
+    return;
+  }
+
   const msgEl = e.target.closest('.chat-msg');
   if (!msgEl) return;
   const id = msgEl.dataset.id;
+
+  if (e.target.closest('.msg-action-btn.reply')) {
+    const msg = getMessages().find(m => msgId(m) === id);
+    if (msg) setReplyContext({ text: msg.text, username: msg.username, id: msgId(msg) });
+    return;
+  }
 
   if (e.target.closest('.msg-action-btn.delete')) {
     let msgs = getMessages();
