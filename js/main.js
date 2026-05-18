@@ -877,7 +877,6 @@ function communityShowChat() {
   renderAnnouncements();
   renderMessages();
   renderTickets();
-  loadSettingsPanel();
 }
 
 // --- Auto-login if session exists ---
@@ -1250,116 +1249,6 @@ function renderHomepageTestimonials() {
   });
 }
 document.addEventListener('DOMContentLoaded', renderHomepageTestimonials);
-
-// === MEMBER SETTINGS ===
-
-function getCurrentUser() {
-  const session = getSession();
-  if (!session) return null;
-  return getUsers().find(u => u.username === session.username) || null;
-}
-
-function updateUser(updated) {
-  const users = getUsers();
-  const idx = users.findIndex(u => u.username === updated.username);
-  if (idx === -1) return false;
-  users[idx] = updated;
-  communityStore('users', users);
-  return true;
-}
-
-function loadSettingsPanel() {
-  const user = getCurrentUser();
-  if (!user) return;
-  const fields = {
-    'set-firstname': user.firstName || '',
-    'set-lastname':  user.lastName  || '',
-    'set-username':  user.username,
-    'set-email':     user.email     || '',
-    'set-phone':     user.phone     || '',
-    'set-industry':  user.industry  || '',
-    'set-bio':       user.bio       || '',
-    'set-addr1':     user.addr1     || '',
-    'set-addr2':     user.addr2     || '',
-    'set-city':      user.city      || '',
-    'set-county':    user.county    || '',
-    'set-postcode':  user.postcode  || '',
-    'set-country':   user.country   || 'United Kingdom',
-  };
-  Object.entries(fields).forEach(([id, val]) => {
-    const el = document.getElementById(id);
-    if (el) el.value = val;
-  });
-}
-
-document.getElementById('set-profile-save')?.addEventListener('click', () => {
-  const user = getCurrentUser();
-  if (!user) return;
-  const firstName = document.getElementById('set-firstname').value.trim();
-  const email     = document.getElementById('set-email').value.trim();
-  const errEl     = document.getElementById('set-profile-err');
-  const msgEl     = document.getElementById('set-profile-msg');
-  if (!firstName || !email) {
-    errEl.textContent = 'First name and email are required.';
-    errEl.style.display = 'block'; msgEl.style.display = 'none'; return;
-  }
-  errEl.style.display = 'none';
-  updateUser({ ...user, firstName,
-    lastName: document.getElementById('set-lastname').value.trim(),
-    email,
-    phone:    document.getElementById('set-phone').value.trim(),
-    industry: document.getElementById('set-industry').value.trim(),
-    bio:      document.getElementById('set-bio').value.trim(),
-  });
-  const session = getSession();
-  if (session) { session.firstName = firstName; communityStore('session', session); }
-  const initials = firstName.substring(0, 2).toUpperCase();
-  ['comm-avatar-sm','comm-avatar-lg'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = initials; });
-  const pn = document.getElementById('comm-profile-name');
-  if (pn) pn.textContent = firstName;
-  msgEl.textContent = '✓ Profile updated.';
-  msgEl.style.display = 'block';
-  setTimeout(() => { msgEl.style.display = 'none'; }, 3000);
-});
-
-document.getElementById('set-addr-save')?.addEventListener('click', () => {
-  const user = getCurrentUser();
-  if (!user) return;
-  updateUser({ ...user,
-    addr1:    document.getElementById('set-addr1').value.trim(),
-    addr2:    document.getElementById('set-addr2').value.trim(),
-    city:     document.getElementById('set-city').value.trim(),
-    county:   document.getElementById('set-county').value.trim(),
-    postcode: document.getElementById('set-postcode').value.trim(),
-    country:  document.getElementById('set-country').value.trim(),
-  });
-  const msgEl = document.getElementById('set-addr-msg');
-  const errEl = document.getElementById('set-addr-err');
-  errEl.style.display = 'none';
-  msgEl.textContent = '✓ Address saved.';
-  msgEl.style.display = 'block';
-  setTimeout(() => { msgEl.style.display = 'none'; }, 3000);
-});
-
-document.getElementById('set-pw-save')?.addEventListener('click', () => {
-  const user   = getCurrentUser();
-  if (!user) return;
-  const curPw  = document.getElementById('set-cur-pw').value;
-  const newPw  = document.getElementById('set-new-pw').value;
-  const confPw = document.getElementById('set-conf-pw').value;
-  const errEl  = document.getElementById('set-pw-err');
-  const msgEl  = document.getElementById('set-pw-msg');
-  errEl.style.display = 'none';
-  if (!curPw || !newPw || !confPw) { errEl.textContent = 'Please fill in all password fields.'; errEl.style.display = 'block'; return; }
-  if (user.password !== curPw)     { errEl.textContent = 'Current password is incorrect.';      errEl.style.display = 'block'; return; }
-  if (newPw !== confPw)            { errEl.textContent = 'New passwords do not match.';          errEl.style.display = 'block'; return; }
-  if (newPw.length < 6)            { errEl.textContent = 'New password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
-  updateUser({ ...user, password: newPw });
-  ['set-cur-pw','set-new-pw','set-conf-pw'].forEach(id => { document.getElementById(id).value = ''; });
-  msgEl.textContent = '✓ Password updated.';
-  msgEl.style.display = 'block';
-  setTimeout(() => { msgEl.style.display = 'none'; }, 3000);
-});
 
 // === MY TICKETS ===
 
