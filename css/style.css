@@ -1251,6 +1251,7 @@ nav.scrolled {
   top: 76px;
   left: 0; right: 0; bottom: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   z-index: 50;
   background: var(--dark);
 }
@@ -1380,6 +1381,7 @@ nav.scrolled {
 .chat-messages {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -1816,10 +1818,11 @@ footer {
   .comm-since { display: none; }
   .comm-welcome { font-size: 0.8rem; }
 
-  /* Dashboard: stack sidebar on top of main */
+  /* Dashboard: stack sidebar on top of main, constrain width */
   .comm-dashboard {
     grid-template-columns: 1fr;
     min-height: calc(100vh - 76px - 52px);
+    width: 100%;
   }
 
   /* Sidebar: hide profile card, turn nav into horizontal scrollable tabs */
@@ -1829,14 +1832,18 @@ footer {
     padding: 0;
     gap: 0;
     background: var(--card);
+    width: 100%;
+    overflow: hidden;
   }
   .comm-profile-card { display: none; }
   .sidebar-nav {
     flex-direction: row;
     overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: none;
     gap: 0;
-    padding: 0 0.5rem;
+    padding: 0 0.25rem;
+    width: 100%;
   }
   .sidebar-nav::-webkit-scrollbar { display: none; }
   .sidebar-nav li { flex-shrink: 0; }
@@ -1845,8 +1852,8 @@ footer {
     background: none;
     border-left: none;
     border-bottom: 3px solid transparent;
-    padding: 0.85rem 0.9rem;
-    font-size: 0.8rem;
+    padding: 0.75rem 0.7rem;
+    font-size: 0.75rem;
     white-space: nowrap;
     color: var(--mid);
   }
@@ -1857,23 +1864,28 @@ footer {
     border-bottom-color: var(--brand);
   }
 
+  /* Main content area */
+  .comm-main { width: 100%; overflow-x: hidden; overflow-y: auto; }
+
   /* Panels */
   #cm-panel-tickets,
   #cm-panel-resources,
   #cm-panel-settings,
-  #cm-panel-testimonial { padding: 1.25rem; }
+  #cm-panel-testimonial { padding: 1rem; width: 100%; box-sizing: border-box; }
 
   /* Chat panel fills remaining height: viewport - nav - member header - tab bar */
-  #cm-panel-chat { height: calc(100vh - 76px - 52px - 48px); }
+  #cm-panel-chat { height: calc(100vh - 76px - 52px - 48px); overflow: hidden; }
 
   /* Chat layout: stack announcements above messages */
   .chat-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-  .chat-announcements { border-right: none; border-bottom: 1px solid var(--border); max-height: 160px; overflow-y: auto; }
-  .chat-main { min-height: 0; }
+  .chat-announcements { border-right: none; border-bottom: 1px solid var(--border); max-height: 160px; overflow-y: auto; overflow-x: hidden; }
+  .chat-main { min-height: 0; overflow: hidden; }
+  .chat-input-wrap { padding: 0.75rem; gap: 0.5rem; }
+  .chat-messages { padding: 0.75rem; }
 
   /* Forms: 1 column on mobile */
   .settings-form-grid,
-  .ticket-form-grid { grid-template-columns: 1fr; }
+  .ticket-form-grid { grid-template-columns: 1fr; width: 100%; }
   .settings-full-col { grid-column: 1; }
 
   /* Ticket card: stack on mobile */
@@ -1881,17 +1893,25 @@ footer {
   .ticket-card-actions { align-self: flex-end; }
 
   /* Ticket modal */
-  .ticket-modal-inner { margin: 0.5rem; }
-  .ticket-full { padding: 1.5rem; }
+  .ticket-modal-inner { margin: 0.5rem; max-width: calc(100vw - 1rem); }
+  .ticket-full { padding: 1.25rem; }
+  .ticket-form-actions { flex-wrap: wrap; }
 
   /* Add ticket form */
   .add-ticket-form { padding: 1rem; }
 
+  /* Panel title row */
+  .panel-title-row { flex-wrap: wrap; gap: 0.5rem; }
+  .panel-title-row .panel-title { font-size: 1.2rem; }
+
   /* Star rating */
   .star { font-size: 1.8rem; }
 
-  /* Settings section */
-  .settings-section { padding: 1.25rem; }
+  /* Settings section: full width, no max-width constraint */
+  .settings-section { padding: 1rem; max-width: 100%; }
+
+  /* Comm header */
+  .comm-header-inner { padding: 0 0.75rem; }
 }
 
 /* === SETTINGS PANEL === */
