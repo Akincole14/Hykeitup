@@ -1922,10 +1922,15 @@ footer {
   /* Chat panel fills remaining height: viewport - nav - member header - tab bar */
   #cm-panel-chat { height: calc(100vh - 76px - 52px - 48px); overflow: hidden; }
 
-  /* Chat layout: stack announcements above messages */
-  .chat-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-  .chat-announcements { border-right: none; border-bottom: 1px solid var(--border); max-height: 160px; overflow-y: auto; overflow-x: hidden; }
-  .chat-main { min-height: 0; overflow: hidden; }
+  /* Chat layout: flex column so sections can collapse/expand */
+  .chat-layout { display: flex; flex-direction: column; height: 100%; }
+  .chat-announcements { border-right: none; border-bottom: 1px solid var(--border); overflow-x: hidden; transition: flex 0.25s ease; }
+  .chat-main { min-height: 0; overflow: hidden; transition: flex 0.25s ease; }
+
+  /* Auto-accordion: collapsed = header bar only, expanded = fills remaining space */
+  .section-collapsed { flex: 0 0 48px; overflow: hidden; }
+  .section-expanded.chat-announcements { flex: 1; overflow-y: auto; overflow-x: hidden; }
+  .section-expanded.chat-main { flex: 1; min-height: 0; overflow: hidden; }
   .chat-input-wrap { padding: 0.75rem; gap: 0.5rem; }
   .chat-messages { padding: 0.75rem; }
   /* Reply quote: wrap text on mobile instead of truncating */

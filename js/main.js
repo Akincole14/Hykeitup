@@ -883,6 +883,44 @@ function communityShowChat() {
   renderMessages();
   renderTickets();
   loadSettingsPanel();
+  initChatAccordion();
+}
+
+function initChatAccordion() {
+  const annSection = document.querySelector('.chat-announcements');
+  const chatSection = document.querySelector('.chat-main');
+  const chatInput = document.getElementById('chat-input');
+  const announceInput = document.getElementById('announce-input');
+  if (!annSection || !chatSection || !chatInput) return;
+
+  function expandChat() {
+    chatSection.classList.add('section-expanded');
+    chatSection.classList.remove('section-collapsed');
+    annSection.classList.add('section-collapsed');
+    annSection.classList.remove('section-expanded');
+  }
+
+  function expandAnn() {
+    annSection.classList.add('section-expanded');
+    annSection.classList.remove('section-collapsed');
+    chatSection.classList.add('section-collapsed');
+    chatSection.classList.remove('section-expanded');
+  }
+
+  // Remove any previous listeners before re-attaching
+  if (chatInput._chatAccordion) chatInput.removeEventListener('focus', chatInput._chatAccordion);
+  if (announceInput?._annAccordion) announceInput.removeEventListener('focus', announceInput._annAccordion);
+
+  chatInput._chatAccordion = expandChat;
+  chatInput.addEventListener('focus', expandChat);
+
+  if (announceInput) {
+    announceInput._annAccordion = expandAnn;
+    announceInput.addEventListener('focus', expandAnn);
+  }
+
+  // Default: chat expanded
+  expandChat();
 }
 
 // --- Auto-login if session exists ---
