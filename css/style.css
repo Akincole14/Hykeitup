@@ -1251,7 +1251,6 @@ nav.scrolled {
   top: 76px;
   left: 0; right: 0; bottom: 0;
   overflow-y: auto;
-  overflow-x: hidden;
   z-index: 50;
   background: var(--dark);
 }
@@ -1821,7 +1820,6 @@ footer {
   .comm-dashboard {
     grid-template-columns: 1fr;
     min-height: calc(100vh - 76px - 52px);
-    overflow-x: hidden;
   }
 
   /* Sidebar: hide profile card, turn nav into horizontal scrollable tabs */
@@ -2332,6 +2330,7 @@ footer {
 .success-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
 @media (max-width: 768px) {
+  /* Nav */
   .nav-links {
     display: none; flex-direction: column;
     position: absolute; top: 100%; left: 0; right: 0;
@@ -2344,33 +2343,91 @@ footer {
   .hamburger { display: flex; }
   .nav-mobile-cta { display: block; }
   .nav-right .nav-cta { display: none; }
+
+  /* Sections — reduce vertical whitespace */
+  .section { padding: 3rem 5%; }
+  .section-header { margin-bottom: 2rem; }
+  .cta-banner { padding: 3rem 5%; }
+
+  /* Hero */
+  .hero-content { padding: calc(76px + 1rem) 5% 2.5rem; gap: 1.2rem; }
+  .hero-arrow { display: none; }
+  .members-hero,
+  .gallery-hero,
+  .contact-hero,
+  .community-hero { padding: 6rem 5% 3rem; }
+
+  /* About badge — prevent overflow on small screens */
+  .about-badge { right: 0; bottom: -16px; }
+
+  /* Team grid — 2 columns on mobile */
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Hikes — 1 column */
+  .hikes-grid { grid-template-columns: 1fr; }
+
+  /* Panel title row — wrap on small screens */
+  .panel-title-row { flex-wrap: wrap; gap: 0.75rem; }
+
+  /* Community main — allow panels to scroll on mobile */
+  .comm-main { overflow-y: auto; }
+
+  /* Gallery */
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .gallery-item.tall { grid-row: span 1; aspect-ratio: 1; }
+
+  /* Forms */
   .form-row { grid-template-columns: 1fr; }
+
+  /* Footer */
   .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
   .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+
+  /* Stats */
   .stats-bar { gap: 1.5rem; }
-  /* About team grid: 2 columns on mobile */
-  .team-grid { grid-template-columns: repeat(2, 1fr); }
-  /* Testimonials responsive */
+
+  /* Testimonials */
   .testimonials-grid { grid-template-columns: 1fr; }
-  /* Instagram responsive */
+
+  /* Instagram */
   .instagram-grid { grid-template-columns: repeat(3, 1fr); }
-  /* Tickets responsive */
+
+  /* Tickets page */
   .checkout-grid { grid-template-columns: 1fr; }
   .order-summary-card { position: static; }
   .checkout-summary { order: -1; }
   .hike-options { grid-template-columns: 1fr; }
   .quantity-section { gap: 1rem; }
   .step-connector { min-width: 30px; }
-  /* Prevent any content from exceeding viewport width */
-  img, video, iframe, table { max-width: 100%; }
-  .comm-header-inner { max-width: 100%; box-sizing: border-box; }
-  .comm-main { min-width: 0; overflow: hidden; }
-  #cm-panel-tickets,
-  #cm-panel-resources,
-  #cm-panel-settings,
-  #cm-panel-testimonial { overflow-x: hidden; }
-  .testi-form-wrap { max-width: 100%; }
-  .settings-section { max-width: 100%; }
+}
+
+@media (max-width: 480px) {
+  /* Even tighter sections */
+  .section { padding: 2.5rem 4%; }
+  .hero-content { padding: calc(76px + 0.75rem) 4% 2rem; }
+
+  /* Stats: 2x2 grid on very small screens */
+  .stats-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  /* Team: 2 columns still fine, reduce card text */
+  .team-card { padding: 1rem 0.75rem; }
+  .team-card h3 { font-size: 0.82rem; }
+
+  /* Buttons: full width on very small screens */
+  .btn-group { flex-direction: column; align-items: stretch; }
+  .btn-group .btn { justify-content: center; }
+
+  /* Resource cards */
+  .resources-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Comm header: hide welcome text on very small, just show avatar + signout */
+  .comm-welcome { display: none; }
+
+  /* Ticket modal full screen */
+  .ticket-modal-inner { margin: 0; border-radius: 0; min-height: 100%; }
+
+  /* Settings form */
+  .settings-section { padding: 1rem; }
+  .postcode-wrap { flex-direction: column; }
+  .postcode-wrap .btn { width: 100%; justify-content: center; }
 }
