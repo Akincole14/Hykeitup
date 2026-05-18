@@ -877,6 +877,7 @@ function communityShowChat() {
   renderAnnouncements();
   renderMessages();
   renderTickets();
+  loadSettingsPanel();
 }
 
 // --- Auto-login if session exists ---
@@ -1249,6 +1250,108 @@ function renderHomepageTestimonials() {
   });
 }
 document.addEventListener('DOMContentLoaded', renderHomepageTestimonials);
+
+// === SETTINGS ===
+
+function getCurrentUser() {
+  const session = getSession();
+  if (!session) return null;
+  return getUsers().find(u => u.username === session.username) || null;
+}
+
+function updateUserRecord(updated) {
+  const users = getUsers();
+  const idx = users.findIndex(u => u.username === updated.username);
+  if (idx === -1) return false;
+  users[idx] = updated;
+  communityStore('users', users);
+  return true;
+}
+
+function loadSettingsPanel() {
+  const user = getCurrentUser();
+  if (!user) return;
+  const f = {
+    'set-first': user.firstName || '', 'set-last': user.lastName || '',
+    'set-email': user.email || '', 'set-phone': user.phone || '',
+    'set-addr1': user.addr1 || '', 'set-addr2': user.addr2 || '',
+    'set-postcode': user.postcode || '', 'set-city': user.city || '', 'set-county': user.county || '',
+  };
+  Object.entries(f).forEach(([id, val]) => { const el = document.getElementById(id); if (el) el.value = val; });
+  ['set-cur-pw','set-new-pw','set-confirm-pw'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  const status = document.getElementById('set-postcode-status');
+  if (status) { status.textContent = ''; status.className = 'postcode-status'; }
+}
+
+document.getElementById('set-profile-save')?.addEventListener('click', () => {
+  const user = getCurrentUser();
+  if (!user) return;
+  const first    = document.getElementById('set-first').value.trim();
+  const last     = document.getElementById('set-last').value.trim();
+  const email    = document.getElementById('set-email').value.trim();
+  const phone    = document.getElementById('set-phone').value.trim();
+  const addr1    = document.getElementById('set-addr1').value.trim();
+  const addr2    = document.getElementById('set-addr2').value.trim();
+  const postcode = document.getElementById('set-postcode').value.trim().toUpperCase();
+  const city     = document.getElementById('set-city').value.trim();
+  const county   = document.getElementById('set-county').value.trim();
+  const errEl = document.getElementById('set-profile-error');
+  const okEl  = document.getElementById('set-profile-success');
+  errEl.style.display = 'none'; okEl.style.display = 'none';
+  if (!first || !email) { errEl.textContent = 'First name and email are required.'; errEl.style.display = 'block'; return; }
+  const others = getUsers().filter(u => u.username !== user.username);
+  if (others.find(u => u.email.toLowerCase() === email.toLowerCase())) { errEl.textContent = 'That email is already in use by another account.'; errEl.style.display = 'block'; return; }
+  updateUserRecord({ ...user, firstName: first, lastName: last, email, phone, addr1, addr2, postcode, city, county });
+  // Keep session first name in sync
+  const session = getSession();
+  if (session) communityStore('session', { ...session, firstName: first });
+  document.getElementById('comm-profile-name').textContent = first;
+  const initials = first.substring(0, 2).toUpperCase();
+  ['comm-avatar-sm','comm-avatar-lg'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = initials; });
+  okEl.style.display = 'block';
+  setTimeout(() => { okEl.style.display = 'none'; }, 3000);
+});
+
+document.getElementById('set-pw-save')?.addEventListener('click', () => {
+  const user = getCurrentUser();
+  if (!user) return;
+  const cur     = document.getElementById('set-cur-pw').value;
+  const newPw   = document.getElementById('set-new-pw').value;
+  const confirm = document.getElementById('set-confirm-pw').value;
+  const errEl   = document.getElementById('set-pw-error');
+  const okEl    = document.getElementById('set-pw-success');
+  errEl.style.display = 'none'; okEl.style.display = 'none';
+  if (!cur || !newPw || !confirm) { errEl.textContent = 'Please fill in all password fields.'; errEl.style.display = 'block'; return; }
+  if (cur !== user.password) { errEl.textContent = 'Current password is incorrect.'; errEl.style.display = 'block'; return; }
+  if (newPw.length < 6) { errEl.textContent = 'New password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
+  if (newPw !== confirm) { errEl.textContent = 'New passwords do not match.'; errEl.style.display = 'block'; return; }
+  updateUserRecord({ ...user, password: newPw });
+  ['set-cur-pw','set-new-pw','set-confirm-pw'].forEach(id => { document.getElementById(id).value = ''; });
+  okEl.style.display = 'block';
+  setTimeout(() => { okEl.style.display = 'none'; }, 3000);
+});
+
+document.getElementById('set-postcode-find')?.addEventListener('click', async () => {
+  const raw    = document.getElementById('set-postcode').value.trim();
+  const status = document.getElementById('set-postcode-status');
+  if (!raw) { status.textContent = 'Please enter a postcode first.'; status.className = 'postcode-status err'; return; }
+  status.textContent = 'Looking up…'; status.className = 'postcode-status';
+  try {
+    const res  = await fetch('https://api.postcodes.io/postcodes/' + encodeURIComponent(raw.replace(/\s+/g, '')));
+    const data = await res.json();
+    if (data.status === 200 && data.result) {
+      const r = data.result;
+      document.getElementById('set-postcode').value = r.postcode;
+      document.getElementById('set-city').value   = r.admin_district || r.parish || '';
+      document.getElementById('set-county').value = r.admin_county   || r.region  || '';
+      status.textContent = '✓ Postcode found — city and county filled in'; status.className = 'postcode-status ok';
+    } else {
+      status.textContent = 'Postcode not found. Please check and try again.'; status.className = 'postcode-status err';
+    }
+  } catch {
+    status.textContent = 'Could not reach the address service. Please try again.'; status.className = 'postcode-status err';
+  }
+});
 
 // === MY TICKETS ===
 

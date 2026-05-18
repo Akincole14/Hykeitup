@@ -1118,6 +1118,7 @@
           <li><a href="#" data-panel="cm-panel-resources">📦 Resources</a></li>
           <li><a href="#" data-panel="cm-panel-chat">💬 Community Chat</a></li>
           <li><a href="#" data-panel="cm-panel-testimonial">⭐ Leave a Review</a></li>
+          <li><a href="#" data-panel="cm-panel-settings">⚙️ Settings</a></li>
         </ul>
       </aside>
 
@@ -1235,6 +1236,81 @@
             <div id="testi-success" class="auth-success" style="display:none;">⭐ Thanks! Your review has been submitted and will appear on the homepage.</div>
             <button class="btn btn-primary" id="testi-submit-btn">Submit Review →</button>
           </div>
+        </div>
+
+        <div id="cm-panel-settings" class="member-panel">
+          <div class="panel-title">Account Settings</div>
+
+          <div class="settings-section">
+            <div class="settings-section-label">Profile</div>
+            <div class="settings-form-grid">
+              <div class="form-group">
+                <label for="set-first">First Name</label>
+                <input type="text" id="set-first" placeholder="First name" />
+              </div>
+              <div class="form-group">
+                <label for="set-last">Last Name</label>
+                <input type="text" id="set-last" placeholder="Last name" />
+              </div>
+              <div class="form-group">
+                <label for="set-email">Email Address</label>
+                <input type="email" id="set-email" placeholder="you@example.com" />
+              </div>
+              <div class="form-group">
+                <label for="set-phone">Phone Number <span class="form-optional">(optional)</span></label>
+                <input type="tel" id="set-phone" placeholder="+44 7700 000000" />
+              </div>
+              <div class="form-group settings-full-col">
+                <label for="set-addr1">Address Line 1</label>
+                <input type="text" id="set-addr1" placeholder="House number and street" />
+              </div>
+              <div class="form-group settings-full-col">
+                <label for="set-addr2">Address Line 2 <span class="form-optional">(optional)</span></label>
+                <input type="text" id="set-addr2" placeholder="Flat, building, etc." />
+              </div>
+              <div class="form-group">
+                <label for="set-postcode">Postcode</label>
+                <div class="postcode-wrap">
+                  <input type="text" id="set-postcode" placeholder="e.g. SW1A 1AA" />
+                  <button type="button" class="btn btn-outline btn-sm" id="set-postcode-find">Find →</button>
+                </div>
+                <div id="set-postcode-status" class="postcode-status"></div>
+              </div>
+              <div class="form-group">
+                <label for="set-city">City / Town</label>
+                <input type="text" id="set-city" placeholder="Auto-filled from postcode" />
+              </div>
+              <div class="form-group settings-full-col">
+                <label for="set-county">County / Region</label>
+                <input type="text" id="set-county" placeholder="Auto-filled from postcode" />
+              </div>
+            </div>
+            <div id="set-profile-success" class="auth-success" style="display:none;">✓ Profile updated.</div>
+            <div id="set-profile-error" class="auth-error" style="display:none;"></div>
+            <button class="btn btn-primary" id="set-profile-save">Save Profile</button>
+          </div>
+
+          <div class="settings-section">
+            <div class="settings-section-label">Change Password</div>
+            <div class="settings-form-grid">
+              <div class="form-group">
+                <label for="set-cur-pw">Current Password</label>
+                <input type="password" id="set-cur-pw" placeholder="Current password" autocomplete="current-password" />
+              </div>
+              <div class="form-group">
+                <label for="set-new-pw">New Password</label>
+                <input type="password" id="set-new-pw" placeholder="New password (min 6 chars)" autocomplete="new-password" />
+              </div>
+              <div class="form-group">
+                <label for="set-confirm-pw">Confirm New Password</label>
+                <input type="password" id="set-confirm-pw" placeholder="Repeat new password" autocomplete="new-password" />
+              </div>
+            </div>
+            <div id="set-pw-success" class="auth-success" style="display:none;">✓ Password updated.</div>
+            <div id="set-pw-error" class="auth-error" style="display:none;"></div>
+            <button class="btn btn-primary" id="set-pw-save">Update Password</button>
+          </div>
+
         </div>
 
       </main>

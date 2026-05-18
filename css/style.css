@@ -1774,6 +1774,7 @@ footer {
 /* Per-panel padding (chat panel gets none so it fills edge-to-edge) */
 #cm-panel-tickets,
 #cm-panel-resources,
+#cm-panel-settings,
 #cm-panel-testimonial { padding: 2.5rem 3rem; }
 
 /* Star rating */
@@ -1817,9 +1818,43 @@ footer {
   .comm-since { display: none; }
   #cm-panel-tickets,
   #cm-panel-resources,
+  #cm-panel-settings,
   #cm-panel-testimonial { padding: 1.5rem; }
   #cm-panel-chat { height: calc(100vh - 76px - 56px); }
 }
+
+/* === SETTINGS PANEL === */
+.settings-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+  max-width: 640px;
+}
+.settings-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 1.25rem;
+}
+.settings-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.settings-form-grid .form-group { margin-bottom: 0; }
+.settings-full-col { grid-column: 1 / -1; }
+.postcode-wrap { display: flex; gap: 0.5rem; }
+.postcode-wrap input { flex: 1; min-width: 0; }
+.postcode-status { font-size: 0.78rem; margin-top: 0.45rem; min-height: 1.1em; }
+.postcode-status.ok { color: #4CAF50; }
+.postcode-status.err { color: #F06060; }
+#set-profile-save,
+#set-pw-save { margin-top: 0.25rem; }
 
 /* === MY TICKETS PANEL === */
 .panel-title-row {
