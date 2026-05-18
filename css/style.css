@@ -1254,7 +1254,14 @@ nav.scrolled {
 .auth-text-link:hover { color: var(--brand-light); }
 
 /* === COMMUNITY CHAT === */
-.community-chat { padding-top: 76px; }
+.community-chat {
+  position: fixed;
+  top: 76px;
+  left: 0; right: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 50;
+  background: var(--dark);
+}
 .chat-topbar {
   position: sticky;
   top: 76px;
@@ -1660,7 +1667,7 @@ footer {
 /* === COMMUNITY DASHBOARD === */
 .comm-header {
   position: sticky;
-  top: 76px;
+  top: 0;
   z-index: 99;
   background: var(--card);
   border-bottom: 1px solid var(--border);
