@@ -41,6 +41,9 @@ function showPage(pageId) {
   navLinks.classList.remove('open');
   hamburger.classList.remove('open');
 
+  // Restore footer when leaving community page
+  if (pageId !== 'community') document.querySelector('footer').style.display = '';
+
   // Re-trigger reveal animations for new page
   setTimeout(triggerReveal, 100);
   if (pageId === 'home') setTimeout(animateStats, 600);
@@ -847,7 +850,8 @@ document.getElementById('signout-btn')?.addEventListener('click', () => {
   document.getElementById('community-hero').style.display = '';
   document.getElementById('community-auth').style.display = 'flex';
   document.getElementById('community-chat').style.display = 'none';
-  // Reset sidebar to Schedule panel for next login
+  document.querySelector('footer').style.display = '';
+  // Reset sidebar to tickets panel for next login
   document.querySelectorAll('#community-chat [data-panel^="cm-"]').forEach((l, i) => l.classList.toggle('active', i === 0));
   document.querySelectorAll('#community-chat .member-panel').forEach((p, i) => p.classList.toggle('active', i === 0));
 });
@@ -860,6 +864,7 @@ function communityShowChat() {
   document.getElementById('community-auth').style.display = 'none';
   document.getElementById('community-hero')?.style && (document.getElementById('community-hero').style.display = 'none');
   document.getElementById('community-chat').style.display = 'block';
+  document.querySelector('footer').style.display = 'none';
   document.getElementById('chat-username-display').textContent = session.username;
   // Set avatar initials
   const name = session.firstName || session.username;
