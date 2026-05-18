@@ -1985,6 +1985,16 @@ footer {
   .ticket-form-grid { grid-template-columns: 1fr; width: 100%; }
   .settings-full-col { grid-column: 1; }
 
+  /* Settings panel: compact layout that fits the screen */
+  #cm-panel-settings { overflow-x: hidden; }
+  #cm-panel-settings .panel-title { font-size: 1.1rem; margin-bottom: 1rem; padding-bottom: 0.75rem; }
+  .settings-section { width: 100%; padding: 0.9rem; border-radius: 10px; margin-bottom: 1rem; }
+  .settings-section-label { margin-bottom: 0.75rem; }
+  .settings-form-grid { gap: 0.65rem; margin-bottom: 0.9rem; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; min-width: 0; font-size: 0.85rem; padding: 0.65rem 0.75rem; }
+  .form-group label { font-size: 0.78rem; }
+  #set-profile-save, #set-pw-save { width: 100%; justify-content: center; }
+
   /* Ticket card: stack on mobile */
   .ticket-card { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
   .ticket-card-actions { align-self: flex-end; }
@@ -2004,8 +2014,10 @@ footer {
   /* Star rating */
   .star { font-size: 1.8rem; }
 
-  /* Settings section: full width, no max-width constraint */
-  .settings-section { padding: 1rem; max-width: 100%; }
+  /* Settings section: full width */
+  .settings-section { max-width: 100%; }
+  .postcode-wrap { flex-direction: column; }
+  .postcode-wrap .btn { width: 100%; justify-content: center; }
 
   /* Comm header */
   .comm-header-inner { padding: 0 0.75rem; }
