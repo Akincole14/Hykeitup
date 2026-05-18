@@ -1948,11 +1948,11 @@ footer {
   /* Main content area */
   .comm-main { width: 100%; overflow-x: hidden; overflow-y: auto; }
 
-  /* Panels — extra bottom padding so content clears the bottom nav */
+  /* Panels — extra top padding for breathing room below tab bar, bottom clears bottom nav */
   #cm-panel-tickets,
   #cm-panel-resources,
   #cm-panel-settings,
-  #cm-panel-testimonial { padding: 1rem 1rem calc(1rem + 56px); width: 100%; box-sizing: border-box; }
+  #cm-panel-testimonial { padding: 1.5rem 1rem calc(1rem + 56px); width: 100%; box-sizing: border-box; }
 
   /* Chat panel: height accounts for top nav + comm-header + tab bar + bottom nav */
   #cm-panel-chat { height: calc(100vh - 76px - 52px - 48px - 56px); overflow: hidden; }
@@ -2019,8 +2019,10 @@ footer {
   .postcode-wrap { flex-direction: column; }
   .postcode-wrap .btn { width: 100%; justify-content: center; }
 
-  /* Comm header */
-  .comm-header-inner { padding: 0 0.75rem; }
+  /* Comm header: sign-out is now inside .comm-user */
+  .comm-header-inner { padding: 0 0.75rem; justify-content: flex-start; }
+  .comm-user { flex: 1; }
+  #signout-btn { margin-left: auto; font-size: 0.75rem; padding: 0.35rem 0.75rem; }
 }
 
 /* === SETTINGS PANEL === */
@@ -2459,7 +2461,8 @@ footer {
 .success-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
 @media (max-width: 768px) {
-  /* Nav */
+  /* Nav: switch to flex so logo stays far-left and hamburger goes far-right */
+  nav { display: flex; justify-content: space-between; align-items: center; }
   .nav-links {
     display: none; flex-direction: column;
     position: absolute; top: 100%; left: 0; right: 0;
