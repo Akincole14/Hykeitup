@@ -905,6 +905,21 @@ origLinks.forEach(el => el.addEventListener('click', () => setTimeout(_community
 function annId(a) { return a.id || a.timestamp.toString(); }
 
 // --- Announcements ---
+let pendingReply = null;
+
+function setReplyContext(ann) {
+  pendingReply = { text: ann.text, username: ann.username };
+  document.getElementById('reply-preview-author').textContent = '↩ Replying to ' + ann.username;
+  document.getElementById('reply-preview-text').textContent = ann.text;
+  document.getElementById('reply-preview').style.display = 'block';
+  document.getElementById('chat-input').focus();
+}
+
+function clearReplyContext() {
+  pendingReply = null;
+  document.getElementById('reply-preview').style.display = 'none';
+}
+
 function renderAnnouncements() {
   const list = document.getElementById('announcements-list');
   const session = getSession();
@@ -917,6 +932,7 @@ function renderAnnouncements() {
     <div class="announcement-msg" data-id="${annId(a)}">
       <div class="msg-meta">
         ${a.username} · ${formatTime(a.timestamp)}${a.edited ? ' · <span class="msg-edited">edited</span>' : ''}
+        <button class="ann-reply-btn" data-ann-id="${annId(a)}">↩ Reply</button>
         ${session?.isAdmin ? `<span class="ann-actions">
           <button class="ann-action-btn edit">Edit</button>
           <button class="ann-action-btn delete">Delete</button>
@@ -929,10 +945,18 @@ function renderAnnouncements() {
   list.scrollTop = list.scrollHeight;
 }
 
+document.getElementById('reply-cancel-btn')?.addEventListener('click', clearReplyContext);
+
 document.getElementById('announcements-list')?.addEventListener('click', e => {
   const annEl = e.target.closest('.announcement-msg');
   if (!annEl) return;
   const id = annEl.dataset.id;
+
+  if (e.target.closest('.ann-reply-btn')) {
+    const ann = getAnnouncements().find(a => annId(a) === id);
+    if (ann) setReplyContext(ann);
+    return;
+  }
 
   if (e.target.closest('.ann-action-btn.delete')) {
     let anns = getAnnouncements();
@@ -1022,10 +1046,15 @@ function renderMessages() {
         <button class="msg-action-btn edit">Edit</button>
         <button class="msg-action-btn delete">Delete</button>
       </div>` : '';
+    const replyQuote = m.replyTo ? `
+      <div class="msg-reply-quote">
+        <div class="msg-reply-quote-author">↩ ${escapeHtml(m.replyTo.username)}</div>
+        <div class="msg-reply-quote-text">${escapeHtml(m.replyTo.text)}</div>
+      </div>` : '';
     return `
       <div class="chat-msg ${isOwn ? 'own' : 'other'}${(!isOwn && session?.isAdmin) ? ' admin-can-act' : ''}" data-id="${msgId(m)}">
         <div class="msg-info">${isOwn ? '' : m.username + ' · '}${formatTime(m.timestamp)}${editedMark}</div>
-        <div class="msg-bubble">${textWithMentions}</div>
+        <div class="msg-bubble">${replyQuote}${textWithMentions}</div>
         ${actions}
       </div>
     `;
@@ -1040,10 +1069,13 @@ function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
   const msgs = getMessages();
-  msgs.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2), username: session.username, text, timestamp: Date.now() });
+  const msg = { id: Date.now().toString(36) + Math.random().toString(36).slice(2), username: session.username, text, timestamp: Date.now() };
+  if (pendingReply) msg.replyTo = pendingReply;
+  msgs.push(msg);
   communityStore('messages', msgs);
   input.value = '';
   mentionDropdown.style.display = 'none';
+  clearReplyContext();
   renderMessages();
 }
 

@@ -1201,6 +1201,16 @@
             <main class="chat-main">
               <div class="chat-panel-header"><span>💬 Community Chat</span></div>
               <div id="chat-messages" class="chat-messages"></div>
+              <div id="reply-preview" class="reply-preview" style="display:none;">
+                <div class="reply-preview-inner">
+                  <span class="reply-icon">↩</span>
+                  <div class="reply-preview-content">
+                    <div class="reply-preview-author" id="reply-preview-author"></div>
+                    <div class="reply-preview-text" id="reply-preview-text"></div>
+                  </div>
+                  <button class="reply-cancel-btn" id="reply-cancel-btn" aria-label="Cancel reply">✕</button>
+                </div>
+              </div>
               <div class="chat-input-wrap">
                 <div id="mention-dropdown" class="mention-dropdown" style="display:none;"></div>
                 <textarea id="chat-input" class="chat-input" placeholder="Message the community… type @ to mention someone" rows="2"></textarea>

@@ -1462,6 +1462,43 @@ nav.scrolled {
 .chat-msg.own:hover .msg-actions,
 .chat-msg.admin-can-act:hover .msg-actions { display: flex; }
 
+/* Reply to announcement */
+.ann-reply-btn {
+  background: none; border: none; font-size: 0.68rem; color: var(--mid);
+  cursor: pointer; padding: 0.1rem 0.35rem; border-radius: 4px;
+  font-family: var(--font); transition: color 0.15s, background 0.15s; margin-left: 0.25rem;
+}
+.ann-reply-btn:hover { color: var(--brand); background: rgba(212,79,44,0.1); }
+
+.reply-preview {
+  padding: 0.5rem 1rem 0;
+  background: var(--dark);
+}
+.reply-preview-inner {
+  display: flex; align-items: center; gap: 0.6rem;
+  background: var(--card); border-left: 3px solid var(--brand);
+  border-radius: 8px; padding: 0.5rem 0.75rem;
+}
+.reply-icon { color: var(--brand); font-size: 0.85rem; flex-shrink: 0; }
+.reply-preview-content { flex: 1; min-width: 0; }
+.reply-preview-author { font-size: 0.72rem; font-weight: 700; color: var(--brand-light); margin-bottom: 0.1rem; }
+.reply-preview-text { font-size: 0.78rem; color: var(--mid); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.reply-cancel-btn {
+  background: none; border: none; color: var(--mid); font-size: 0.85rem;
+  cursor: pointer; padding: 0.2rem 0.4rem; border-radius: 4px; flex-shrink: 0; line-height: 1;
+}
+.reply-cancel-btn:hover { color: var(--white); }
+
+/* Quoted reply inside chat bubble */
+.msg-reply-quote {
+  background: rgba(0,0,0,0.18);
+  border-left: 3px solid rgba(255,255,255,0.35);
+  border-radius: 6px; padding: 0.35rem 0.6rem; margin-bottom: 0.4rem;
+}
+.chat-msg.own .msg-reply-quote { background: rgba(0,0,0,0.2); border-left-color: rgba(255,255,255,0.5); }
+.msg-reply-quote-author { font-size: 0.68rem; font-weight: 700; color: rgba(255,255,255,0.75); margin-bottom: 0.1rem; }
+.msg-reply-quote-text { font-size: 0.76rem; color: rgba(255,255,255,0.55); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
 .ann-actions { display: inline-flex; gap: 0.2rem; margin-left: 0.5rem; vertical-align: middle; }
 .ann-action-btn {
   background: none; border: none;
