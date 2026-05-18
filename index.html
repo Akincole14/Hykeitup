@@ -40,10 +40,10 @@
   </a>
   <ul class="nav-links">
     <li><a href="#" data-page="home" class="active">Home</a></li>
-    <li><a href="#" data-page="community">Community</a></li>
     <li><a href="#" data-page="about">About</a></li>
     <li><a href="#" data-page="tickets">Upcoming Hykes</a></li>
     <li><a href="#" data-page="gallery">Gallery</a></li>
+    <li><a href="#" data-page="community">Community</a></li>
 
     <li class="nav-mobile-cta"><a href="#" data-page="contact" class="nav-cta">Join The Team</a></li>
   </ul>
@@ -1116,10 +1116,8 @@
         <ul class="sidebar-nav">
           <li><a href="#" data-panel="cm-panel-tickets" class="active">🎟️ My Tickets</a></li>
           <li><a href="#" data-panel="cm-panel-resources">📦 Resources</a></li>
-          <li><a href="#" data-panel="cm-panel-directory">👥 Directory</a></li>
           <li><a href="#" data-panel="cm-panel-chat">💬 Community Chat</a></li>
           <li><a href="#" data-panel="cm-panel-testimonial">⭐ Leave a Review</a></li>
-          <li><a href="#" data-panel="cm-panel-settings">⚙️ Settings</a></li>
         </ul>
       </aside>
 
@@ -1181,23 +1179,6 @@
           </div>
         </div>
 
-        <div id="cm-panel-directory" class="member-panel">
-          <div class="panel-title">Community Directory</div>
-          <div class="members-list-grid">
-            <div class="member-pill"><div class="avatar">JA</div><div class="info"><h5>James A.</h5><span>Finance · London</span></div></div>
-            <div class="member-pill"><div class="avatar">SC</div><div class="info"><h5>Sarah C.</h5><span>Technology · London</span></div></div>
-            <div class="member-pill"><div class="avatar">MO</div><div class="info"><h5>Marcus O.</h5><span>Law · London</span></div></div>
-            <div class="member-pill"><div class="avatar">PL</div><div class="info"><h5>Priya L.</h5><span>Healthcare · London</span></div></div>
-            <div class="member-pill"><div class="avatar">TK</div><div class="info"><h5>Tom K.</h5><span>Marketing · London</span></div></div>
-            <div class="member-pill"><div class="avatar">AO</div><div class="info"><h5>Amara O.</h5><span>Architecture · London</span></div></div>
-            <div class="member-pill"><div class="avatar">RB</div><div class="info"><h5>Ryan B.</h5><span>Engineering · London</span></div></div>
-            <div class="member-pill"><div class="avatar">LH</div><div class="info"><h5>Lisa H.</h5><span>Media · London</span></div></div>
-            <div class="member-pill"><div class="avatar">DM</div><div class="info"><h5>David M.</h5><span>Consulting · London</span></div></div>
-            <div class="member-pill"><div class="avatar">NK</div><div class="info"><h5>Nina K.</h5><span>Education · London</span></div></div>
-            <div class="member-pill"><div class="avatar">OA</div><div class="info"><h5>Oliver A.</h5><span>Finance · London</span></div></div>
-            <div class="member-pill"><div class="avatar">ZP</div><div class="info"><h5>Zara P.</h5><span>Healthcare · London</span></div></div>
-          </div>
-        </div>
 
         <div id="cm-panel-chat" class="member-panel">
           <div class="chat-layout">
@@ -1254,102 +1235,6 @@
             <div id="testi-success" class="auth-success" style="display:none;">⭐ Thanks! Your review has been submitted and will appear on the homepage.</div>
             <button class="btn btn-primary" id="testi-submit-btn">Submit Review →</button>
           </div>
-        </div>
-
-        <div id="cm-panel-settings" class="member-panel">
-          <div class="panel-title">Account Settings</div>
-
-          <div class="settings-section">
-            <div class="settings-section-title">Profile Information</div>
-            <div class="settings-grid">
-              <div class="form-group">
-                <label for="set-firstname">First Name</label>
-                <input type="text" id="set-firstname" placeholder="First name" />
-              </div>
-              <div class="form-group">
-                <label for="set-lastname">Last Name</label>
-                <input type="text" id="set-lastname" placeholder="Last name" />
-              </div>
-              <div class="form-group">
-                <label>Username</label>
-                <input type="text" id="set-username" disabled class="input-disabled" />
-              </div>
-              <div class="form-group">
-                <label for="set-email">Email Address</label>
-                <input type="email" id="set-email" placeholder="Email address" />
-              </div>
-              <div class="form-group">
-                <label for="set-phone">Phone Number</label>
-                <input type="tel" id="set-phone" placeholder="e.g. 07700 900000" />
-              </div>
-              <div class="form-group">
-                <label for="set-industry">Industry / Role <span class="form-optional">(shown in directory)</span></label>
-                <input type="text" id="set-industry" placeholder="e.g. Finance · London" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="set-bio">About Me</label>
-              <textarea id="set-bio" rows="3" placeholder="A short bio about yourself..."></textarea>
-            </div>
-            <div id="set-profile-err" class="auth-error" style="display:none;"></div>
-            <div id="set-profile-msg" class="auth-success" style="display:none;"></div>
-            <button class="btn btn-primary" id="set-profile-save">Save Profile</button>
-          </div>
-
-          <div class="settings-section">
-            <div class="settings-section-title">Address Details</div>
-            <div class="settings-grid">
-              <div class="form-group settings-full-col">
-                <label for="set-addr1">Address Line 1</label>
-                <input type="text" id="set-addr1" placeholder="House number and street name" />
-              </div>
-              <div class="form-group settings-full-col">
-                <label for="set-addr2">Address Line 2 <span class="form-optional">(optional)</span></label>
-                <input type="text" id="set-addr2" placeholder="Flat, suite, unit, etc." />
-              </div>
-              <div class="form-group">
-                <label for="set-city">City</label>
-                <input type="text" id="set-city" placeholder="City" />
-              </div>
-              <div class="form-group">
-                <label for="set-county">County <span class="form-optional">(optional)</span></label>
-                <input type="text" id="set-county" placeholder="County" />
-              </div>
-              <div class="form-group">
-                <label for="set-postcode">Postcode</label>
-                <input type="text" id="set-postcode" placeholder="e.g. SW1A 1AA" />
-              </div>
-              <div class="form-group">
-                <label for="set-country">Country</label>
-                <input type="text" id="set-country" placeholder="e.g. United Kingdom" />
-              </div>
-            </div>
-            <div id="set-addr-err" class="auth-error" style="display:none;"></div>
-            <div id="set-addr-msg" class="auth-success" style="display:none;"></div>
-            <button class="btn btn-primary" id="set-addr-save">Save Address</button>
-          </div>
-
-          <div class="settings-section">
-            <div class="settings-section-title">Change Password</div>
-            <div class="settings-grid settings-grid-narrow">
-              <div class="form-group">
-                <label for="set-cur-pw">Current Password</label>
-                <input type="password" id="set-cur-pw" placeholder="Current password" autocomplete="current-password" />
-              </div>
-              <div class="form-group">
-                <label for="set-new-pw">New Password</label>
-                <input type="password" id="set-new-pw" placeholder="New password" autocomplete="new-password" />
-              </div>
-              <div class="form-group">
-                <label for="set-conf-pw">Confirm New Password</label>
-                <input type="password" id="set-conf-pw" placeholder="Confirm new password" autocomplete="new-password" />
-              </div>
-            </div>
-            <div id="set-pw-err" class="auth-error" style="display:none;"></div>
-            <div id="set-pw-msg" class="auth-success" style="display:none;"></div>
-            <button class="btn btn-primary" id="set-pw-save">Update Password</button>
-          </div>
-
         </div>
 
       </main>
