@@ -1404,7 +1404,7 @@ nav.scrolled {
 }
 .chat-msg.own .msg-bubble { background: var(--brand); color: var(--white); border-bottom-right-radius: 4px; }
 .chat-msg.other .msg-bubble { background: #2E7D4F; border: 1px solid #256040; color: #FFFFFF; border-bottom-left-radius: 4px; }
-.msg-mention { color: var(--brand); font-weight: 700; }
+.msg-mention { color: #E8FF00; font-weight: 700; text-shadow: 0 0 8px rgba(232,255,0,0.5); }
 .msg-info { font-size: 0.72rem; color: #888; padding: 0 0.3rem; }
 .chat-msg.own .msg-info { text-align: right; }
 .chat-input-wrap {
