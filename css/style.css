@@ -1848,6 +1848,9 @@ footer {
 .star.lit { color: #F5A623; }
 .testi-form-wrap { max-width: 580px; }
 
+/* Bottom nav: desktop hidden, shown only on mobile via media query */
+.comm-bottom-nav { display: none; }
+
 /* Chat panel fills the main area without extra padding */
 #cm-panel-chat {
   height: calc(100vh - 76px - 64px);
@@ -1911,17 +1914,48 @@ footer {
     border-bottom-color: var(--brand);
   }
 
+  /* Hide secondary items from top tab bar */
+  .sidebar-nav .nav-secondary { display: none; }
+
+  /* Bottom nav bar */
+  #comm-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 56px;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    z-index: 200;
+  }
+  .comm-bottom-link {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    font-size: 0.65rem;
+    line-height: 1.2;
+    color: var(--mid);
+    text-decoration: none;
+    text-align: center;
+    border-top: 3px solid transparent;
+    padding: 0.25rem 0;
+  }
+  .comm-bottom-link span { font-size: 0.65rem; }
+  .comm-bottom-link.active { color: var(--white); border-top-color: var(--brand); }
+
   /* Main content area */
   .comm-main { width: 100%; overflow-x: hidden; overflow-y: auto; }
 
-  /* Panels */
+  /* Panels — extra bottom padding so content clears the bottom nav */
   #cm-panel-tickets,
   #cm-panel-resources,
   #cm-panel-settings,
-  #cm-panel-testimonial { padding: 1rem; width: 100%; box-sizing: border-box; }
+  #cm-panel-testimonial { padding: 1rem 1rem calc(1rem + 56px); width: 100%; box-sizing: border-box; }
 
-  /* Chat panel fills remaining height: viewport - nav - member header - tab bar */
-  #cm-panel-chat { height: calc(100vh - 76px - 52px - 48px); overflow: hidden; }
+  /* Chat panel: height accounts for top nav + comm-header + tab bar + bottom nav */
+  #cm-panel-chat { height: calc(100vh - 76px - 52px - 48px - 56px); overflow: hidden; }
 
   /* Chat layout: flex column so sections can collapse/expand */
   .chat-layout { display: flex; flex-direction: column; height: 100%; }
