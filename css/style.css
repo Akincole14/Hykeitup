@@ -1811,15 +1811,87 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .comm-dashboard { grid-template-columns: 1fr; }
-  .comm-sidebar { border-right: none; border-bottom: 1px solid var(--border); padding: 1.5rem; }
-  .comm-header-inner { padding: 0 1rem; gap: 0.8rem; }
+  /* Header */
+  .comm-header-inner { padding: 0 1rem; gap: 0.6rem; height: 52px; }
   .comm-since { display: none; }
+  .comm-welcome { font-size: 0.8rem; }
+
+  /* Dashboard: stack sidebar on top of main */
+  .comm-dashboard {
+    grid-template-columns: 1fr;
+    min-height: calc(100vh - 76px - 52px);
+  }
+
+  /* Sidebar: hide profile card, turn nav into horizontal scrollable tabs */
+  .comm-sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+    gap: 0;
+    background: var(--card);
+  }
+  .comm-profile-card { display: none; }
+  .sidebar-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 0;
+    padding: 0 0.5rem;
+  }
+  .sidebar-nav::-webkit-scrollbar { display: none; }
+  .sidebar-nav li { flex-shrink: 0; }
+  .sidebar-nav a {
+    border-radius: 0;
+    background: none;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    padding: 0.85rem 0.9rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    color: var(--mid);
+  }
+  .sidebar-nav a.active,
+  .sidebar-nav a:hover {
+    background: none;
+    color: var(--white);
+    border-bottom-color: var(--brand);
+  }
+
+  /* Panels */
   #cm-panel-tickets,
   #cm-panel-resources,
   #cm-panel-settings,
-  #cm-panel-testimonial { padding: 1.5rem; }
-  #cm-panel-chat { height: calc(100vh - 76px - 56px); }
+  #cm-panel-testimonial { padding: 1.25rem; }
+
+  /* Chat panel fills remaining height: viewport - nav - member header - tab bar */
+  #cm-panel-chat { height: calc(100vh - 76px - 52px - 48px); }
+
+  /* Chat layout: stack announcements above messages */
+  .chat-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .chat-announcements { border-right: none; border-bottom: 1px solid var(--border); max-height: 160px; overflow-y: auto; }
+  .chat-main { min-height: 0; }
+
+  /* Forms: 1 column on mobile */
+  .settings-form-grid,
+  .ticket-form-grid { grid-template-columns: 1fr; }
+  .settings-full-col { grid-column: 1; }
+
+  /* Ticket card: stack on mobile */
+  .ticket-card { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .ticket-card-actions { align-self: flex-end; }
+
+  /* Ticket modal */
+  .ticket-modal-inner { margin: 0.5rem; }
+  .ticket-full { padding: 1.5rem; }
+
+  /* Add ticket form */
+  .add-ticket-form { padding: 1rem; }
+
+  /* Star rating */
+  .star { font-size: 1.8rem; }
+
+  /* Settings section */
+  .settings-section { padding: 1.25rem; }
 }
 
 /* === SETTINGS PANEL === */
