@@ -1251,6 +1251,7 @@ nav.scrolled {
   top: 76px;
   left: 0; right: 0; bottom: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   z-index: 50;
   background: var(--dark);
 }
@@ -1820,6 +1821,7 @@ footer {
   .comm-dashboard {
     grid-template-columns: 1fr;
     min-height: calc(100vh - 76px - 52px);
+    overflow-x: hidden;
   }
 
   /* Sidebar: hide profile card, turn nav into horizontal scrollable tabs */
@@ -2348,6 +2350,8 @@ footer {
   .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
   .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
   .stats-bar { gap: 1.5rem; }
+  /* About team grid: 2 columns on mobile */
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
   /* Testimonials responsive */
   .testimonials-grid { grid-template-columns: 1fr; }
   /* Instagram responsive */
@@ -2359,4 +2363,14 @@ footer {
   .hike-options { grid-template-columns: 1fr; }
   .quantity-section { gap: 1rem; }
   .step-connector { min-width: 30px; }
+  /* Prevent any content from exceeding viewport width */
+  img, video, iframe, table { max-width: 100%; }
+  .comm-header-inner { max-width: 100%; box-sizing: border-box; }
+  .comm-main { min-width: 0; overflow: hidden; }
+  #cm-panel-tickets,
+  #cm-panel-resources,
+  #cm-panel-settings,
+  #cm-panel-testimonial { overflow-x: hidden; }
+  .testi-form-wrap { max-width: 100%; }
+  .settings-section { max-width: 100%; }
 }
