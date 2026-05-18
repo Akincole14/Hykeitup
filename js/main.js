@@ -907,9 +907,14 @@ function initChatAccordion() {
     chatSection.classList.remove('section-expanded');
   }
 
+  const annHeader = annSection.querySelector('.chat-panel-header');
+  const chatHeader = chatSection.querySelector('.chat-panel-header');
+
   // Remove any previous listeners before re-attaching
   if (chatInput._chatAccordion) chatInput.removeEventListener('focus', chatInput._chatAccordion);
   if (announceInput?._annAccordion) announceInput.removeEventListener('focus', announceInput._annAccordion);
+  if (annHeader?._annHeaderAccordion) annHeader.removeEventListener('click', annHeader._annHeaderAccordion);
+  if (chatHeader?._chatHeaderAccordion) chatHeader.removeEventListener('click', chatHeader._chatHeaderAccordion);
 
   chatInput._chatAccordion = expandChat;
   chatInput.addEventListener('focus', expandChat);
@@ -917,6 +922,16 @@ function initChatAccordion() {
   if (announceInput) {
     announceInput._annAccordion = expandAnn;
     announceInput.addEventListener('focus', expandAnn);
+  }
+
+  // Tapping a collapsed section header expands it
+  if (annHeader) {
+    annHeader._annHeaderAccordion = expandAnn;
+    annHeader.addEventListener('click', expandAnn);
+  }
+  if (chatHeader) {
+    chatHeader._chatHeaderAccordion = expandChat;
+    chatHeader.addEventListener('click', expandChat);
   }
 
   // Default: chat expanded
