@@ -969,19 +969,138 @@
     </div>
   </div>
 
-  <div class="tt-embed-wrap">
-    <script src="https://cdn.tickettailor.com/js/widgets/min/widget.js"
-      data-url="https://www.tickettailor.com/events/hykeitup"
-      data-type="inline"
-      data-bg-color="#1a1a1a"
-      data-primary-colour="#D44F2C">
-    </script>
-    <noscript>
-      <a href="https://www.tickettailor.com/events/hykeitup" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-        View &amp; Book Upcoming Hykes →
-      </a>
-    </noscript>
-  </div>
+  <div class="tickets-wrap">
+
+    <!-- Step indicator -->
+    <div class="step-indicator">
+      <div class="step-item active" data-step="1">
+        <div class="step-circle"><span>1</span></div>
+        <div class="step-label">Choose Hyke</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" data-step="2">
+        <div class="step-circle"><span>2</span></div>
+        <div class="step-label">Your Details</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" data-step="3">
+        <div class="step-circle"><span>3</span></div>
+        <div class="step-label">Payment</div>
+      </div>
+    </div>
+
+    <!-- Step 1: Choose a hyke -->
+    <div id="ticket-step-1" class="ticket-step active">
+      <div id="hike-options" class="hike-options"></div>
+
+      <div class="quantity-section">
+        <div>
+          <div class="qty-label">How many tickets?</div>
+          <div class="qty-note" id="qty-note">Select a hyke to see available spots</div>
+        </div>
+        <div class="quantity-stepper">
+          <button class="qty-btn" id="qty-minus" disabled>−</button>
+          <span id="qty-display">1</span>
+          <button class="qty-btn" id="qty-plus" disabled>+</button>
+        </div>
+      </div>
+
+      <div class="step-footer">
+        <div class="step-price-preview">
+          <span>Total</span>
+          <strong id="step1-total">—</strong>
+        </div>
+        <button class="btn btn-primary" id="step1-next" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Attendee details -->
+    <div id="ticket-step-2" class="ticket-step">
+      <form id="attendee-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="t-first">First Name</label>
+            <input type="text" id="t-first" placeholder="First name" required />
+          </div>
+          <div class="form-group">
+            <label for="t-last">Last Name</label>
+            <input type="text" id="t-last" placeholder="Last name" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="t-email">Email Address</label>
+            <input type="email" id="t-email" placeholder="you@example.com" required />
+            <span class="field-hint">Your confirmation will be sent here.</span>
+          </div>
+          <div class="form-group">
+            <label for="t-phone">Phone Number</label>
+            <input type="tel" id="t-phone" placeholder="+44 7700 000000" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="t-em-name">Emergency Contact Name</label>
+            <input type="text" id="t-em-name" placeholder="Full name" required />
+          </div>
+          <div class="form-group">
+            <label for="t-em-phone">Emergency Contact Phone</label>
+            <input type="tel" id="t-em-phone" placeholder="+44 7700 000000" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="t-fitness">Fitness Level</label>
+          <select id="t-fitness" required>
+            <option value="">Select your fitness level…</option>
+            <option value="beginner">Beginner — occasional walker</option>
+            <option value="intermediate">Intermediate — regular hiker</option>
+            <option value="advanced">Advanced — experienced mountaineer</option>
+          </select>
+        </div>
+      </form>
+      <div class="step-footer">
+        <button class="btn btn-outline" id="step2-back">← Back</button>
+        <button class="btn btn-primary" id="step2-next">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Payment -->
+    <div id="ticket-step-3" class="ticket-step">
+      <div class="checkout-grid">
+        <div class="checkout-payment">
+          <div class="stripe-badge">🔒 <strong>Secure payment</strong> powered by Stripe. Your card details are never stored.</div>
+          <div id="payment-element-wrap">
+            <div id="payment-loading" class="payment-loading">
+              <div class="payment-spinner"></div>
+              <p>Connecting to secure payment…</p>
+            </div>
+            <div id="payment-element"></div>
+          </div>
+          <div id="payment-error" class="payment-error" style="display:none;"></div>
+          <div class="step-footer">
+            <button class="btn btn-outline" id="step3-back">← Back</button>
+            <button class="btn btn-primary" id="pay-btn" disabled>
+              <span id="pay-btn-text">Loading…</span>
+            </button>
+          </div>
+        </div>
+        <div class="order-summary-card">
+          <div class="order-summary-title">Order Summary</div>
+          <div id="order-summary-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success state -->
+    <div id="ticket-success" class="ticket-success" style="display:none;">
+      <div style="font-size:3.5rem;margin-bottom:1rem;">🎉</div>
+      <h2 style="font-family:var(--font-display);margin-bottom:0.5rem;">You're booked!</h2>
+      <p style="color:var(--mid);margin-bottom:2rem;">Check your email for your confirmation and joining instructions.</p>
+      <div id="booking-ref" class="booking-ref"></div>
+      <button class="btn btn-outline" style="margin-top:2rem;" onclick="showPage('home')">Back to Home</button>
+    </div>
+
+  </div><!-- /tickets-wrap -->
 
 </div><!-- /tickets -->
 
