@@ -1389,6 +1389,97 @@ function renderHomepageTestimonials() {
 }
 document.addEventListener('DOMContentLoaded', renderHomepageTestimonials);
 
+// === TESTIMONIALS SLIDER ===
+(function initTestimonialsSlider() {
+  const wrap  = document.getElementById('testimonials-slider-wrap');
+  const track = document.getElementById('testimonials-track');
+  const dotsWrap = document.getElementById('tslider-dots');
+  const prevBtn  = document.getElementById('tslide-prev');
+  const nextBtn  = document.getElementById('tslide-next');
+  if (!wrap || !track) return;
+
+  const cards = Array.from(track.children);
+  const total = cards.length;
+  let current = 0;
+  let dragStartX = null;
+  let dragStartScroll = 0;
+  let isDragging = false;
+
+  function visibleCount() {
+    return window.innerWidth <= 600 ? 1 : window.innerWidth <= 900 ? 2 : 3;
+  }
+
+  function cardWidth() {
+    return cards[0].offsetWidth + 16; // card + gap (1.2rem ≈ 16px but use actual)
+  }
+
+  function maxIndex() {
+    return Math.max(0, total - visibleCount());
+  }
+
+  function goTo(idx) {
+    current = Math.max(0, Math.min(idx, maxIndex()));
+    track.style.transform = `translateX(-${current * cardWidth()}px)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  // Dots
+  const dots = [];
+  for (let i = 0; i <= maxIndex(); i++) {
+    const d = document.createElement('button');
+    d.className = 'tslider-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(d);
+    dots.push(d);
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  // Mouse drag
+  wrap.addEventListener('mousedown', e => {
+    dragStartX = e.clientX;
+    dragStartScroll = current * cardWidth();
+    isDragging = false;
+  });
+  document.addEventListener('mousemove', e => {
+    if (dragStartX === null) return;
+    const dx = dragStartX - e.clientX;
+    if (Math.abs(dx) > 5) isDragging = true;
+    if (isDragging) track.style.transform = `translateX(-${dragStartScroll + dx}px)`;
+  });
+  document.addEventListener('mouseup', e => {
+    if (dragStartX === null) return;
+    const dx = dragStartX - e.clientX;
+    if (isDragging) {
+      if (dx > 50) goTo(current + 1);
+      else if (dx < -50) goTo(current - 1);
+      else goTo(current);
+    }
+    dragStartX = null;
+  });
+
+  // Touch swipe
+  wrap.addEventListener('touchstart', e => {
+    dragStartX = e.touches[0].clientX;
+    dragStartScroll = current * cardWidth();
+  }, { passive: true });
+  wrap.addEventListener('touchmove', e => {
+    if (dragStartX === null) return;
+    const dx = dragStartX - e.touches[0].clientX;
+    track.style.transform = `translateX(-${dragStartScroll + dx}px)`;
+  }, { passive: true });
+  wrap.addEventListener('touchend', e => {
+    const dx = dragStartX - e.changedTouches[0].clientX;
+    if (dx > 50) goTo(current + 1);
+    else if (dx < -50) goTo(current - 1);
+    else goTo(current);
+    dragStartX = null;
+  });
+
+  window.addEventListener('resize', () => goTo(Math.min(current, maxIndex())));
+})();
+
 // === HYKES VERTICAL CAROUSEL ===
 (function initHykesCarousel() {
   const wrap  = document.getElementById('hykes-carousel-wrap');
