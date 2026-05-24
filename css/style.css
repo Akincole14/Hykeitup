@@ -421,7 +421,7 @@ nav.scrolled {
 
 /* === SECTIONS === */
 .section {
-  padding: 6rem 5%;
+  padding: 4rem 5%;
   background: transparent;
   max-width: 1280px;
   margin-left: auto;
@@ -449,7 +449,7 @@ nav.scrolled {
 .section-title { margin-bottom: 0.8rem; }
 .section-sub { color: var(--mid); max-width: 540px; margin: 0 auto; }
 
-.section-header { margin-bottom: 3.5rem; text-align: center; }
+.section-header { margin-bottom: 2.5rem; text-align: center; }
 .section-header.centered { text-align: center; }
 .section-header.centered .section-sub { margin: 0 auto; }
 
@@ -623,7 +623,7 @@ nav.scrolled {
 /* === CTA BANNER === */
 .cta-banner {
   background: var(--brand);
-  padding: 5.5rem 5%;
+  padding: 4rem 5%;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -2693,9 +2693,9 @@ footer {
   .nav-right .nav-cta { display: none; }
 
   /* Sections — reduce vertical whitespace */
-  .section { padding: 3rem 5%; }
-  .section-header { margin-bottom: 2rem; }
-  .cta-banner { padding: 3rem 5%; }
+  .section { padding: 2.5rem 5%; }
+  .section-header { margin-bottom: 1.75rem; }
+  .cta-banner { padding: 2.5rem 5%; }
 
   /* Hero */
   .hero-content { padding: calc(76px + 1rem) 5% 2.5rem; gap: 1.2rem; }
@@ -2756,7 +2756,7 @@ footer {
 
 @media (max-width: 480px) {
   /* Even tighter sections */
-  .section { padding: 2.5rem 4%; }
+  .section { padding: 2rem 4%; }
   .hero-content { padding: calc(76px + 0.75rem) 4% 2rem; }
 
   /* Feature cards: 20% smaller + floating effect */
