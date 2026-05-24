@@ -170,9 +170,10 @@ nav.scrolled {
 .nav-has-sub--hover .nav-submenu a {
   display: block;
   padding: 0.55rem 1.1rem;
-  font-size: 0.85rem;
+  font-size: 0.68rem;
   color: var(--mid);
   white-space: nowrap;
+  text-align: center;
   transition: color 0.15s, background 0.15s;
 }
 .nav-has-sub--hover .nav-submenu a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
@@ -2733,7 +2734,7 @@ footer {
   .nav-submenu { padding-left: 1rem; margin-top: 0.5rem; display: none; }
   .nav-has-sub.open .nav-submenu { display: block; }
   .nav-submenu li { padding: 0.5rem 0; border-bottom: none; border-top: 1px solid rgba(255,255,255,0.06); }
-  .nav-submenu a { font-size: 0.85rem; color: var(--mid); }
+  .nav-submenu a { font-size: 0.68rem; color: var(--mid); text-align: center; }
   .nav-submenu a:hover { color: var(--white); }
   /* Override hover dropdown to tap-toggle on mobile */
   .nav-has-sub--hover { position: static; }
