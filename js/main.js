@@ -19,6 +19,40 @@ hamburger.addEventListener('click', () => {
   hamburger.classList.toggle('open');
 });
 
+// Community nav submenu toggle (mobile only)
+document.querySelector('.nav-community-toggle')?.addEventListener('click', e => {
+  const li = e.currentTarget.closest('.nav-has-sub');
+  if (!li) return;
+  // Only intercept on mobile where the hamburger menu is visible
+  if (window.innerWidth > 768) return;
+  e.preventDefault();
+  e.stopPropagation();
+  li.classList.toggle('open');
+});
+
+// Submenu panel links — navigate to community page then open the correct panel
+document.querySelectorAll('.nav-submenu [data-panel]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const panelId = link.dataset.panel;
+    closeNavSubmenu();
+    showPage('community');
+    setTimeout(() => {
+      document.querySelectorAll('[data-panel]').forEach(l => l.classList.remove('active'));
+      document.querySelectorAll('.member-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll(`[data-panel="${panelId}"]`).forEach(l => l.classList.add('active'));
+      document.getElementById(panelId)?.classList.add('active');
+    }, 50);
+  });
+});
+
+function closeNavSubmenu() {
+  navLinks.classList.remove('open');
+  hamburger.classList.remove('open');
+  document.querySelector('.nav-has-sub')?.classList.remove('open');
+}
+
 // === PAGE ROUTING ===
 function showPage(pageId) {
   document.querySelectorAll('.page').forEach(p => {
@@ -40,6 +74,7 @@ function showPage(pageId) {
   document.querySelectorAll(`[data-page="${pageId}"]`).forEach(el => el.classList.add('active'));
   navLinks.classList.remove('open');
   hamburger.classList.remove('open');
+  document.querySelector('.nav-has-sub')?.classList.remove('open');
 
   // Restore footer when leaving community page
   if (pageId !== 'community') document.querySelector('footer').style.display = '';

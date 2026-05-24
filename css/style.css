@@ -143,6 +143,10 @@ nav.scrolled {
 }
 
 .nav-mobile-cta { display: none; }
+.nav-sub-arrow { font-size: 0.7rem; transition: transform 0.25s; display: inline-block; }
+.nav-has-sub.open .nav-sub-arrow { transform: rotate(180deg); }
+.nav-submenu { display: none; }
+.nav-has-sub.open .nav-submenu { display: block; }
 
 .hamburger {
   display: none;
@@ -2696,6 +2700,11 @@ footer {
   .hamburger { display: flex; }
   .nav-mobile-cta { display: block; }
   .nav-right .nav-cta { display: none; }
+  .nav-submenu { padding-left: 1rem; margin-top: 0.5rem; display: none; }
+  .nav-has-sub.open .nav-submenu { display: block; }
+  .nav-submenu li { padding: 0.5rem 0; border-bottom: none; border-top: 1px solid rgba(255,255,255,0.06); }
+  .nav-submenu a { font-size: 0.85rem; color: var(--mid); }
+  .nav-submenu a:hover { color: var(--white); }
 
   /* Sections — reduce vertical whitespace */
   .section { padding: 2.5rem 5%; }
