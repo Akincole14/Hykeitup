@@ -26,7 +26,7 @@ document.querySelector('.nav-community-toggle')?.addEventListener('click', e => 
   // Only intercept on mobile where the hamburger menu is visible
   if (window.innerWidth > 768) return;
   e.preventDefault();
-  e.stopPropagation();
+  e.stopImmediatePropagation();
   li.classList.toggle('open');
 });
 
@@ -1202,11 +1202,15 @@ document.getElementById('chat-messages')?.addEventListener('click', e => {
   // Jump to original message when reply quote is tapped
   const quote = e.target.closest('.msg-reply-quote.is-jumpable');
   if (quote) {
-    const targetEl = document.querySelector(`#chat-messages .chat-msg[data-id="${quote.dataset.targetId}"]`);
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const container = document.getElementById('chat-messages');
+    const targetEl = container?.querySelector(`.chat-msg[data-id="${quote.dataset.targetId}"]`);
+    if (targetEl && container) {
+      const offset = targetEl.offsetTop - container.offsetTop - (container.clientHeight / 2) + (targetEl.clientHeight / 2);
+      container.scrollTo({ top: offset, behavior: 'smooth' });
+      targetEl.classList.remove('msg-highlight');
+      void targetEl.offsetWidth; // force reflow to restart animation
       targetEl.classList.add('msg-highlight');
-      setTimeout(() => targetEl.classList.remove('msg-highlight'), 1800);
+      setTimeout(() => targetEl.classList.remove('msg-highlight'), 2000);
     }
     return;
   }

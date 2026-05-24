@@ -1642,10 +1642,11 @@ nav.scrolled {
 .msg-reply-quote-text { font-size: 0.76rem; color: rgba(255,255,255,0.55); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 @keyframes msgHighlight {
-  0%, 20% { box-shadow: 0 0 0 3px var(--brand); border-radius: 16px; }
-  100%     { box-shadow: 0 0 0 0px var(--brand); border-radius: 16px; }
+  0%   { box-shadow: 0 0 0 3px var(--brand); background: rgba(212,79,44,0.18); border-radius: 12px; }
+  60%  { box-shadow: 0 0 0 3px var(--brand); background: rgba(212,79,44,0.12); border-radius: 12px; }
+  100% { box-shadow: 0 0 0 0px var(--brand); background: transparent; border-radius: 12px; }
 }
-.chat-msg.msg-highlight .msg-bubble { animation: msgHighlight 1.8s ease-out forwards; }
+.chat-msg.msg-highlight .msg-bubble { animation: msgHighlight 2s ease-out forwards; }
 
 .ann-actions { display: inline-flex; gap: 0.2rem; margin-left: 0.5rem; vertical-align: middle; }
 .ann-action-btn {
