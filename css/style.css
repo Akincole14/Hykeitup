@@ -915,6 +915,36 @@ nav.scrolled {
 }
 .form-group textarea { resize: vertical; min-height: 120px; }
 
+/* Mailing list opt-in checkbox */
+.mailing-opt-in {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  cursor: pointer; margin: 0.5rem 0 1.25rem;
+  padding: 1rem 1.1rem;
+  background: rgba(212,79,44,0.06);
+  border: 1px solid rgba(212,79,44,0.25);
+  border-radius: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.mailing-opt-in:hover { border-color: rgba(212,79,44,0.5); background: rgba(212,79,44,0.1); }
+.mailing-opt-in input[type="checkbox"] { display: none; }
+.mailing-opt-box {
+  flex-shrink: 0; margin-top: 2px;
+  width: 20px; height: 20px; border-radius: 5px;
+  border: 2px solid rgba(255,255,255,0.25);
+  background: var(--card2);
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+.mailing-opt-in input:checked + .mailing-opt-box {
+  background: var(--brand); border-color: var(--brand);
+}
+.mailing-opt-in input:checked + .mailing-opt-box::after {
+  content: '✓'; color: var(--white); font-size: 0.75rem; font-weight: 800;
+}
+.mailing-opt-label { display: flex; flex-direction: column; gap: 0.2rem; }
+.mailing-opt-label strong { font-size: 0.88rem; color: var(--white); }
+.mailing-opt-label small { font-size: 0.76rem; color: var(--mid); line-height: 1.4; }
+
 .form-submit { width: 100%; padding: 1rem; font-size: 1rem; border-radius: 8px; margin-top: 0.4rem; }
 
 .form-success { display: none; text-align: center; padding: 2.5rem 1rem; }

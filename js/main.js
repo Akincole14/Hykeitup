@@ -224,6 +224,16 @@ contactForm?.addEventListener('submit', async e => {
     });
 
     if (res.ok) {
+      // Save mailing list opt-in locally
+      if (document.getElementById('mailingList')?.checked) {
+        const subs = JSON.parse(localStorage.getItem('hyu_ea_submissions') || '[]');
+        const name = `${document.getElementById('firstName')?.value || ''} ${document.getElementById('lastName')?.value || ''}`.trim();
+        const email = document.getElementById('email')?.value || '';
+        if (email && !subs.find(s => s.email === email)) {
+          subs.push({ name, email, source: 'contact-form', ts: Date.now() });
+          localStorage.setItem('hyu_ea_submissions', JSON.stringify(subs));
+        }
+      }
       contactForm.style.transition = 'opacity 0.4s';
       contactForm.style.opacity = '0';
       setTimeout(() => {
