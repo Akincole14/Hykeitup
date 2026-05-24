@@ -1405,6 +1405,32 @@
   </div>
 </footer>
 
+<!-- ===== EARLY ACCESS POPUP ===== -->
+<div id="early-access-popup" class="ea-popup" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="ea-popup-title">
+  <div class="ea-popup-backdrop"></div>
+  <div class="ea-popup-inner">
+    <button class="ea-popup-close" id="ea-popup-close" aria-label="Close">✕</button>
+    <div class="ea-popup-body">
+      <div class="ea-popup-icon">🥾</div>
+      <h2 class="ea-popup-title" id="ea-popup-title">Join the Trail First</h2>
+      <p class="ea-popup-sub">Get early access to new hykes, exclusive member offers, and community updates — straight to your inbox.</p>
+      <form id="ea-popup-form" class="ea-popup-form" novalidate>
+        <div class="form-group">
+          <label for="ea-fullname">Full Name</label>
+          <input type="text" id="ea-fullname" placeholder="Your full name" autocomplete="name" required />
+        </div>
+        <div class="form-group">
+          <label for="ea-email">Email Address</label>
+          <input type="email" id="ea-email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+        <div id="ea-popup-error" class="auth-error" style="display:none;"></div>
+        <button type="submit" class="btn btn-primary ea-popup-submit">Notify Me</button>
+      </form>
+      <button class="ea-popup-skip" id="ea-popup-skip">No thanks, I'll explore first</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://js.stripe.com/v3/"></script>
 <script src="js/main.js"></script>
 </body>

@@ -1617,3 +1617,71 @@ document.addEventListener('click', e => {
     document.querySelectorAll('.nav-dropdown-wrap').forEach(w => w.classList.remove('open'));
   }
 });
+
+// === EARLY ACCESS POPUP ===
+(function () {
+  const STORAGE_KEY = 'hyu_ea_popup_seen';
+  const popup = document.getElementById('early-access-popup');
+  if (!popup) return;
+
+  function closePopup() {
+    popup.style.opacity = '0';
+    popup.style.transition = 'opacity 0.3s';
+    setTimeout(() => { popup.style.display = 'none'; }, 300);
+    localStorage.setItem(STORAGE_KEY, '1');
+  }
+
+  function showPopup() {
+    popup.style.display = 'flex';
+    popup.style.opacity = '0';
+    requestAnimationFrame(() => {
+      popup.style.transition = 'opacity 0.4s';
+      popup.style.opacity = '1';
+    });
+  }
+
+  // Show after 1.5s on first visit only
+  if (!localStorage.getItem(STORAGE_KEY)) {
+    setTimeout(showPopup, 1500);
+  }
+
+  // Close buttons
+  document.getElementById('ea-popup-close')?.addEventListener('click', closePopup);
+  document.getElementById('ea-popup-skip')?.addEventListener('click', closePopup);
+  document.querySelector('.ea-popup-backdrop')?.addEventListener('click', closePopup);
+
+  // Form submit
+  document.getElementById('ea-popup-form')?.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('ea-fullname').value.trim();
+    const email = document.getElementById('ea-email').value.trim();
+    const errEl = document.getElementById('ea-popup-error');
+
+    if (!name) {
+      errEl.textContent = 'Please enter your full name.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = 'Please enter a valid email address.';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+
+    // Store submission and show success state
+    const submissions = JSON.parse(localStorage.getItem('hyu_ea_submissions') || '[]');
+    submissions.push({ name, email, ts: Date.now() });
+    localStorage.setItem('hyu_ea_submissions', JSON.stringify(submissions));
+    localStorage.setItem(STORAGE_KEY, '1');
+
+    const body = popup.querySelector('.ea-popup-body');
+    body.innerHTML = `
+      <div class="ea-popup-success">
+        <div class="ea-popup-success-icon">🎉</div>
+        <h3>You're on the list!</h3>
+        <p>Thanks, <strong>${escapeHtml(name)}</strong>! We'll be in touch with early access and member offers very soon.</p>
+      </div>`;
+    setTimeout(closePopup, 2800);
+  });
+})();
