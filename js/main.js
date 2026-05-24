@@ -1580,6 +1580,17 @@ function renderTickets() {
 
 // Ticket card interactions
 document.addEventListener('click', e => {
+  const toggle = e.target.closest('.pw-toggle');
+  if (toggle) {
+    const input = toggle.closest('.pw-wrap').querySelector('input');
+    const showing = input.type === 'text';
+    input.type = showing ? 'password' : 'text';
+    toggle.textContent = showing ? '👁' : '🙈';
+    toggle.classList.toggle('visible', !showing);
+  }
+});
+
+document.addEventListener('click', e => {
   const delBtn = e.target.closest('[data-del-ticket]');
   if (delBtn) {
     e.stopPropagation();

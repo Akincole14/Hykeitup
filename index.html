@@ -1187,7 +1187,7 @@
         </div>
         <div class="form-group">
           <label for="si-password">Password</label>
-          <input type="password" id="si-password" placeholder="Your password" autocomplete="current-password" />
+          <div class="pw-wrap"><input type="password" id="si-password" placeholder="Your password" autocomplete="current-password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
         </div>
         <div id="signin-error" class="auth-error" style="display:none;"></div>
         <button class="btn btn-primary" id="signin-btn" style="width:100%;margin-top:0.5rem;">Sign In →</button>
@@ -1210,11 +1210,11 @@
         </div>
         <div class="form-group">
           <label for="fp-newpw">New Password</label>
-          <input type="password" id="fp-newpw" placeholder="Choose a new password" />
+          <div class="pw-wrap"><input type="password" id="fp-newpw" placeholder="Choose a new password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
         </div>
         <div class="form-group">
           <label for="fp-confirmpw">Confirm Password</label>
-          <input type="password" id="fp-confirmpw" placeholder="Confirm new password" />
+          <div class="pw-wrap"><input type="password" id="fp-confirmpw" placeholder="Confirm new password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
         </div>
         <div id="forgot-error" class="auth-error" style="display:none;"></div>
         <div id="forgot-success" class="auth-success" style="display:none;">Password updated! You can now sign in.</div>
@@ -1252,7 +1252,7 @@
         </div>
         <div class="form-group">
           <label for="reg-password">Password</label>
-          <input type="password" id="reg-password" placeholder="Choose a password" autocomplete="new-password" />
+          <div class="pw-wrap"><input type="password" id="reg-password" placeholder="Choose a password" autocomplete="new-password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
         </div>
         <div id="register-error" class="auth-error" style="display:none;"></div>
         <button class="btn btn-primary" id="register-btn" style="width:100%;margin-top:0.5rem;">Create Account →</button>
@@ -1477,15 +1477,15 @@
             <div class="settings-form-grid">
               <div class="form-group">
                 <label for="set-cur-pw">Current Password</label>
-                <input type="password" id="set-cur-pw" placeholder="Current password" autocomplete="current-password" />
+                <div class="pw-wrap"><input type="password" id="set-cur-pw" placeholder="Current password" autocomplete="current-password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
               </div>
               <div class="form-group">
                 <label for="set-new-pw">New Password</label>
-                <input type="password" id="set-new-pw" placeholder="New password (min 6 chars)" autocomplete="new-password" />
+                <div class="pw-wrap"><input type="password" id="set-new-pw" placeholder="New password (min 6 chars)" autocomplete="new-password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
               </div>
               <div class="form-group">
                 <label for="set-confirm-pw">Confirm New Password</label>
-                <input type="password" id="set-confirm-pw" placeholder="Repeat new password" autocomplete="new-password" />
+                <div class="pw-wrap"><input type="password" id="set-confirm-pw" placeholder="Repeat new password" autocomplete="new-password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
               </div>
             </div>
             <div id="set-pw-success" class="auth-success" style="display:none;">✓ Password updated.</div>
