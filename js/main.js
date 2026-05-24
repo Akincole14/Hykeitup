@@ -616,7 +616,23 @@ function showBookingSuccess() {
 }
 
 // ── Reset on page navigation ────────────────────────────────────
+function reinitTTWidget() {
+  const wrap = document.querySelector('.tt-embed-wrap');
+  if (!wrap) return;
+  // Remove any iframe the previous widget run created
+  wrap.querySelectorAll('iframe').forEach(f => f.remove());
+  // Re-inject a fresh script so the widget re-initialises in the now-visible container
+  const s = document.createElement('script');
+  s.src = 'https://cdn.tickettailor.com/js/widgets/min/widget.js';
+  s.setAttribute('data-url', 'https://www.tickettailor.com/events/hykeitup');
+  s.setAttribute('data-type', 'inline');
+  s.setAttribute('data-bg-color', '#1a1a1a');
+  s.setAttribute('data-primary-colour', '#D44F2C');
+  wrap.appendChild(s);
+}
+
 function resetTickets() {
+  reinitTTWidget();
   selectedHike = null;
   ticketQty = 1;
   stripeElems = null;
