@@ -464,7 +464,7 @@ nav.scrolled {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 2rem;
+  padding: 1.4rem;
   transition: all 0.4s var(--ease);
   position: relative;
   overflow: hidden;
@@ -483,17 +483,22 @@ nav.scrolled {
 .feature-card:hover::before { opacity: 1; }
 
 .feature-icon {
-  width: 52px; height: 52px;
+  width: 36px; height: 36px;
   background: var(--brand-xlight);
   border-radius: var(--radius);
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.5rem;
-  margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+  margin-bottom: 0.85rem;
   transition: transform 0.3s var(--ease);
 }
 .feature-card:hover .feature-icon { transform: scale(1.12) rotate(-4deg); }
-.feature-card h3 { margin-bottom: 0.5rem; font-size: 1.15rem; }
-.feature-card p { font-size: 0.92rem; }
+.feature-card h3 { margin-bottom: 0.35rem; font-size: 0.88rem; }
+.feature-card p { font-size: 0.75rem; }
+
+.feature-card--img,
+.feature-card--img-right { display: flex; align-items: stretch; padding: 0; overflow: hidden; }
+.feature-card-img { width: 20%; flex-shrink: 0; object-fit: cover; display: block; }
+.feature-card-body { flex: 1; padding: 1.4rem; min-width: 0; }
 
 /* === HIKE CARDS === */
 .hikes-bg {
@@ -2759,9 +2764,13 @@ footer {
   .section { padding: 2rem 4%; }
   .hero-content { padding: calc(76px + 0.75rem) 4% 2rem; }
 
-  /* Feature cards: 20% smaller + floating effect */
+  /* Feature cards: 20% smaller + floating effect, no images */
   .features-grid { gap: 0.75rem; }
   .feature-card { padding: 1.1rem; animation: featureFloat 3.5s ease-in-out infinite; }
+  .feature-card--img,
+  .feature-card--img-right { display: block; padding: 1.1rem; }
+  .feature-card-img { display: none; }
+  .feature-card-body { padding: 0; }
   .feature-card:nth-child(2) { animation-delay: 0.5s; }
   .feature-card:nth-child(3) { animation-delay: 1s; }
   .feature-card:nth-child(4) { animation-delay: 1.5s; }
