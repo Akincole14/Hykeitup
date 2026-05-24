@@ -19,14 +19,23 @@ hamburger.addEventListener('click', () => {
   hamburger.classList.toggle('open');
 });
 
-// Upcoming Hykes nav submenu toggle (mobile only)
+// Upcoming Hykes nav submenu toggle (desktop + mobile)
 document.querySelector('.nav-hykes-toggle')?.addEventListener('click', e => {
   const li = e.currentTarget.closest('.nav-has-sub');
   if (!li) return;
-  if (window.innerWidth > 768) return;
   e.preventDefault();
   e.stopImmediatePropagation();
-  li.classList.toggle('open');
+  const isOpen = li.classList.contains('open');
+  document.querySelectorAll('.nav-has-sub').forEach(el => el.classList.remove('open'));
+  if (!isOpen) li.classList.add('open');
+});
+
+// Close Hykes submenu when clicking outside
+document.addEventListener('click', e => {
+  const hykesLi = document.querySelector('.nav-hykes-toggle')?.closest('.nav-has-sub');
+  if (hykesLi && !hykesLi.contains(e.target)) {
+    hykesLi.classList.remove('open');
+  }
 });
 
 // Community nav submenu toggle (mobile only)
