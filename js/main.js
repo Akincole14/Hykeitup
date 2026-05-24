@@ -1400,6 +1400,43 @@ function renderHomepageTestimonials() {
 }
 document.addEventListener('DOMContentLoaded', renderHomepageTestimonials);
 
+// === TESTIMONIAL CARD POPUP ===
+(function () {
+  const backdrop = document.getElementById('testi-modal-backdrop');
+  const closeBtn = document.getElementById('testi-modal-close');
+  if (!backdrop) return;
+
+  function openModal(card) {
+    document.getElementById('testi-modal-stars').textContent  = card.querySelector('.testimonial-stars').textContent;
+    document.getElementById('testi-modal-quote').textContent  = card.querySelector('.testimonial-quote').textContent;
+    document.getElementById('testi-modal-name').textContent   = card.querySelector('.testimonial-name').textContent;
+    document.getElementById('testi-modal-role').textContent   = card.querySelector('.testimonial-role').textContent;
+    const avatarSrc = card.querySelector('.testimonial-avatar img');
+    const modalAvatar = document.getElementById('testi-modal-avatar');
+    if (avatarSrc) {
+      modalAvatar.innerHTML = `<img src="${avatarSrc.src}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    } else {
+      modalAvatar.textContent = card.querySelector('.testimonial-avatar').textContent;
+    }
+    backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', e => {
+    const card = e.target.closest('#testimonials-track .testimonial-card');
+    if (card && !e.target.closest('.testi-modal')) openModal(card);
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+})();
+
 // === TESTIMONIALS SLIDER ===
 (function () {
   const wrap     = document.getElementById('testimonials-slider-wrap');
@@ -1416,7 +1453,7 @@ document.addEventListener('DOMContentLoaded', renderHomepageTestimonials);
   let dots = [];
 
   function cards()        { return Array.from(track.children); }
-  function visibleCount() { return window.innerWidth <= 600 ? 1 : window.innerWidth <= 900 ? 2 : 3; }
+  function visibleCount() { return window.innerWidth <= 600 ? 1 : 5; }
   function cardWidth()    { const c = cards(); return c.length ? c[0].offsetWidth + 16 : 0; }
   function maxIndex()     { return Math.max(0, cards().length - visibleCount()); }
 
