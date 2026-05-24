@@ -394,7 +394,7 @@ nav.scrolled {
 
 .stat { text-align: center; }
 .stat-number {
-  font-family: var(--font-display);
+  font-family: 'Playfair Display', serif;
   font-size: 2.4rem;
   font-weight: 700;
   color: var(--white);
