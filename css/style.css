@@ -1,8 +1,6 @@
-/* === AGRANDIR HEAVY === */
 @font-face {
   font-family: 'Agrandir';
-  src: url('../fonts/Agrandir-Heavy.woff2') format('woff2'),
-       url('../fonts/Agrandir-Heavy.woff') format('woff');
+  src: url('../fonts/Agrandir-GrandHeavy.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
