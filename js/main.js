@@ -1363,17 +1363,25 @@ document.getElementById('testi-submit-btn')?.addEventListener('click', () => {
   renderHomepageTestimonials();
 });
 
-// --- Render member-submitted testimonials on home page ---
+// --- Render member-submitted testimonials on home page slider ---
 function renderHomepageTestimonials() {
-  const grid = document.querySelector('.testimonials-grid');
-  if (!grid) return;
-  grid.querySelectorAll('.testimonial-card.user-submitted').forEach(el => el.remove());
+  const track = document.getElementById('testimonials-track');
+  if (!track) return;
+
+  // Remove any previously injected user-submitted cards
+  track.querySelectorAll('.user-submitted').forEach(el => el.remove());
+
   const testimonials = communityGet('testimonials') || [];
-  testimonials.forEach(t => {
-    const initials  = (t.firstName || t.username).substring(0, 2).toUpperCase();
-    const starStr   = '★'.repeat(t.rating) + '☆'.repeat(5 - t.rating);
+  // Only show 4+ star reviews, best first
+  const top = testimonials
+    .filter(t => t.rating >= 4)
+    .sort((a, b) => b.rating - a.rating || b.timestamp - a.timestamp);
+
+  top.forEach(t => {
+    const initials = (t.firstName || t.username).substring(0, 2).toUpperCase();
+    const starStr  = '★'.repeat(t.rating) + '☆'.repeat(5 - t.rating);
     const card = document.createElement('div');
-    card.className = 'testimonial-card user-submitted reveal';
+    card.className = 'testimonial-card user-submitted';
     card.innerHTML = `
       <div class="testimonial-stars">${starStr}</div>
       <p class="testimonial-quote">${escapeHtml(t.quote)}</p>
@@ -1384,38 +1392,33 @@ function renderHomepageTestimonials() {
           <div class="testimonial-role">${escapeHtml(t.role)}</div>
         </div>
       </div>`;
-    grid.appendChild(card);
+    track.appendChild(card);
   });
+
+  // Reinit slider so new cards are included
+  if (window._initTestimonialsSlider) window._initTestimonialsSlider();
 }
 document.addEventListener('DOMContentLoaded', renderHomepageTestimonials);
 
 // === TESTIMONIALS SLIDER ===
-(function initTestimonialsSlider() {
-  const wrap  = document.getElementById('testimonials-slider-wrap');
-  const track = document.getElementById('testimonials-track');
+(function () {
+  const wrap     = document.getElementById('testimonials-slider-wrap');
+  const track    = document.getElementById('testimonials-track');
   const dotsWrap = document.getElementById('tslider-dots');
   const prevBtn  = document.getElementById('tslide-prev');
   const nextBtn  = document.getElementById('tslide-next');
   if (!wrap || !track) return;
 
-  const cards = Array.from(track.children);
-  const total = cards.length;
   let current = 0;
   let dragStartX = null;
   let dragStartScroll = 0;
   let isDragging = false;
+  let dots = [];
 
-  function visibleCount() {
-    return window.innerWidth <= 600 ? 1 : window.innerWidth <= 900 ? 2 : 3;
-  }
-
-  function cardWidth() {
-    return cards[0].offsetWidth + 16; // card + gap (1.2rem ≈ 16px but use actual)
-  }
-
-  function maxIndex() {
-    return Math.max(0, total - visibleCount());
-  }
+  function cards()        { return Array.from(track.children); }
+  function visibleCount() { return window.innerWidth <= 600 ? 1 : window.innerWidth <= 900 ? 2 : 3; }
+  function cardWidth()    { const c = cards(); return c.length ? c[0].offsetWidth + 16 : 0; }
+  function maxIndex()     { return Math.max(0, cards().length - visibleCount()); }
 
   function goTo(idx) {
     current = Math.max(0, Math.min(idx, maxIndex()));
@@ -1423,24 +1426,33 @@ document.addEventListener('DOMContentLoaded', renderHomepageTestimonials);
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
   }
 
-  // Dots
-  const dots = [];
-  for (let i = 0; i <= maxIndex(); i++) {
-    const d = document.createElement('button');
-    d.className = 'tslider-dot' + (i === 0 ? ' active' : '');
-    d.addEventListener('click', () => goTo(i));
-    dotsWrap.appendChild(d);
-    dots.push(d);
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    dots = [];
+    const max = maxIndex();
+    for (let i = 0; i <= max; i++) {
+      const d = document.createElement('button');
+      d.className = 'tslider-dot' + (i === current ? ' active' : '');
+      d.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(d);
+      dots.push(d);
+    }
   }
 
+  // Expose reinit so renderHomepageTestimonials can call it
+  window._initTestimonialsSlider = function () {
+    current = 0;
+    track.style.transform = 'translateX(0)';
+    buildDots();
+  };
+
+  buildDots();
   prevBtn.addEventListener('click', () => goTo(current - 1));
   nextBtn.addEventListener('click', () => goTo(current + 1));
 
   // Mouse drag
   wrap.addEventListener('mousedown', e => {
-    dragStartX = e.clientX;
-    dragStartScroll = current * cardWidth();
-    isDragging = false;
+    dragStartX = e.clientX; dragStartScroll = current * cardWidth(); isDragging = false;
   });
   document.addEventListener('mousemove', e => {
     if (dragStartX === null) return;
@@ -1451,33 +1463,25 @@ document.addEventListener('DOMContentLoaded', renderHomepageTestimonials);
   document.addEventListener('mouseup', e => {
     if (dragStartX === null) return;
     const dx = dragStartX - e.clientX;
-    if (isDragging) {
-      if (dx > 50) goTo(current + 1);
-      else if (dx < -50) goTo(current - 1);
-      else goTo(current);
-    }
+    if (isDragging) { if (dx > 50) goTo(current + 1); else if (dx < -50) goTo(current - 1); else goTo(current); }
     dragStartX = null;
   });
 
   // Touch swipe
   wrap.addEventListener('touchstart', e => {
-    dragStartX = e.touches[0].clientX;
-    dragStartScroll = current * cardWidth();
+    dragStartX = e.touches[0].clientX; dragStartScroll = current * cardWidth();
   }, { passive: true });
   wrap.addEventListener('touchmove', e => {
     if (dragStartX === null) return;
-    const dx = dragStartX - e.touches[0].clientX;
-    track.style.transform = `translateX(-${dragStartScroll + dx}px)`;
+    track.style.transform = `translateX(-${dragStartScroll + (dragStartX - e.touches[0].clientX)}px)`;
   }, { passive: true });
   wrap.addEventListener('touchend', e => {
     const dx = dragStartX - e.changedTouches[0].clientX;
-    if (dx > 50) goTo(current + 1);
-    else if (dx < -50) goTo(current - 1);
-    else goTo(current);
+    if (dx > 50) goTo(current + 1); else if (dx < -50) goTo(current - 1); else goTo(current);
     dragStartX = null;
   });
 
-  window.addEventListener('resize', () => goTo(Math.min(current, maxIndex())));
+  window.addEventListener('resize', () => { buildDots(); goTo(Math.min(current, maxIndex())); });
 })();
 
 // === HYKES VERTICAL CAROUSEL ===
