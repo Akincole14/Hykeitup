@@ -1657,7 +1657,36 @@ document.addEventListener('click', e => {
     if (resolved) return;
     resolved = true;
     if (wrap) wrap.style.display = 'none';
-    if (comingSoon) comingSoon.style.display = 'flex';
+    if (comingSoon) {
+      comingSoon.style.display = 'flex';
+      renderCSPreviews();
+    }
+  }
+
+  function renderCSPreviews() {
+    const container = document.getElementById('tt-cs-previews');
+    if (!container || typeof HIKES === 'undefined') return;
+    container.innerHTML = HIKES.map(h => `
+      <div class="tt-preview-card">
+        <div class="tt-preview-img">
+          <img src="${h.image}" alt="${h.name}" loading="lazy" />
+          <span class="tt-preview-tag">${h.type} Hyke</span>
+          <span class="tt-cs-label">Coming Soon</span>
+        </div>
+        <div class="tt-preview-body">
+          <h3>${h.name}</h3>
+          <div class="tt-preview-meta">
+            <span>📅 ${h.date}</span>
+            <span>📍 ${h.location}</span>
+            <span>⏱ ${h.duration}</span>
+          </div>
+          <div class="tt-preview-price">
+            <span>£${h.price}</span>
+            <em>per person</em>
+          </div>
+        </div>
+      </div>
+    `).join('');
   }
 
   // Ticket Tailor sends postMessage to resize their embed iframe
