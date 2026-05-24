@@ -1,3 +1,13 @@
+/* === AGRANDIR HEAVY === */
+@font-face {
+  font-family: 'Agrandir';
+  src: url('../fonts/Agrandir-Heavy.woff2') format('woff2'),
+       url('../fonts/Agrandir-Heavy.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* === RESET & BASE === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -18,7 +28,7 @@
   --radius: 12px;
   --radius-lg: 20px;
   --font: 'Inter', sans-serif;
-  --font-display: 'Playfair Display', serif;
+  --font-display: 'Agrandir', 'Playfair Display', serif;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
