@@ -19,6 +19,16 @@ hamburger.addEventListener('click', () => {
   hamburger.classList.toggle('open');
 });
 
+// Upcoming Hykes nav submenu toggle (mobile only)
+document.querySelector('.nav-hykes-toggle')?.addEventListener('click', e => {
+  const li = e.currentTarget.closest('.nav-has-sub');
+  if (!li) return;
+  if (window.innerWidth > 768) return;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  li.classList.toggle('open');
+});
+
 // Community nav submenu toggle (mobile only)
 document.querySelector('.nav-community-toggle')?.addEventListener('click', e => {
   const li = e.currentTarget.closest('.nav-has-sub');
@@ -50,7 +60,7 @@ document.querySelectorAll('.nav-submenu [data-panel]').forEach(link => {
 function closeNavSubmenu() {
   navLinks.classList.remove('open');
   hamburger.classList.remove('open');
-  document.querySelector('.nav-has-sub')?.classList.remove('open');
+  document.querySelectorAll('.nav-has-sub').forEach(el => el.classList.remove('open'));
 }
 
 // === PAGE ROUTING ===
@@ -74,7 +84,7 @@ function showPage(pageId) {
   document.querySelectorAll(`[data-page="${pageId}"]`).forEach(el => el.classList.add('active'));
   navLinks.classList.remove('open');
   hamburger.classList.remove('open');
-  document.querySelector('.nav-has-sub')?.classList.remove('open');
+  document.querySelectorAll('.nav-has-sub').forEach(el => el.classList.remove('open'));
 
   // Restore footer when leaving community page
   if (pageId !== 'community') document.querySelector('footer').style.display = '';
