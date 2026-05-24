@@ -746,6 +746,11 @@ function communityGet(key) { try { return JSON.parse(localStorage.getItem('hyu_'
     users.push({ username: 'akin_trails', email: 'akin@hykeitup.com', password: 'demo', firstName: 'Akin', lastName: '', isAdmin: false, joinedAt: Date.now() - 43200000 });
     communityStore('users', users);
   }
+  const users2 = communityGet('users') || [];
+  if (!users2.find(u => u.username === 'akincole')) {
+    users2.push({ username: 'akincole', email: 'akincole@hotmail.com', password: 'Hyke2024!', firstName: 'Akin', lastName: 'Cole', isAdmin: false, joinedAt: Date.now() });
+    communityStore('users', users2);
+  }
 
   if (!communityGet('announcements')) {
     communityStore('announcements', [
