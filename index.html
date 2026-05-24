@@ -107,7 +107,7 @@
         <span class="stat-number" data-target="50" data-suffix="+">50+</span>
         <span class="stat-label">Hykes Completed</span>
       </div>
-      <div class="stat">
+      <div class="stat stat-industries">
         <span class="stat-number" data-target="12" data-suffix="+">12+</span>
         <span class="stat-label">Industries</span>
       </div>
@@ -128,34 +128,24 @@
     </div>
     <div class="features-grid">
       <div class="feature-card reveal delay-1">
-        <div class="feature-icon">🏔️</div>
-        <h3>Monthly Major Hykes</h3>
-        <p>Every month we tackle a significant trail together — a proper challenge that rewards you with unforgettable views.</p>
+        <div class="feature-icon">🏔️🥾</div>
+        <h3>Major &amp; Mini Hykes</h3>
+        <p>Every month we tackle a significant trail together, plus mini hikes every remaining weekend to keep the momentum going.</p>
       </div>
       <div class="feature-card reveal delay-2">
-        <div class="feature-icon">🥾</div>
-        <h3>Weekend Mini Hykes</h3>
-        <p>New mini hikes every remaining weekend keep the momentum going for those who can't get enough of the trails.</p>
-      </div>
-      <div class="feature-card reveal delay-3">
-        <div class="feature-icon">🤝</div>
-        <h3>Pro Networking</h3>
-        <p>Connect with professionals from finance, tech, law, creative industries and more — united by a love of the outdoors.</p>
-      </div>
-      <div class="feature-card reveal delay-4">
         <div class="feature-icon">📍</div>
         <h3>Curated Routes</h3>
         <p>Every route is hand-picked for the right balance of scenery, challenge and accessibility from the city.</p>
       </div>
-      <div class="feature-card reveal delay-5">
+      <div class="feature-card reveal delay-3">
         <div class="feature-icon">🌱</div>
         <h3>Wellness First</h3>
         <p>The best antidote to the city grind is fresh air and green space. Our hikes are as good for the mind as the body.</p>
       </div>
-      <div class="feature-card reveal delay-6">
-        <div class="feature-icon">📸</div>
-        <h3>Shared Memories</h3>
-        <p>Every adventure is captured and shared in our gallery — moments you'll look back on long after the boots come off.</p>
+      <div class="feature-card reveal delay-4">
+        <div class="feature-icon">🤝</div>
+        <h3>Pro Networking</h3>
+        <p>Connect with professionals from finance, tech, law, creative industries and more — united by a love of the outdoors.</p>
       </div>
     </div>
   </section>
@@ -167,55 +157,8 @@
       <h2 class="section-title reveal delay-1">Upcoming Hykes</h2>
       <p class="section-sub reveal delay-2">Secure your spot — major and mini hykes fill up fast.</p>
     </div>
-    <div class="hikes-grid">
-      <div class="hike-card reveal delay-1">
-        <div class="hike-img">
-          <img src="images/img4.jpg" alt="Snowdon" />
-          <span class="hike-tag">Major Hyke</span>
-        </div>
-        <div class="hike-body">
-          <h3>Snowdon Summit Challenge</h3>
-          <p>Conquer the highest peak in Wales with sweeping panoramic views across Snowdonia National Park.</p>
-          <div class="hike-meta">
-            <span>📅 7 Jun 2026</span>
-            <span>📍 Wales</span>
-            <span>⏱ Full Day</span>
-          </div>
-          <a href="https://www.tickettailor.com/events/hykeitup" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
-        </div>
-      </div>
-      <div class="hike-card reveal delay-2">
-        <div class="hike-img">
-          <img src="images/img1.jpg" alt="South Downs" />
-          <span class="hike-tag mini">Mini Hyke</span>
-        </div>
-        <div class="hike-body">
-          <h3>South Downs Morning Walk</h3>
-          <p>A crisp early-morning walk along the South Downs Way — back in time for lunch.</p>
-          <div class="hike-meta">
-            <span>📅 14 Jun 2026</span>
-            <span>📍 Sussex</span>
-            <span>⏱ Half Day</span>
-          </div>
-          <a href="https://www.tickettailor.com/events/hykeitup" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
-        </div>
-      </div>
-      <div class="hike-card reveal delay-3">
-        <div class="hike-img">
-          <img src="images/img3.jpg" alt="Peak District" />
-          <span class="hike-tag mini">Mini Hyke</span>
-        </div>
-        <div class="hike-body">
-          <h3>Peak District Loop</h3>
-          <p>Rolling moorland, dramatic edges and a well-earned pub stop at the end. A true classic.</p>
-          <div class="hike-meta">
-            <span>📅 21 Jun 2026</span>
-            <span>📍 Derbyshire</span>
-            <span>⏱ Half Day</span>
-          </div>
-          <a href="https://www.tickettailor.com/events/hykeitup" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:0.65rem 1.5rem;font-size:0.88rem;">Book Spot →</a>
-        </div>
-      </div>
+    <div class="hykes-carousel-wrap" id="hykes-carousel-wrap">
+      <div class="hykes-carousel-track" id="hykes-carousel-track"></div>
     </div>
   </section>
 
@@ -601,10 +544,6 @@
             <div class="contact-item">
               <div class="contact-icon">📍</div>
               <div class="contact-text"><h5>Based In</h5><p>London, United Kingdom</p></div>
-            </div>
-            <div class="contact-item">
-              <div class="contact-icon">📅</div>
-              <div class="contact-text"><h5>Hyke Frequency</h5><p>1 major + up to 3 mini hykes per month</p></div>
             </div>
           </div>
           <div class="socials">

@@ -1389,6 +1389,86 @@ function renderHomepageTestimonials() {
 }
 document.addEventListener('DOMContentLoaded', renderHomepageTestimonials);
 
+// === HYKES VERTICAL CAROUSEL ===
+(function initHykesCarousel() {
+  const wrap  = document.getElementById('hykes-carousel-wrap');
+  const track = document.getElementById('hykes-carousel-track');
+  if (!wrap || !track) return;
+
+  function makeRow(h) {
+    return `<a class="hyke-row" href="https://www.tickettailor.com/events/hykeitup" target="_blank" rel="noopener noreferrer" draggable="false">
+      <img class="hyke-row-thumb" src="${h.image}" alt="${h.name}" draggable="false" />
+      <div class="hyke-row-info">
+        <div class="hyke-row-name">${h.name}</div>
+        <div class="hyke-row-meta"><span>📅 ${h.date}</span><span>📍 ${h.location}</span><span>⏱ ${h.duration}</span></div>
+        <span class="hyke-row-tag${h.type === 'Mini' ? ' mini' : ''}">${h.type} Hyke</span>
+      </div>
+      <span class="hyke-row-action">Book →</span>
+    </a>`;
+  }
+
+  // Triple the list so looping is seamless
+  track.innerHTML = [...HIKES, ...HIKES, ...HIKES].map(makeRow).join('');
+
+  let pos = 0;
+  let paused = false;
+  const speed = 0.5;
+  let dragStartY = null;
+  let dragStartPos = 0;
+
+  function oneSetHeight() { return track.scrollHeight / 3; }
+
+  function clamp(p) {
+    const h = oneSetHeight();
+    return ((p % h) + h) % h;
+  }
+
+  (function tick() {
+    if (!paused) {
+      pos = clamp(pos + speed);
+      track.style.transform = `translateY(-${pos}px)`;
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  // Pause on hover (desktop)
+  wrap.addEventListener('mouseenter', () => paused = true);
+  wrap.addEventListener('mouseleave', () => { if (dragStartY === null) paused = false; });
+
+  // Mouse drag
+  wrap.addEventListener('mousedown', e => {
+    dragStartY = e.clientY;
+    dragStartPos = pos;
+    paused = true;
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', e => {
+    if (dragStartY === null) return;
+    pos = clamp(dragStartPos + (dragStartY - e.clientY));
+    track.style.transform = `translateY(-${pos}px)`;
+  });
+  document.addEventListener('mouseup', () => {
+    if (dragStartY === null) return;
+    dragStartY = null;
+    setTimeout(() => { paused = false; }, 900);
+  });
+
+  // Touch drag
+  wrap.addEventListener('touchstart', e => {
+    dragStartY = e.touches[0].clientY;
+    dragStartPos = pos;
+    paused = true;
+  }, { passive: true });
+  wrap.addEventListener('touchmove', e => {
+    pos = clamp(dragStartPos + (dragStartY - e.touches[0].clientY));
+    track.style.transform = `translateY(-${pos}px)`;
+  }, { passive: true });
+  wrap.addEventListener('touchend', () => {
+    dragStartY = null;
+    setTimeout(() => { paused = false; }, 1200);
+  });
+})();
+
 // === SETTINGS ===
 
 function getCurrentUser() {
