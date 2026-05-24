@@ -30,23 +30,22 @@ document.querySelector('.nav-hykes-toggle')?.addEventListener('click', e => {
   if (!isOpen) li.classList.add('open');
 });
 
-// Close Hykes submenu when clicking outside
+// Close any open nav submenu when clicking outside
 document.addEventListener('click', e => {
-  const hykesLi = document.querySelector('.nav-hykes-toggle')?.closest('.nav-has-sub');
-  if (hykesLi && !hykesLi.contains(e.target)) {
-    hykesLi.classList.remove('open');
+  if (!e.target.closest('.nav-has-sub')) {
+    document.querySelectorAll('.nav-has-sub.open').forEach(el => el.classList.remove('open'));
   }
 });
 
-// Community nav submenu toggle (mobile only)
+// Community nav submenu toggle (desktop + mobile)
 document.querySelector('.nav-community-toggle')?.addEventListener('click', e => {
   const li = e.currentTarget.closest('.nav-has-sub');
   if (!li) return;
-  // Only intercept on mobile where the hamburger menu is visible
-  if (window.innerWidth > 768) return;
   e.preventDefault();
   e.stopImmediatePropagation();
-  li.classList.toggle('open');
+  const isOpen = li.classList.contains('open');
+  document.querySelectorAll('.nav-has-sub').forEach(el => el.classList.remove('open'));
+  if (!isOpen) li.classList.add('open');
 });
 
 // Submenu panel links — navigate to community page then open the correct panel
