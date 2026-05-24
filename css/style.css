@@ -2564,6 +2564,34 @@ footer {
   .postcode-wrap .btn { width: 100%; justify-content: center; }
 }
 
+/* === TICKET TAILOR IFRAME EMBED === */
+.tt-iframe-wrap {
+  width: 100%;
+  min-height: 500px;
+  background: var(--dark);
+}
+.tt-loading {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 1rem;
+  padding: 5rem 2rem; color: var(--mid); font-size: 0.9rem;
+}
+#tt-iframe { display: block; }
+
+/* Coming soon screen */
+.tt-coming-soon {
+  text-align: center;
+  padding: 6rem 5%;
+  display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+}
+.tt-cs-icon { font-size: 4rem; line-height: 1; }
+.tt-coming-soon h2 {
+  font-family: var(--font-display); font-size: 2rem; color: var(--white);
+}
+.tt-coming-soon p {
+  color: var(--mid); font-size: 1rem; line-height: 1.7;
+  max-width: 480px;
+}
+
 /* === EARLY ACCESS POPUP === */
 .ea-popup {
   position: fixed; inset: 0; z-index: 9500;

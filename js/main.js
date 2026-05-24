@@ -1634,6 +1634,54 @@ document.addEventListener('click', e => {
   }
 });
 
+// === TICKET TAILOR IFRAME LOGIC ===
+(function () {
+  const iframe    = document.getElementById('tt-iframe');
+  const loading   = document.getElementById('tt-loading');
+  const wrap      = document.getElementById('tt-iframe-wrap');
+  const comingSoon = document.getElementById('tt-coming-soon');
+  if (!iframe || !comingSoon) return;
+
+  let resolved = false;
+
+  function showEvents(height) {
+    if (resolved) return;
+    resolved = true;
+    if (loading) loading.style.display = 'none';
+    iframe.style.display = 'block';
+    if (height) iframe.style.height = height + 'px';
+    if (comingSoon) comingSoon.style.display = 'none';
+  }
+
+  function showComingSoon() {
+    if (resolved) return;
+    resolved = true;
+    if (wrap) wrap.style.display = 'none';
+    if (comingSoon) comingSoon.style.display = 'flex';
+  }
+
+  // Ticket Tailor sends postMessage to resize their embed iframe
+  window.addEventListener('message', function (e) {
+    if (!e.data || typeof e.data !== 'object') return;
+    const h = e.data.height || e.data.frameHeight || e.data.iframeHeight;
+    if (h !== undefined) {
+      parseInt(h, 10) > 150 ? showEvents(parseInt(h, 10)) : showComingSoon();
+    }
+  });
+
+  // Fallback: iframe loaded but no postMessage — check after a grace period
+  iframe.addEventListener('load', function () {
+    setTimeout(function () {
+      if (!resolved) showComingSoon();
+    }, 4000);
+  });
+
+  // Fallback: if iframe never fires load (blocked/error) after 8s
+  setTimeout(function () {
+    if (!resolved) showComingSoon();
+  }, 8000);
+})();
+
 // === EARLY ACCESS POPUP ===
 (function () {
   const STORAGE_KEY = 'hyu_ea_popup_seen';

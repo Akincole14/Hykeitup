@@ -969,7 +969,32 @@
     </div>
   </div>
 
-  <div class="tickets-wrap">
+  <!-- Ticket Tailor iframe embed -->
+  <div id="tt-iframe-wrap" class="tt-iframe-wrap">
+    <div id="tt-loading" class="tt-loading">
+      <div class="payment-spinner"></div>
+      <p>Loading events…</p>
+    </div>
+    <iframe
+      id="tt-iframe"
+      src="https://buytickets.at/hykeitup"
+      frameborder="0"
+      scrolling="auto"
+      width="100%"
+      title="Hyke It Up — Book Your Spot"
+      style="display:none; width:100%; border:none; min-height:500px;">
+    </iframe>
+  </div>
+
+  <!-- Coming soon fallback (shown when no live events detected) -->
+  <div id="tt-coming-soon" class="tt-coming-soon" style="display:none;">
+    <div class="tt-cs-icon">🥾</div>
+    <h2>New Hykes Coming Soon</h2>
+    <p>We're planning the next adventure — check back soon or sign up below to be first in line when tickets drop.</p>
+    <a href="#" data-page="contact" class="btn btn-primary">Get Early Notification</a>
+  </div>
+
+  <div class="tickets-wrap" style="display:none;"><!-- custom flow (fallback if TT fails) -->
 
     <!-- Step indicator -->
     <div class="step-indicator">
@@ -1100,7 +1125,7 @@
       <button class="btn btn-outline" style="margin-top:2rem;" onclick="showPage('home')">Back to Home</button>
     </div>
 
-  </div><!-- /tickets-wrap -->
+  </div><!-- /tickets-wrap (custom fallback flow) -->
 
 </div><!-- /tickets -->
 
