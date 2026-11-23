@@ -449,3 +449,130 @@
 }
 .auth-toast::before { content: '●'; color: var(--brand); margin-right: 0.55rem; }
 .auth-toast.show { opacity: 1; translate: -50% 0; }
+
+/* =====================================================================
+   Chat views: members see one full-width chat (announcements inside it);
+   admins switch between Community Chat and Announcements.
+   ===================================================================== */
+#cm-panel-chat .chat-layout { grid-template-columns: 1fr; }
+#cm-panel-chat[data-view="chat"] .chat-announcements,
+#cm-panel-chat:not(.is-admin) .chat-announcements { display: none !important; }
+#cm-panel-chat[data-view="announcements"] .chat-main { display: none !important; }
+#cm-panel-chat[data-view="announcements"] .chat-announcements {
+  display: flex !important;
+  flex: 1 !important;
+  border-right: 0;
+  overflow-y: auto;
+}
+#cm-panel-chat[data-view="announcements"] .chat-panel-header::after { content: none !important; }
+#cm-panel-chat[data-view="announcements"] .announcements-list { max-width: 760px; width: 100%; margin: 0 auto; }
+#cm-panel-chat[data-view="announcements"] .admin-post-form { max-width: 760px; width: 100%; margin: 0 auto; }
+#cm-panel-chat[data-view="chat"] .chat-main { flex: 1 !important; }
+#cm-panel-chat[data-view="chat"] .chat-panel-header::after { content: none !important; }
+
+/* Announcement cards inside the chat feed */
+.chat-msg.cx-ann { align-self: center; align-items: stretch; max-width: min(640px, 100%); width: 100%; }
+.cx-ann-card {
+  position: relative;
+  border: 1px solid rgba(212,79,44,0.55);
+  background: linear-gradient(160deg, rgba(212,79,44,0.16), rgba(212,79,44,0.04) 60%), #141414;
+  border-radius: var(--radius);
+  padding: 1rem 1.15rem 0.9rem;
+}
+.cx-ann-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.cx-ann-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--brand);
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+}
+.cx-ann-meta { font-size: 0.72rem; color: var(--mid); }
+.cx-ann-text { font-size: 0.92rem; line-height: 1.55; color: var(--white); white-space: pre-wrap; word-break: break-word; }
+.cx-ann-img { display: block; margin-top: 0.75rem; border-radius: var(--radius); max-height: 320px; width: auto; max-width: 100%; }
+.cx-ann-reply {
+  appearance: none;
+  border: 0;
+  background: none;
+  color: var(--brand-light);
+  font: 600 0.72rem/1 var(--font);
+  letter-spacing: 0.04em;
+  margin-top: 0.7rem;
+  padding: 0;
+  cursor: pointer;
+}
+.cx-ann-reply:hover { text-decoration: underline; }
+.chat-msg.cx-ann .cx-reacts { justify-content: flex-start; }
+.chat-msg.cx-ann .cx-react:not(.has) { opacity: 0.55; }
+.chat-msg.cx-ann.msg-highlight .cx-ann-card { box-shadow: 0 0 0 2px var(--brand); }
+
+/* Admin dropdown in the header switcher */
+.cx-dd { position: relative; display: inline-flex; }
+.cx-dd-toggle {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: rgba(245,242,236,0.75);
+  font: 600 0.62rem/1 var(--font);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.cx-dd-toggle span { display: inline-block; margin-left: 0.25rem; transition: transform 0.2s; }
+.cx-dd.open .cx-dd-toggle span { transform: rotate(180deg); }
+.cx-dd-toggle:hover { color: var(--white); background: rgba(245,242,236,0.08); }
+.cx-dd-toggle.active { background: var(--brand); color: var(--white); }
+.cx-dd-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  translate: -50% -4px;
+  min-width: 210px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  border-radius: var(--radius);
+  background: #151515;
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s, translate 0.18s;
+  z-index: 120;
+}
+.cx-dd.open .cx-dd-menu { opacity: 1; pointer-events: auto; translate: -50% 0; }
+.hyke-switch .cx-dd-menu a {
+  border-radius: 4px;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.66rem;
+  text-align: left;
+}
+.hyke-switch .cx-dd-menu a.active { background: rgba(212,79,44,0.18); color: var(--white); }
+@media (max-width: 768px) {
+  .community-switch--header .cx-dd { flex: 1; }
+  .community-switch--header .cx-dd-toggle { flex: 1; padding: 0.5rem 0.7rem; font-size: 0.56rem; letter-spacing: 0.08em; }
+}
+
+/* =====================================================================
+   First-visit popup: "Be the first to hear…" + Register / Explore first
+   ===================================================================== */
+.ea-popup-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 1.2rem 0 1rem;
+  color: var(--mid);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.ea-popup-divider::before, .ea-popup-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.ea-popup-register { display: block; width: 100%; text-align: center; }
+.ea-popup-skip { margin-top: 1rem; }

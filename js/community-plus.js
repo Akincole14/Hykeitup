@@ -182,11 +182,57 @@
   // ---------------------------------------------------------------
   const REACTIONS = ['🧡', '🥾', '🙌', '😂'];
 
+  // ---------------------------------------------------------------
+  // Announcements appear inside the community chat feed for everyone.
+  // Members can react and reply; only admins edit/delete (on the
+  // separate Announcements view).
+  // ---------------------------------------------------------------
+  const ANN_PREFIX = 'ann:';
+
+  function injectAnnouncements() {
+    const container = $('chat-messages');
+    if (!container || !getSession()) return;
+    const anns = getAnnouncements();
+    if (!anns.length) return;
+    container.querySelector('.chat-empty')?.remove();
+    const stamps = new Map(getMessages().map(m => [msgId(m), m.timestamp]));
+    const msgEls = [...container.querySelectorAll('.chat-msg')];
+    anns.slice().sort((a, b) => a.timestamp - b.timestamp).forEach(a => {
+      const el = document.createElement('div');
+      el.className = 'chat-msg cx-ann';
+      el.dataset.id = ANN_PREFIX + annId(a);
+      el.innerHTML = `
+        <div class="cx-ann-card">
+          <div class="cx-ann-head">
+            <span class="cx-ann-badge">📢 Announcement</span>
+            <span class="cx-ann-meta">Hyke It Up · ${formatTime(a.timestamp)}${a.edited ? ' · edited' : ''}</span>
+          </div>
+          <div class="cx-ann-text">${escapeHtml(a.text)}</div>
+          ${a.imageUrl && /^data:image\//.test(a.imageUrl) ? `<img src="${a.imageUrl}" alt="Announcement image" class="cx-ann-img" />` : ''}
+          <button type="button" class="cx-ann-reply">↩ Reply in chat</button>
+        </div>`;
+      const before = msgEls.find(m => (stamps.get(m.dataset.id) || 0) > a.timestamp);
+      container.insertBefore(el, before || null);
+    });
+  }
+
+  function findReactable(id) {
+    if (id.startsWith(ANN_PREFIX)) {
+      const list = getAnnouncements();
+      return { list, item: list.find(a => ANN_PREFIX + annId(a) === id), key: 'announcements' };
+    }
+    const list = getMessages();
+    return { list, item: list.find(m => msgId(m) === id), key: 'messages' };
+  }
+
   function decorateMessages(newestAnimated) {
     const session = getSession();
     const container = $('chat-messages');
     if (!container || !session) return;
-    const byId = new Map(getMessages().map(m => [msgId(m), m]));
+    const byId = new Map([
+      ...getMessages().map(m => [msgId(m), m]),
+      ...getAnnouncements().map(a => [ANN_PREFIX + annId(a), a]),
+    ]);
     container.querySelectorAll('.chat-msg').forEach(el => {
       const m = byId.get(el.dataset.id);
       if (!m || el.querySelector('.cx-reacts')) return;
@@ -201,7 +247,10 @@
       }).join('');
       el.appendChild(row);
     });
-    if (newestAnimated) container.querySelector('.chat-msg:last-of-type')?.classList.add('cx-new');
+    if (newestAnimated) {
+      const all = container.querySelectorAll('.chat-msg');
+      all[all.length - 1]?.classList.add('cx-new');
+    }
   }
 
   function burst(x, y, emo) {
@@ -222,14 +271,27 @@
   }
 
   $('chat-messages')?.addEventListener('click', e => {
+    // Reply to an announcement from the chat feed
+    const annReply = e.target.closest('.cx-ann-reply');
+    if (annReply) {
+      e.stopPropagation();
+      const id = annReply.closest('.chat-msg')?.dataset.id;
+      const { item } = findReactable(id || '');
+      if (item) setReplyContext({ text: item.text, username: '📢 Announcement', id });
+      return;
+    }
+
     const btn = e.target.closest('.cx-react');
-    if (!btn) return;
+    if (!btn) {
+      // Stop main.js treating announcement cards as editable messages
+      if (e.target.closest('.cx-ann') && !e.target.closest('.msg-reply-quote')) e.stopPropagation();
+      return;
+    }
     e.stopPropagation();
     const session = getSession();
     const id = btn.closest('.chat-msg')?.dataset.id;
     if (!session || !id) return;
-    const msgs = getMessages();
-    const m = msgs.find(x => msgId(x) === id);
+    const { list, item: m, key } = findReactable(id);
     if (!m) return;
     const emo = btn.dataset.emo;
     m.reactions = m.reactions || {};
@@ -237,7 +299,7 @@
     const had = who.includes(session.username);
     m.reactions[emo] = had ? who.filter(u => u !== session.username) : [...who, session.username];
     if (!m.reactions[emo].length) delete m.reactions[emo];
-    communityStore('messages', msgs);
+    communityStore(key, list);
 
     if (!had) { const r = btn.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, emo); }
     const container = $('chat-messages');
@@ -252,26 +314,88 @@
   let pendingPanel = null;
   const dashboardOpen = () => !!getSession() && $('community-chat')?.style.display !== 'none';
 
-  function syncSwitch() {
-    const activeId = dashboardOpen() ? document.querySelector('#community .comm-main .member-panel.active')?.id : pendingPanel;
-    document.querySelectorAll('[data-cx-switch]').forEach(a => {
-      const on = a.dataset.cxSwitch === activeId;
-      a.classList.toggle('active', on);
-      a.setAttribute('aria-pressed', on);
+  // Chat panel has two views: "chat" (everyone) and "announcements" (admins only)
+  let chatView = 'chat';
+  function setChatView(view) {
+    const isAdmin = !!getSession()?.isAdmin;
+    chatView = isAdmin && view === 'announcements' ? 'announcements' : 'chat';
+    const panel = $('cm-panel-chat');
+    if (panel) {
+      panel.dataset.view = chatView;
+      panel.classList.toggle('is-admin', isAdmin);
+    }
+    syncSwitch();
+  }
+
+  // Admins: "Community Chat" in the top switcher becomes a dropdown
+  function buildAdminDropdowns() {
+    const isAdmin = !!getSession()?.isAdmin;
+    document.querySelectorAll('.community-switch--header').forEach(sw => {
+      const existing = sw.querySelector('.cx-dd');
+      const plain = sw.querySelector(':scope > [data-cx-switch="cm-panel-chat"]');
+      if (isAdmin && !existing && plain) {
+        const dd = document.createElement('div');
+        dd.className = 'cx-dd';
+        dd.innerHTML = `
+          <button type="button" class="cx-dd-toggle" data-cx-switch-dd aria-haspopup="true" aria-expanded="false">Community Chat <span aria-hidden="true">▾</span></button>
+          <div class="cx-dd-menu" role="menu">
+            <a href="#" role="menuitem" data-cx-switch="cm-panel-chat" data-cx-view="chat">💬 Community Chat</a>
+            <a href="#" role="menuitem" data-cx-switch="cm-panel-chat" data-cx-view="announcements">📢 Announcements</a>
+          </div>`;
+        plain.replaceWith(dd);
+      } else if (!isAdmin && existing) {
+        const a = document.createElement('a');
+        a.href = '#';
+        a.dataset.cxSwitch = 'cm-panel-chat';
+        a.textContent = 'Community Chat';
+        existing.replaceWith(a);
+      }
     });
   }
 
-  function openPanel(id) {
+  function closeDropdowns() {
+    document.querySelectorAll('.cx-dd.open').forEach(dd => {
+      dd.classList.remove('open');
+      dd.querySelector('.cx-dd-toggle')?.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  function syncSwitch() {
+    const activeId = dashboardOpen() ? document.querySelector('#community .comm-main .member-panel.active')?.id : pendingPanel;
+    document.querySelectorAll('[data-cx-switch]').forEach(a => {
+      const panelOn = a.dataset.cxSwitch === activeId;
+      const on = panelOn && (!a.dataset.cxView || a.dataset.cxView === chatView);
+      a.classList.toggle('active', on);
+      a.setAttribute('aria-pressed', on);
+    });
+    document.querySelectorAll('.cx-dd-toggle').forEach(t => t.classList.toggle('active', activeId === 'cm-panel-chat'));
+  }
+
+  function openPanel(id, view) {
     document.querySelector(`#community .sidebar-nav a[data-panel="${id}"]`)?.click();
+    if (id === 'cm-panel-chat') setChatView(view || 'chat');
     $('community-chat')?.scrollTo({ top: 0, behavior: 'smooth' });
     syncSwitch();
   }
 
   document.addEventListener('click', e => {
+    const ddToggle = e.target.closest('[data-cx-switch-dd]');
+    if (ddToggle) {
+      e.preventDefault();
+      const dd = ddToggle.closest('.cx-dd');
+      const willOpen = !dd.classList.contains('open');
+      closeDropdowns();
+      dd.classList.toggle('open', willOpen);
+      ddToggle.setAttribute('aria-expanded', willOpen);
+      return;
+    }
+    if (!e.target.closest('.cx-dd')) closeDropdowns();
+
     const a = e.target.closest('[data-cx-switch]');
     if (a) {
       e.preventDefault();
-      if (dashboardOpen()) { openPanel(a.dataset.cxSwitch); return; }
+      closeDropdowns();
+      if (dashboardOpen()) { openPanel(a.dataset.cxSwitch, a.dataset.cxView); return; }
       // Signed out: remember the choice, open it straight after sign-in
       pendingPanel = a.dataset.cxSwitch;
       syncSwitch();
@@ -281,7 +405,28 @@
       box?.classList.remove('cx-pulse'); void box?.offsetWidth; box?.classList.add('cx-pulse');
       return;
     }
-    if (e.target.closest('#community .sidebar-nav a, #community .comm-bottom-link')) setTimeout(syncSwitch, 0);
+    const side = e.target.closest('#community .sidebar-nav a, #community .comm-bottom-link');
+    if (side) setTimeout(() => (side.dataset.panel === 'cm-panel-chat' && e.isTrusted ? setChatView('chat') : syncSwitch()), 0);
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDropdowns(); });
+
+  // Replying from the admin Announcements view jumps to the chat to type it
+  $('announcements-list')?.addEventListener('click', e => {
+    if (e.target.closest('.ann-reply-btn')) setTimeout(() => { setChatView('chat'); $('chat-input')?.focus(); }, 0);
+  });
+
+  // "Join the Community" / "Register as a Member" → registration form
+  document.addEventListener('click', e => {
+    const link = e.target.closest('[data-community-tab="register"]');
+    if (!link) return;
+    if (link.id === 'ea-popup-register') $('ea-popup-close')?.click();
+    setTimeout(() => {
+      const box = document.querySelector('.community-auth-box');
+      if (!box || box.offsetParent === null) return;
+      box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      box.classList.remove('cx-pulse'); void box.offsetWidth; box.classList.add('cx-pulse');
+      setTimeout(() => $('reg-first')?.focus({ preventScroll: true }), 600);
+    }, 550);
   });
 
   // ---------------------------------------------------------------
@@ -322,16 +467,31 @@
     let lastCount = getMessages().length;
     window.renderMessages = function () {
       original.apply(this, arguments);
+      injectAnnouncements();
+      const c = $('chat-messages');
+      if (c && !arguments[0]?.keepScroll) c.scrollTop = c.scrollHeight;
       const count = getMessages().length;
       decorateMessages(count > lastCount);
       lastCount = count;
       renderCrew();
     };
   }
+  // New / edited / deleted announcements refresh the chat feed too
+  if (typeof window.renderAnnouncements === 'function') {
+    const originalAnn = window.renderAnnouncements;
+    window.renderAnnouncements = function () {
+      originalAnn.apply(this, arguments);
+      if ($('chat-messages')) window.renderMessages();
+    };
+  }
   if (typeof window.communityShowChat === 'function') {
     const originalShow = window.communityShowChat;
     window.communityShowChat = function () {
       originalShow.apply(this, arguments);
+      const tag = document.querySelector('#community .comm-profile-tag');
+      if (tag) tag.textContent = getSession()?.isAdmin ? 'Admin' : 'Member';
+      buildAdminDropdowns();
+      setChatView(chatView);
       renderWelcome();
       renderCrew();
       decorateMessages(false);
@@ -342,6 +502,8 @@
 
   showPrompt();
   if (getSession() && $('community-chat')?.style.display !== 'none') {
+    buildAdminDropdowns();
+    setChatView('chat');
     renderWelcome();
     renderCrew();
     decorateMessages(false);

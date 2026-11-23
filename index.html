@@ -129,7 +129,7 @@
       <div>
         <p class="ib-statement-text ib-split">Navigating life as a 30–40 something has its peaks and troughs. We thought we'd have it all figured out by now — instead we're all still finding our path. So we take it outside: monthly major hykes, weekend mini hykes, and real conversation on the trail.</p>
         <div class="btn-group ib-statement-actions">
-          <a href="#" class="btn btn-primary" data-page="contact">Join the Community</a>
+          <a href="#" class="btn btn-primary" data-page="community" data-community-tab="register">Join the Community</a>
           <a href="#" class="btn btn-outline" data-page="about">Our Story</a>
         </div>
       </div>
@@ -411,7 +411,7 @@
     <div class="section-label">Your Basecamp</div>
     <h1>Members Area</h1>
     <p>Your hub for schedules, resources and the full community directory.</p>
-    <a href="#" class="btn btn-primary" data-page="contact">Not a member? Join Us →</a>
+    <a href="#" class="btn btn-primary" data-page="community" data-community-tab="register">Not a member? Register →</a>
     <p class="ib-annotation" aria-hidden="true">everything in <span class="ib-underlined">one place</span></p>
   </div>
 
@@ -1877,8 +1877,8 @@
     <button class="ea-popup-close" id="ea-popup-close" aria-label="Close">✕</button>
     <div class="ea-popup-body">
       <div class="ea-popup-icon">🥾</div>
-      <h2 class="ea-popup-title" id="ea-popup-title">Join the Trail First</h2>
-      <p class="ea-popup-sub">Get early access to new hykes, exclusive member offers, and community updates — straight to your inbox.</p>
+      <h2 class="ea-popup-title" id="ea-popup-title">Be the First to Hear About Our Trails</h2>
+      <p class="ea-popup-sub">New hyke dates, limited spaces and member offers — straight to your inbox before anyone else.</p>
       <form id="ea-popup-form" class="ea-popup-form" novalidate>
         <div class="form-group">
           <label for="ea-fullname">Full Name</label>
@@ -1891,7 +1891,9 @@
         <div id="ea-popup-error" class="auth-error" style="display:none;"></div>
         <button type="submit" class="btn btn-primary ea-popup-submit">Notify Me</button>
       </form>
-      <button class="ea-popup-skip" id="ea-popup-skip">No thanks, I'll explore first</button>
+      <div class="ea-popup-divider"><span>or</span></div>
+      <a href="#" class="btn btn-outline ea-popup-register" id="ea-popup-register" data-page="community" data-community-tab="register">Register as a Member</a>
+      <button class="ea-popup-skip" id="ea-popup-skip">Explore first →</button>
     </div>
   </div>
 </div>
