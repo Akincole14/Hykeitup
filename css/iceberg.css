@@ -1,0 +1,708 @@
+/* =====================================================================
+   ICEBERG THEME LAYER
+   Editorial redesign inspired by the Iceberg documentary site:
+   huge grotesk wordmark over full-bleed footage, fixed column grid,
+   tiny uppercase nav, numbered statements, hand-drawn scribbles.
+   Loaded after style.css — remove the <link> to revert.
+   ===================================================================== */
+
+:root {
+  --font-display: 'Inter Tight', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-hand: 'Caveat', 'Bradley Hand', cursive;
+  --radius: 4px;
+  --radius-lg: 6px;
+  --ib-line: rgba(255,255,255,0.09);
+  --ib-ink: #0B0B0B;
+}
+
+body { background-color: var(--ib-ink); }
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+#home h2,
+.page:not(#home) h2 { font-size: clamp(1.9rem, 4vw, 3.4rem); }
+#home h3,
+.page:not(#home) h3 { font-size: clamp(1rem, 1.6vw, 1.25rem); letter-spacing: -0.015em; line-height: 1.2; }
+.page:not(#home) h1 { font-size: clamp(2.4rem, 6vw, 5rem); }
+
+.section-label {
+  font-family: var(--font);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.55);
+}
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--brand);
+  margin-right: 0.6rem;
+  vertical-align: 1px;
+}
+.section-sub { font-size: 1rem; }
+
+/* Home section headers: left aligned, editorial */
+#home .section-header,
+#home .section-header.centered { text-align: left; margin-bottom: 3rem; }
+#home .section-header .section-sub,
+#home .section-header.centered .section-sub { margin: 0; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.95rem 1.7rem;
+}
+.btn-outline { border-width: 1px; }
+
+/* ---------- Navbar (desktop) ---------- */
+@media (min-width: 769px) {
+  nav {
+    grid-template-columns: 25% 1fr auto;
+    padding: 0 2rem;
+    height: 72px;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  nav.scrolled {
+    height: 60px;
+    background: rgba(11,11,11,0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: none;
+  }
+  .nav-logo img { height: 46px; }
+  .nav-links {
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-right: 2.5rem;
+  }
+  .nav-links a,
+  .nav-cta {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .nav-links a::after { height: 1px; bottom: -6px; }
+  .nav-sub-arrow { font-size: 0.55rem; }
+  .nav-cta {
+    background: transparent !important;
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 0.6rem 1.1rem;
+  }
+  .nav-cta:hover { background: var(--brand) !important; border-color: var(--brand); box-shadow: none !important; }
+}
+
+/* ---------- Vertical side tab ---------- */
+.ib-side-tab {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  z-index: 990;
+  width: 46px;
+  background: var(--brand);
+  color: var(--ib-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  transform: translateX(100%);
+  transition: transform 0.6s var(--ease), background 0.3s;
+}
+.ib-side-tab.show { transform: translateX(0); }
+.ib-side-tab:hover { background: var(--brand-light); }
+.ib-side-tab span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.ib-side-tab i {
+  font-style: normal;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--ib-ink);
+  color: var(--white);
+  display: grid;
+  place-items: center;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* ---------- Hero ---------- */
+.hero-arrow, .hero-dots { display: none !important; }
+.hero { background: var(--ib-ink); }
+.hero-slide { transition: opacity 1.6s var(--ease), transform 9s linear; transform: scale(1.12); }
+.hero-slide.active { transform: scale(1); }
+.hero-overlay {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 22%),
+    linear-gradient(0deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 40%),
+    rgba(0,0,0,0.12);
+}
+.hero-content.ib-hero {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: none;
+  padding: 0 2rem;
+  text-align: center;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.hero-content .ib-wordmark {
+  font-family: var(--font-display) !important;
+  font-weight: 800;
+  font-size: clamp(3.6rem, 14.5vw, 15rem) !important;
+  line-height: 0.86 !important;
+  letter-spacing: -0.055em;
+  color: var(--white);
+  white-space: nowrap;
+  margin: 0;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.18);
+  opacity: 1;
+  animation: none;
+}
+.ib-wordmark span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.35em);
+  animation: ibRise 1.1s var(--ease) forwards;
+}
+.ib-wordmark span:nth-child(2) { animation-delay: 0.12s; }
+.ib-wordmark span:nth-child(3) { animation-delay: 0.24s; }
+@keyframes ibRise { to { opacity: 1; transform: none; } }
+
+.hero-content .ib-annotation {
+  position: absolute;
+  left: 50%;
+  bottom: 2.4rem;
+  transform: translateX(-50%) rotate(-4deg);
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  line-height: 1.05;
+  color: rgba(255,255,255,0.9);
+  text-align: left;
+  max-width: none;
+  margin: 0;
+  opacity: 0;
+  animation: ibFade 1s 1.2s forwards;
+}
+@keyframes ibFade { to { opacity: 1; } }
+
+/* ---------- Stats: hairline row aligned to the grid ---------- */
+.stats-section {
+  background: var(--ib-ink);
+  border-top: 1px solid var(--ib-line);
+  border-bottom: 1px solid var(--ib-line);
+  padding: 0;
+}
+.stats-bar {
+  max-width: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.stat {
+  text-align: left;
+  padding: 1.8rem 2rem;
+}
+.stat-number {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  font-size: clamp(2rem, 3.6vw, 3.2rem);
+}
+.stat-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.5);
+  margin-top: 0.6rem;
+}
+
+/* ---------- Statement block ---------- */
+.ib-statement {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--ib-ink);
+}
+.ib-statement-bg {
+  position: absolute;
+  inset: -10% 0;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(0.75);
+  will-change: transform;
+}
+.ib-statement::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11,11,11,0.55) 0%, rgba(11,11,11,0.7) 60%, rgba(11,11,11,0.92) 100%);
+}
+.ib-statement-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 25% 25% 50%;
+  padding: 0 0 12vh;
+}
+.ib-index {
+  grid-column: 2;
+  justify-self: end;
+  padding: 0.7rem 1.5rem 0 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.7);
+}
+.ib-statement-inner > div { grid-column: 3; padding: 0 4rem 0 0.25rem; }
+.ib-statement-text {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  max-width: 640px;
+}
+.ib-split .w { opacity: 0.18; transition: opacity 0.25s linear; }
+.ib-split .w.on { opacity: 1; }
+.ib-statement-actions { justify-content: flex-start; margin-top: 2.4rem; }
+
+/* ---------- Hand-drawn scribbles ---------- */
+.ib-circled, .ib-underlined { position: relative; display: inline-block; white-space: nowrap; }
+.ib-scribble {
+  position: absolute;
+  pointer-events: none;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.ib-circled > .ib-scribble { left: -16%; top: -32%; width: 132%; height: 164%; }
+.ib-underlined > .ib-scribble { left: -3%; bottom: -0.28em; width: 106%; height: 0.4em; }
+.ib-scribble path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.ib-drawn .ib-scribble path { stroke-dashoffset: 0; }
+.ib-annotation .ib-scribble path { transition-delay: 1.8s; }
+
+/* ---------- Content sections on home ---------- */
+#home .section {
+  max-width: none;
+  padding: 7rem 2rem;
+  position: relative;
+}
+#home .section-header { padding-left: 25%; }
+#home .features-grid,
+#home .hykes-carousel-wrap,
+#home .testimonials-slider-wrap { position: relative; z-index: 6; }
+.hikes-bg { background: transparent !important; }
+.section-alt { background-color: transparent; }
+
+.feature-card {
+  background: #121212;
+  border-color: var(--ib-line);
+}
+
+/* ---------- CTA: black, big centred copy ---------- */
+.ib-cta {
+  background: #000;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 6;
+}
+.ib-cta-text {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.6rem, 3.3vw, 3rem);
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+  color: var(--white);
+  max-width: 18em;
+  margin: 0 auto;
+}
+.ib-cta-link {
+  margin-top: 4.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.8rem, 3.6vw, 3.2rem);
+  letter-spacing: -0.03em;
+  color: var(--white);
+  transition: color 0.3s;
+}
+.ib-cta-link:hover { color: var(--brand-light); }
+.ib-cta .ib-scribble { color: rgba(255,255,255,0.75); }
+.ib-cta-link .ib-scribble { color: var(--brand); }
+
+/* ---------- Footer ---------- */
+footer { position: relative; z-index: 6; background: var(--ib-ink); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .ib-statement-inner { grid-template-columns: 1fr; padding: 0 2rem 10vh; }
+  .ib-index { grid-column: 1; justify-self: start; padding: 0 0 1rem; }
+  .ib-statement-inner > div { grid-column: 1; padding: 0; }
+  #home .section-header { padding-left: 0; }
+}
+@media (max-width: 768px) {
+  .ib-side-tab { display: none; }
+  .hero-content .ib-wordmark { white-space: normal; font-size: clamp(4rem, 24vw, 8rem) !important; line-height: 0.82 !important; }
+  .hero-content .ib-wordmark span { display: block; }
+  .hero-content .ib-annotation { bottom: 1.6rem; font-size: 1.15rem; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .stat { padding: 1.4rem 1.25rem; border-bottom: 1px solid var(--ib-line); }
+  #home .section { padding: 4.5rem 1.25rem; }
+  .ib-statement { min-height: 85vh; }
+  .ib-statement-inner { padding: 0 1.25rem 4.5rem; }
+  .ib-cta { min-height: 80vh; padding: 5rem 1.25rem; }
+  .ib-cta-link { margin-top: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-content .ib-wordmark span, .hero-content .ib-annotation { animation: none; opacity: 1; transform: none; }
+  .hero-content .ib-annotation { transform: translateX(-50%) rotate(-4deg); }
+  .ib-split .w { opacity: 1; }
+  .ib-scribble path { transition: none; stroke-dashoffset: 0; }
+  .hero-slide { transition: opacity 1.6s; transform: none; }
+}
+
+/* ---------- Hero wordmark: orange "hyke" logo + matching "IT UP" ---------- */
+:root { --logo-orange: #DB4A2B; }
+.hero-content .ib-wordmark { color: #F5F2EC; text-shadow: 0 2px 30px rgba(0,0,0,0.25); }
+/* Logo sized larger than IT UP. Baseline sits 87.5% down the image, so the
+   descender (12.5% of its height) hangs below: vertical-align = -0.125 × height. */
+.ib-wordmark-logo img {
+  display: inline-block;
+  height: 1.3em;
+  width: auto;
+  vertical-align: -0.1625em;
+  margin-right: 0.02em;
+  filter: drop-shadow(0 2px 24px rgba(0,0,0,0.25));
+}
+@media (max-width: 768px) {
+  .hero-content .ib-wordmark span.ib-wordmark-logo { margin-bottom: 0.12em; }
+}
+
+/* ---------- About: founders photo + "Founded 2024" badge ---------- */
+.about-img.about-img--portrait {
+  height: auto;
+  aspect-ratio: 4 / 5;
+  max-height: 640px;
+  object-fit: cover;
+  object-position: center 30%;
+  border-radius: var(--radius);
+}
+.about-badge {
+  bottom: 1.5rem;
+  right: -1.5rem;
+  background: rgba(11,11,11,0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--radius);
+  box-shadow: none;
+  padding: 1.2rem 1.5rem 1.3rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.about-badge span {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.6);
+  opacity: 1;
+}
+.about-badge span::before {
+  content: '';
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--brand);
+  margin-right: 0.55rem;
+  vertical-align: 1px;
+}
+.about-badge strong {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  color: #F5F2EC;
+}
+@media (max-width: 1024px) {
+  .about-img.about-img--portrait { max-height: 560px; }
+  .about-badge { right: 1rem; bottom: 1rem; }
+}
+
+/* =====================================================================
+   SITE-WIDE IMMERSIVE FORMAT
+   Every page shares the home page's language: near-black ground,
+   off-white type, full-bleed photo heroes with a giant title,
+   handwritten annotation, fixed column lines and orange accents.
+   ===================================================================== */
+:root {
+  --dark:  #0B0B0B;
+  --dark2: #111111;
+  --card:  #141414;
+  --card2: #1A1A1A;
+  --white: #F5F2EC;
+  --mid:   #A39E96;
+  --border: rgba(245,242,236,0.10);
+  --shadow: 0 4px 24px rgba(0,0,0,0.6);
+}
+
+/* Side tab is global; hidden where it would be redundant */
+body[data-page="contact"] .ib-side-tab,
+body[data-page="community"] .ib-side-tab { display: none; }
+
+/* ---------- Shared page hero ---------- */
+.ib-page-hero {
+  position: relative;
+  min-height: 86vh;
+  padding: 9rem 2rem 7rem !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background: var(--dark) !important;
+  border: none !important;
+}
+.ib-page-hero--short { min-height: 64vh; }
+.ib-page-hero::before { content: none !important; }
+.ib-page-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(11,11,11,0.55) 0%, rgba(11,11,11,0.15) 30%, rgba(11,11,11,0.25) 65%, var(--dark) 100%);
+}
+.ib-page-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.08);
+  animation: ibHeroZoom 10s ease-out forwards;
+}
+@keyframes ibHeroZoom { to { transform: scale(1); } }
+/* Retire the old per-page background layers */
+.ib-page-hero .tickets-hero-bg,
+.ib-page-hero .tickets-hero-overlay,
+.ib-page-hero .ha-hero-img,
+.ib-page-hero .ha-hero-overlay { display: none; }
+
+.ib-page-hero > *:not(.ib-page-hero-bg),
+.ib-page-hero .tickets-hero-content,
+.ib-page-hero .ha-hero-content { position: relative; z-index: 2; }
+.ib-page-hero .tickets-hero-content,
+.ib-page-hero .ha-hero-content { display: flex; flex-direction: column; align-items: center; padding: 0; }
+
+.ib-page-hero .section-label { color: rgba(245,242,236,0.8); margin-bottom: 1.2rem; }
+.ib-page-hero h1,
+.page .ib-page-hero h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3rem, 10.5vw, 10rem) !important;
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+  color: var(--white);
+  margin: 0 0 1.6rem !important;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.25);
+  animation: ibRise 1s var(--ease) both;
+}
+/* Orange full stop — echoes the "h." mark on the hoodies */
+.ib-page-hero h1::after { content: '.'; color: var(--brand); }
+.ib-page-hero p:not(.ib-annotation) {
+  color: rgba(245,242,236,0.78) !important;
+  max-width: 34rem !important;
+  margin: 0 auto !important;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+.ib-page-hero .btn { margin-top: 2rem; }
+
+.ib-page-hero .ib-annotation {
+  position: absolute;
+  left: 50%;
+  bottom: 2.2rem;
+  transform: translateX(-50%) rotate(-4deg);
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 1.35rem !important;
+  line-height: 1.05;
+  color: rgba(245,242,236,0.92) !important;
+  text-align: left;
+  white-space: nowrap;
+  max-width: none !important;
+  opacity: 0;
+  animation: ibFade 1s 0.9s forwards;
+}
+.ib-page-hero .ib-scribble,
+.ib-statement .ib-scribble { color: var(--brand); stroke-width: 2; }
+.ib-page-hero .ib-annotation .ib-scribble path { transition-delay: 1.4s; }
+
+/* ---------- Section rhythm on every page ---------- */
+.page .section-header,
+.page .section-header.centered { text-align: left; }
+.page .section-header .section-sub,
+.page .section-header.centered .section-sub { margin: 0; }
+.page .section { position: relative; z-index: 6; }
+.page:not(#home) .section { padding-top: 6rem; padding-bottom: 6rem; }
+
+/* Orange accents on headings: italic/em words inside titles */
+h1 em, h2 em, h3 em { font-style: normal; color: var(--brand); }
+
+/* Cards, panels and forms: flat, hairline, near-black */
+.feature-card, .value-card, .team-card, .member-panel, .members-sidebar,
+.contact-form, .partner-card, .community-auth-box, .ha-included-card {
+  border-radius: var(--radius) !important;
+  border-color: var(--border) !important;
+}
+input, textarea, select {
+  border-radius: var(--radius) !important;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--brand) !important;
+  outline: none;
+  box-shadow: 0 0 0 1px var(--brand) !important;
+}
+
+/* Tabs / filters: uppercase micro-type with an orange active state */
+.filter-btn, .contact-tab, .community-auth-tab {
+  font-size: 0.68rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 999px !important;
+}
+.filter-btn.active, .contact-tab.active, .community-auth-tab.active {
+  background: var(--brand) !important;
+  border-color: var(--brand) !important;
+  color: var(--white) !important;
+}
+
+/* Stat rows on partners / Hyke Abroad: big grotesk numbers, hairlines */
+.partner-stat-num, .ha-highlight-val {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+}
+.partner-stat-num { font-weight: 800; color: var(--white); }
+.ha-highlights { background: var(--dark); border-top: 1px solid var(--border); position: relative; z-index: 6; }
+.ha-highlight-label { color: var(--brand-light); }
+
+/* Footer accents */
+footer a:hover { color: var(--brand-light); }
+
+@media (max-width: 768px) {
+  .ib-page-hero { min-height: 72vh; padding: 7rem 1.25rem 6rem !important; }
+  .ib-page-hero--short { min-height: 56vh; }
+  .ib-page-hero h1, .page .ib-page-hero h1 { font-size: clamp(2.6rem, 15vw, 5rem) !important; }
+  .ib-page-hero .ib-annotation { bottom: 1.4rem; font-size: 1.15rem !important; }
+  .page:not(#home) .section { padding-top: 4rem; padding-bottom: 4rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ib-page-hero-bg, .ib-page-hero h1 { animation: none; transform: none; }
+  .ib-page-hero .ib-annotation { animation: none; opacity: 1; }
+}
+
+/* ---------- Hykes: UK / Abroad switcher, top centre of both pages ---------- */
+.ib-page-hero > .hyke-switch {
+  position: absolute;
+  top: calc(72px + 1.5rem);
+  left: 50%;
+  translate: -50% 0;
+  z-index: 3;
+  display: inline-flex;
+  padding: 4px;
+  gap: 4px;
+  border-radius: 999px;
+  background: rgba(11,11,11,0.55);
+  border: 1px solid rgba(245,242,236,0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.hyke-switch a {
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(245,242,236,0.75);
+  transition: background 0.3s var(--ease), color 0.3s;
+}
+.hyke-switch a:hover { color: var(--white); background: rgba(245,242,236,0.08); }
+.hyke-switch a.active { background: var(--brand); color: var(--white); }
+/* Keep the "Hykes" nav item lit on both hyke pages */
+body[data-page="hyke-abroad"] .nav-links a.nav-hykes-link { color: var(--white); }
+body[data-page="hyke-abroad"] .nav-links a.nav-hykes-link::after { width: 100%; }
+@media (max-width: 768px) {
+  .ib-page-hero > .hyke-switch { top: calc(64px + 1rem); }
+  .hyke-switch a { padding: 0.6rem 1rem; font-size: 0.62rem; }
+}
+
+/* ---------- Community switcher in the signed-in header ---------- */
+.community-switch--header {
+  display: inline-flex;
+  padding: 3px;
+  gap: 3px;
+  border-radius: 999px;
+  background: rgba(245,242,236,0.04);
+  border: 1px solid var(--border);
+}
+.community-switch--header a { padding: 0.55rem 1.1rem; font-size: 0.62rem; }
+body[data-page="community"] .nav-links a.nav-community-link { color: var(--white); }
+@media (max-width: 768px) {
+  .community-switch--header a { padding: 0.5rem 0.7rem; font-size: 0.56rem; letter-spacing: 0.08em; }
+  .community-switch--header + #signout-btn { padding-inline: 0.7rem; }
+}
+
+/* Phones: community switcher drops to its own full-width row under the header */
+@media (max-width: 768px) {
+  .comm-header-inner { flex-wrap: wrap; height: auto !important; padding-block: 0.6rem; row-gap: 0.6rem; }
+  .comm-header-inner .comm-user { flex: 1; min-width: 0; }
+  .community-switch--header { order: 3; flex-basis: 100%; justify-content: stretch; }
+  .community-switch--header a { flex: 1; text-align: center; }
+}

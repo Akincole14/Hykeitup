@@ -785,7 +785,7 @@ initTicketPage();
 // =============================================
 
 const ADMIN_USERNAME = 'hykeitup_admin';
-const ADMIN_PASSWORD = 'HykeAdmin2024!';
+// Accounts, passwords and email verification are handled by Supabase (js/auth.js).
 
 function communityStore(key, val) { localStorage.setItem('hyu_' + key, JSON.stringify(val)); }
 function communityGet(key) { try { return JSON.parse(localStorage.getItem('hyu_' + key)); } catch { return null; } }
@@ -794,15 +794,14 @@ function communityGet(key) { try { return JSON.parse(localStorage.getItem('hyu_'
 (function seedAdmin() {
   const users = communityGet('users') || [];
   if (!users.find(u => u.username === ADMIN_USERNAME)) {
-    users.push({ username: ADMIN_USERNAME, email: 'admin@hykeitup.com', password: ADMIN_PASSWORD, firstName: 'Admin', lastName: '', isAdmin: true, joinedAt: Date.now() });
-    users.push({ username: 'sable_hikes', email: 'sable@hykeitup.com', password: 'demo', firstName: 'Sable', lastName: '', isAdmin: false, joinedAt: Date.now() - 86400000 });
-    users.push({ username: 'akin_trails', email: 'akin@hykeitup.com', password: 'demo', firstName: 'Akin', lastName: '', isAdmin: false, joinedAt: Date.now() - 43200000 });
+    users.push({ username: ADMIN_USERNAME, firstName: 'Admin', lastName: '', isAdmin: true, joinedAt: Date.now() });
+    users.push({ username: 'sable_hikes', firstName: 'Sable', lastName: '', isAdmin: false, joinedAt: Date.now() - 86400000 });
+    users.push({ username: 'akin_trails', firstName: 'Akin', lastName: '', isAdmin: false, joinedAt: Date.now() - 43200000 });
     communityStore('users', users);
   }
-  const users2 = communityGet('users') || [];
-  const filtered = users2.filter(u => u.username !== 'akincole');
-  filtered.push({ username: 'akincole', email: 'akincole@hotmail.com', password: 'Hyke2024!', firstName: 'Akin', lastName: 'Cole', isAdmin: false, joinedAt: Date.now() });
-  communityStore('users', filtered);
+  // Strip any passwords left in this browser by the old local-only accounts
+  const cleaned = (communityGet('users') || []).filter(u => u.username !== 'akincole').map(({ password, ...u }) => u);
+  communityStore('users', cleaned);
 
   if (!communityGet('announcements')) {
     communityStore('announcements', [
@@ -862,70 +861,7 @@ document.getElementById('forgot-link')?.addEventListener('click', () => {
 
 document.getElementById('back-to-signin')?.addEventListener('click', () => communityOpenTab('signin'));
 
-document.getElementById('fp-submit-btn')?.addEventListener('click', () => {
-  const username = document.getElementById('fp-username').value.trim().toLowerCase();
-  const email    = document.getElementById('fp-email').value.trim().toLowerCase();
-  const newpw    = document.getElementById('fp-newpw').value;
-  const confirmpw = document.getElementById('fp-confirmpw').value;
-  const errEl    = document.getElementById('forgot-error');
-  const successEl = document.getElementById('forgot-success');
-
-  errEl.style.display = 'none';
-  successEl.style.display = 'none';
-
-  if (!username || !email || !newpw || !confirmpw) return showAuthError(errEl, 'Please fill in all fields.');
-  if (newpw.length < 6) return showAuthError(errEl, 'Password must be at least 6 characters.');
-  if (newpw !== confirmpw) return showAuthError(errEl, 'Passwords do not match.');
-
-  const users = getUsers();
-  const user = users.find(u => u.username === username && u.email.toLowerCase() === email);
-  if (!user) return showAuthError(errEl, 'No account found with that username and email.');
-
-  user.password = newpw;
-  communityStore('users', users);
-  successEl.style.display = 'block';
-  document.getElementById('fp-newpw').value = '';
-  document.getElementById('fp-confirmpw').value = '';
-  setTimeout(() => communityOpenTab('signin'), 2000);
-});
-
-// --- Register ---
-document.getElementById('register-btn')?.addEventListener('click', () => {
-  const first    = document.getElementById('reg-first').value.trim();
-  const last     = document.getElementById('reg-last').value.trim();
-  const username = document.getElementById('reg-username').value.trim().toLowerCase().replace(/\s+/g, '_');
-  const email    = document.getElementById('reg-email').value.trim();
-  const phone    = document.getElementById('reg-phone').value.trim();
-  const password = document.getElementById('reg-password').value;
-  const errEl    = document.getElementById('register-error');
-
-  errEl.style.display = 'none';
-  if (!first || !username || !email || !password) return showAuthError(errEl, 'Please fill in all fields.');
-  if (password.length < 6) return showAuthError(errEl, 'Password must be at least 6 characters.');
-
-  const users = getUsers();
-  if (users.find(u => u.username === username)) return showAuthError(errEl, 'That username is already taken.');
-  if (users.find(u => u.email === email)) return showAuthError(errEl, 'An account with that email already exists.');
-
-  users.push({ username, email, phone, password, firstName: first, lastName: last, isAdmin: false, joinedAt: Date.now() });
-  communityStore('users', users);
-  communityStore('session', { username, isAdmin: false, firstName: first });
-  communityShowChat();
-});
-
-// --- Sign In ---
-document.getElementById('signin-btn')?.addEventListener('click', () => {
-  const username = document.getElementById('si-username').value.trim().toLowerCase();
-  const password = document.getElementById('si-password').value;
-  const errEl    = document.getElementById('signin-error');
-  errEl.style.display = 'none';
-
-  const user = getUsers().find(u => u.username === username && u.password === password);
-  if (!user) return showAuthError(errEl, 'Incorrect username or password.');
-
-  communityStore('session', { username: user.username, isAdmin: user.isAdmin, firstName: user.firstName });
-  communityShowChat();
-});
+// Register, sign-in and password reset: see js/auth.js (Supabase).
 
 // --- Sign Out ---
 document.getElementById('signout-btn')?.addEventListener('click', () => {
@@ -1719,24 +1655,7 @@ document.getElementById('set-profile-save')?.addEventListener('click', () => {
   setTimeout(() => { okEl.style.display = 'none'; }, 3000);
 });
 
-document.getElementById('set-pw-save')?.addEventListener('click', () => {
-  const user = getCurrentUser();
-  if (!user) return;
-  const cur     = document.getElementById('set-cur-pw').value;
-  const newPw   = document.getElementById('set-new-pw').value;
-  const confirm = document.getElementById('set-confirm-pw').value;
-  const errEl   = document.getElementById('set-pw-error');
-  const okEl    = document.getElementById('set-pw-success');
-  errEl.style.display = 'none'; okEl.style.display = 'none';
-  if (!cur || !newPw || !confirm) { errEl.textContent = 'Please fill in all password fields.'; errEl.style.display = 'block'; return; }
-  if (cur !== user.password) { errEl.textContent = 'Current password is incorrect.'; errEl.style.display = 'block'; return; }
-  if (newPw.length < 6) { errEl.textContent = 'New password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
-  if (newPw !== confirm) { errEl.textContent = 'New passwords do not match.'; errEl.style.display = 'block'; return; }
-  updateUserRecord({ ...user, password: newPw });
-  ['set-cur-pw','set-new-pw','set-confirm-pw'].forEach(id => { document.getElementById(id).value = ''; });
-  okEl.style.display = 'block';
-  setTimeout(() => { okEl.style.display = 'none'; }, 3000);
-});
+// Change password: see js/auth.js (Supabase).
 
 document.getElementById('set-postcode-find')?.addEventListener('click', async () => {
   const raw    = document.getElementById('set-postcode').value.trim();

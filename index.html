@@ -26,7 +26,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/iceberg.css" />
+  <link rel="stylesheet" href="css/community-plus.css" />
 </head>
 <body>
 
@@ -41,21 +44,9 @@
   <ul class="nav-links">
     <li><a href="#" data-page="home" class="active">Home</a></li>
     <li><a href="#" data-page="about">About</a></li>
-    <li class="nav-has-sub nav-has-sub--hover">
-      <a href="#" data-page="tickets" class="nav-hykes-toggle">Upcoming Hykes <span class="nav-sub-arrow">▾</span></a>
-      <ul class="nav-submenu">
-        <li><a href="#" data-page="tickets">🇬🇧 UK Hykes</a></li>
-        <li><a href="#" data-page="tickets">✈️ Hyke Abroad</a></li>
-      </ul>
-    </li>
+    <li><a href="#" data-page="tickets" class="nav-hykes-link">Hykes</a></li>
     <li><a href="#" data-page="gallery">Gallery</a></li>
-    <li class="nav-has-sub nav-has-sub--hover">
-      <a href="#" data-page="community" class="nav-community-toggle">Community <span class="nav-sub-arrow">▾</span></a>
-      <ul class="nav-submenu">
-        <li><a href="#" data-page="community" data-panel="cm-panel-chat">💬 Community Chat</a></li>
-        <li><a href="#" data-page="community" data-panel="cm-panel-testimonial">⭐ Leave a Review</a></li>
-      </ul>
-    </li>
+    <li><a href="#" data-page="community" class="nav-community-link">Community</a></li>
 
     <li class="nav-mobile-cta"><a href="#" data-page="contact" class="nav-cta">Join The Team</a></li>
   </ul>
@@ -66,6 +57,9 @@
     </button>
   </div>
 </nav>
+
+<!-- Iceberg-style side tab (site-wide) -->
+<a href="#" class="ib-side-tab" data-page="contact"><span>Join the hyke</span><i>+</i></a>
 
 <!-- Lightbox -->
 <div id="lightbox" class="lightbox">
@@ -96,14 +90,9 @@
     <div class="hero-dots"></div>
 
 
-    <div class="hero-content">
-      <div class="hero-eyebrow">A Community For Millennials</div>
-      <h1>Find Your <em>Path</em></h1>
-      <p>Navigating life as a 30-40 something year old has its peaks and troughs. At a stage in life where we thought we'd all have it figured out, we're all in fact still trying to find our path and navigate the ultimate trail of life, adulthood.</p>
-      <div class="btn-group">
-        <a href="#" class="btn btn-primary" data-page="contact">Join the Community</a>
-        <a href="#" class="btn btn-outline" data-page="about">Learn More</a>
-      </div>
+    <div class="hero-content ib-hero">
+      <h1 class="ib-wordmark" aria-label="Hyke It Up"><span class="ib-wordmark-logo"><img src="images/logo-hyke-light.png" alt="" /></span> <span>IT</span> <span>UP</span></h1>
+      <p class="ib-annotation" aria-hidden="true">when the hills <span class="ib-circled">call</span><br>we <span class="ib-underlined">answer</span></p>
     </div>
 
   </section>
@@ -130,6 +119,22 @@
     </div>
   </div>
   </div><!-- /hero-wrapper -->
+
+
+  <!-- Statement -->
+  <section class="ib-statement">
+    <div class="ib-statement-bg" style="background-image:url('images/img3.jpg')"></div>
+    <div class="ib-statement-inner">
+      <span class="ib-index">01.</span>
+      <div>
+        <p class="ib-statement-text ib-split">Navigating life as a 30–40 something has its peaks and troughs. We thought we'd have it all figured out by now — instead we're all still finding our path. So we take it outside: monthly major hykes, weekend mini hykes, and real conversation on the trail.</p>
+        <div class="btn-group ib-statement-actions">
+          <a href="#" class="btn btn-primary" data-page="contact">Join the Community</a>
+          <a href="#" class="btn btn-outline" data-page="about">Our Story</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Features -->
   <section class="section">
@@ -282,10 +287,9 @@
   </section>
 
   <!-- CTA Banner -->
-  <section class="cta-banner">
-    <h2 class="reveal">Ready to Leave the Office Behind?</h2>
-    <p class="reveal delay-1">Join hundreds of city professionals who've found their tribe on the trails. Your next adventure is waiting.</p>
-    <a href="#" class="btn btn-dark reveal delay-2" data-page="contact">Get in Touch →</a>
+  <section class="ib-cta">
+    <p class="ib-cta-text reveal">Ready to leave the office <span class="ib-circled">behind</span>? Join hundreds of city professionals who've found their tribe on the trails. Whether it's your first hyke or your fiftieth, your next <span class="ib-underlined">adventure</span> is waiting.</p>
+    <a href="#" class="ib-cta-link reveal delay-1" data-page="contact"><span class="ib-circled">Get in touch</span></a>
   </section>
 
 </div><!-- /home -->
@@ -296,13 +300,21 @@
 <!-- ========================================= -->
 <div id="about" class="page">
 
-  <section class="section" style="padding-top: 8rem;">
+  <div class="ib-page-hero">
+    <div class="ib-page-hero-bg" style="background-image:url('images/img4.jpg')" aria-hidden="true"></div>
+    <div class="section-label">Our Story</div>
+    <h1>About Us</h1>
+    <p>Two friends, one impulse idea, and a community of thousands who refuse to let adulthood keep them indoors.</p>
+    <p class="ib-annotation" aria-hidden="true">two friends, one <span class="ib-circled">idea</span></p>
+  </div>
+
+  <section class="section">
     <div class="about-grid">
       <div class="about-img-wrap reveal-left">
-        <img src="images/img2.jpg" alt="Hyke It Up community" class="about-img" />
+        <img src="images/founders.jpg" alt="Hyke It Up co-founders in their Hyke It Up hoodies" class="about-img about-img--portrait" />
         <div class="about-badge">
-          <strong>2020</strong>
           <span>Founded</span>
+          <strong>2024</strong>
         </div>
       </div>
       <div class="about-text reveal-right">
@@ -394,10 +406,13 @@
 <!-- ========================================= -->
 <div id="members" class="page">
 
-  <div class="members-hero">
+  <div class="members-hero ib-page-hero ib-page-hero--short">
+    <div class="ib-page-hero-bg" style="background-image:url('images/img7.jpg')" aria-hidden="true"></div>
+    <div class="section-label">Your Basecamp</div>
     <h1>Members Area</h1>
     <p>Your hub for schedules, resources and the full community directory.</p>
     <a href="#" class="btn btn-primary" data-page="contact">Not a member? Join Us →</a>
+    <p class="ib-annotation" aria-hidden="true">everything in <span class="ib-underlined">one place</span></p>
   </div>
 
   <div class="members-wrap">
@@ -494,9 +509,11 @@
 <!-- ========================================= -->
 <div id="gallery" class="page">
 
-  <div class="gallery-hero">
-    <h1>Our Gallery</h1>
+  <div class="gallery-hero ib-page-hero">
+    <div class="ib-page-hero-bg" style="background-image:url('images/img6.jpg')" aria-hidden="true"></div>
+    <div class="section-label">Moments From The Trail</div>
     <p>Moments from the trail — every photo tells a story of adventure, friendship and the great outdoors.</p>
+    <p class="ib-annotation" aria-hidden="true">proof we <span class="ib-circled">actually</span><br>went outside</p>
   </div>
 
   <div class="gallery-wrap">
@@ -588,9 +605,12 @@
 <!-- ========================================= -->
 <div id="contact" class="page">
 
-  <div class="contact-hero">
+  <div class="contact-hero ib-page-hero">
+    <div class="ib-page-hero-bg" style="background-image:url('images/img1.jpg')" aria-hidden="true"></div>
+    <div class="section-label">Contact</div>
     <h1>Get Involved</h1>
     <p>Whether you're ready to join, have a question, or want to partner with us — we'd love to hear from you.</p>
+    <p class="ib-annotation" aria-hidden="true">go on, say <span class="ib-circled">hello</span></p>
   </div>
 
   <!-- Tab Navigation -->
@@ -865,10 +885,12 @@
 <!-- ========================================= -->
 <div id="partners" class="page">
 
-  <div class="partners-hero">
+  <div class="partners-hero ib-page-hero">
+    <div class="ib-page-hero-bg" style="background-image:url('images/img3.jpg')" aria-hidden="true"></div>
     <div class="section-label">Work With Us</div>
     <h1>Partners &amp; Sponsors</h1>
     <p>Join forces with a fast-growing outdoor community. We work with brands and organisations who share our values of adventure, inclusion, and wellbeing.</p>
+    <p class="ib-annotation" aria-hidden="true">let's go <span class="ib-underlined">further</span> together</p>
   </div>
 
   <div class="partners-why">
@@ -982,14 +1004,19 @@
 <!-- ========================================= -->
 <div id="tickets" class="page">
 
-  <div class="tickets-hero">
+  <div class="tickets-hero ib-page-hero ib-page-hero--short">
+    <div class="hyke-switch" role="group" aria-label="Choose hyke type">
+      <a href="#" data-page="tickets">UK Hykes</a>
+      <a href="#" data-page="hyke-abroad">Hyke Abroad</a>
+    </div>
+    <div class="ib-page-hero-bg" style="background-image:url('images/img5.jpg')" aria-hidden="true"></div>
     <div class="tickets-hero-bg"></div>
     <div class="tickets-hero-overlay"></div>
     <div class="tickets-hero-content">
       <div class="section-label">Adventure Awaits</div>
-      <h1>Upcoming Hykes</h1>
       <p>Browse our upcoming events and secure your spot in just a few clicks.</p>
     </div>
+    <p class="ib-annotation" aria-hidden="true">pick a <span class="ib-circled">trail</span></p>
   </div>
 
   <!-- Ticket Tailor iframe embed -->
@@ -1177,64 +1204,97 @@
 <!-- ========================================= -->
 <div id="community" class="page">
 
-  <div class="community-hero" id="community-hero">
+  <div class="community-hero ib-page-hero ib-page-hero--short" id="community-hero">
+    <div class="hyke-switch community-switch" role="group" aria-label="Community sections">
+      <a href="#" data-cx-switch="cm-panel-chat">Community Chat</a>
+      <a href="#" data-cx-switch="cm-panel-testimonial">Leave a Review</a>
+    </div>
+    <div class="ib-page-hero-bg" style="background-image:url('images/img2.jpg')" aria-hidden="true"></div>
     <div class="section-label">Members Only</div>
-    <h1>The Community</h1>
     <p>Connect, share, and chat with fellow Hyke It Up members.</p>
+    <p class="ib-annotation" aria-hidden="true">your trail <span class="ib-underlined">family</span></p>
   </div>
 
   <!-- Auth Panel -->
   <div id="community-auth" class="community-auth">
+    <!-- Immersive pitch (logged-out) -->
+    <div class="cx-pitch">
+      <div class="section-label">Inside The Community</div>
+      <h2 class="cx-pitch-title">Your trail family is <span class="ib-circled">waiting</span></h2>
+      <div class="cx-mosaic" aria-hidden="true">
+        <img src="images/img6.jpg" alt="" class="cx-tile cx-tile--a" data-depth="18" />
+        <img src="images/img7.jpg" alt="" class="cx-tile cx-tile--b" data-depth="30" />
+        <img src="images/img1.jpg" alt="" class="cx-tile cx-tile--c" data-depth="12" />
+      </div>
+    </div>
     <div class="community-auth-box">
       <div class="community-auth-tabs">
         <button class="community-auth-tab active" data-auth="signin">Sign In</button>
         <button class="community-auth-tab" data-auth="register">Register</button>
       </div>
+      <div id="auth-notice" class="auth-notice" role="status" hidden></div>
 
       <!-- Sign In Form -->
       <div class="community-auth-panel active" id="auth-signin">
         <h3>Welcome Back</h3>
         <p class="auth-sub">Sign in to access the community chat.</p>
         <div class="form-group">
-          <label for="si-username">Username</label>
-          <input type="text" id="si-username" placeholder="Your username" autocomplete="username" />
+          <label for="si-email">Email Address</label>
+          <input type="email" id="si-email" placeholder="your@email.com" autocomplete="email" />
         </div>
         <div class="form-group">
           <label for="si-password">Password</label>
           <div class="pw-wrap"><input type="password" id="si-password" placeholder="Your password" autocomplete="current-password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
         </div>
         <div id="signin-error" class="auth-error" style="display:none;"></div>
+        <button type="button" class="auth-text-link" id="resend-confirm-link" hidden>Resend confirmation email</button>
         <button class="btn btn-primary" id="signin-btn" style="width:100%;margin-top:0.5rem;">Sign In →</button>
         <div style="text-align:center;margin-top:1rem;">
           <button class="auth-text-link" id="forgot-link">Forgot your password?</button>
         </div>
       </div>
 
-      <!-- Forgot Password -->
+      <!-- Forgot Password: request a reset link by email -->
       <div class="community-auth-panel" id="auth-forgot">
         <h3>Reset Password</h3>
-        <p class="auth-sub">Enter your username and email, then choose a new password.</p>
-        <div class="form-group">
-          <label for="fp-username">Username</label>
-          <input type="text" id="fp-username" placeholder="Your username" />
-        </div>
+        <p class="auth-sub">Enter the email you registered with and we'll send you a secure link to choose a new password.</p>
         <div class="form-group">
           <label for="fp-email">Email Address</label>
-          <input type="email" id="fp-email" placeholder="your@email.com" />
-        </div>
-        <div class="form-group">
-          <label for="fp-newpw">New Password</label>
-          <div class="pw-wrap"><input type="password" id="fp-newpw" placeholder="Choose a new password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
-        </div>
-        <div class="form-group">
-          <label for="fp-confirmpw">Confirm Password</label>
-          <div class="pw-wrap"><input type="password" id="fp-confirmpw" placeholder="Confirm new password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
+          <input type="email" id="fp-email" placeholder="your@email.com" autocomplete="email" />
         </div>
         <div id="forgot-error" class="auth-error" style="display:none;"></div>
-        <div id="forgot-success" class="auth-success" style="display:none;">Password updated! You can now sign in.</div>
-        <button class="btn btn-primary" id="fp-submit-btn" style="width:100%;margin-top:0.5rem;">Reset Password →</button>
+        <div id="forgot-success" class="auth-success" style="display:none;"></div>
+        <button class="btn btn-primary" id="fp-submit-btn" style="width:100%;margin-top:0.5rem;">Email Me a Reset Link →</button>
         <div style="text-align:center;margin-top:1rem;">
           <button class="auth-text-link" id="back-to-signin">← Back to Sign In</button>
+        </div>
+      </div>
+
+      <!-- Set new password (opened from the emailed reset link) -->
+      <div class="community-auth-panel" id="auth-newpw">
+        <h3>Choose a New Password</h3>
+        <p class="auth-sub">You've confirmed your email. Choose a new password for your account.</p>
+        <div class="form-group">
+          <label for="np-password">New Password</label>
+          <div class="pw-wrap"><input type="password" id="np-password" placeholder="At least 8 characters" autocomplete="new-password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
+        </div>
+        <div class="form-group">
+          <label for="np-confirm">Confirm Password</label>
+          <div class="pw-wrap"><input type="password" id="np-confirm" placeholder="Repeat new password" autocomplete="new-password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
+        </div>
+        <div id="newpw-error" class="auth-error" style="display:none;"></div>
+        <button class="btn btn-primary" id="np-save-btn" style="width:100%;margin-top:0.5rem;">Save New Password →</button>
+      </div>
+
+      <!-- Check your email (after register / reset request) -->
+      <div class="community-auth-panel" id="auth-check-email">
+        <div class="auth-mail-icon" aria-hidden="true">✉</div>
+        <h3 id="check-email-title">Check Your Email</h3>
+        <p class="auth-sub" id="check-email-text"></p>
+        <div id="check-email-status" class="auth-success" style="display:none;"></div>
+        <button class="btn btn-outline" id="check-email-resend" style="width:100%;margin-top:0.5rem;">Resend Email</button>
+        <div style="text-align:center;margin-top:1rem;">
+          <button class="auth-text-link" id="check-email-back">← Back to Sign In</button>
         </div>
       </div>
 
@@ -1266,7 +1326,22 @@
         </div>
         <div class="form-group">
           <label for="reg-password">Password</label>
-          <div class="pw-wrap"><input type="password" id="reg-password" placeholder="Choose a password" autocomplete="new-password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
+          <div class="pw-wrap"><input type="password" id="reg-password" placeholder="At least 8 characters" autocomplete="new-password" /><button type="button" class="pw-toggle" aria-label="Show password">👁</button></div>
+        </div>
+        <label class="mailing-opt-in reg-opt-in" id="reg-opt-in">
+          <input type="checkbox" id="reg-mailing" name="mailingList" value="yes" />
+          <span class="mailing-opt-box"></span>
+          <span class="mailing-opt-label">
+            <strong>Subscribe to the mailing list <em class="reg-opt-tag">Important</em></strong>
+            <small>Members receive very important information by email: new hyke dates, limited-space releases, trip updates and safety details. Subscribers hear first, so you'll be ahead of anyone who isn't a member or subscribed.</small>
+          </span>
+        </label>
+        <div id="reg-opt-reminder" class="reg-opt-reminder" role="alert" hidden>
+          <p><strong>Are you sure?</strong> Without the mailing list you could miss new dates and limited spaces that go to subscribers first.</p>
+          <div class="reg-opt-reminder-btns">
+            <button type="button" class="btn btn-primary btn-sm" id="reg-opt-yes">Subscribe &amp; create account</button>
+            <button type="button" class="btn btn-outline btn-sm" id="reg-opt-no">No thanks, continue</button>
+          </div>
         </div>
         <div id="register-error" class="auth-error" style="display:none;"></div>
         <button class="btn btn-primary" id="register-btn" style="width:100%;margin-top:0.5rem;">Create Account →</button>
@@ -1286,8 +1361,12 @@
             <div class="comm-since">Hyke It Up Member</div>
           </div>
           <span id="chat-admin-badge" class="chat-admin-badge" style="display:none;">Admin</span>
-          <button class="btn btn-outline btn-sm" id="signout-btn">Sign Out</button>
         </div>
+        <div class="hyke-switch community-switch community-switch--header" role="group" aria-label="Community sections">
+          <a href="#" data-cx-switch="cm-panel-chat">Community Chat</a>
+          <a href="#" data-cx-switch="cm-panel-testimonial">Leave a Review</a>
+        </div>
+        <button class="btn btn-outline btn-sm" id="signout-btn">Sign Out</button>
       </div>
     </div>
 
@@ -1311,6 +1390,16 @@
       <main class="comm-main">
 
         <div id="cm-panel-tickets" class="member-panel active">
+          <!-- Immersive welcome -->
+          <div class="cx-welcome">
+            <div class="cx-welcome-bg" style="background-image:url('images/img6.jpg')" aria-hidden="true"></div>
+            <div class="cx-welcome-inner">
+              <div class="section-label" id="cx-greet-label">Welcome back</div>
+              <h2 class="cx-welcome-title" id="cx-greet-name">Hyker</h2>
+              <p class="cx-hand" aria-hidden="true">see you on the <span class="ib-underlined">trail</span></p>
+            </div>
+            <div class="cx-next" id="cx-next" aria-live="polite"></div>
+          </div>
           <div class="panel-title-row">
             <div class="panel-title">My Tickets</div>
             <button class="btn btn-primary btn-sm" id="add-ticket-btn">+ Add Ticket</button>
@@ -1386,6 +1475,15 @@
             </aside>
             <main class="chat-main">
               <div class="chat-panel-header"><span>💬 Community Chat</span></div>
+              <div class="cx-chat-top">
+                <div class="cx-crew" id="cx-crew" aria-label="Members — click to mention"></div>
+                <div class="cx-prompt" id="cx-prompt">
+                  <span class="cx-prompt-label">Trail question</span>
+                  <span class="cx-prompt-text" id="cx-prompt-text"></span>
+                  <button type="button" class="cx-prompt-btn" id="cx-prompt-answer">Answer</button>
+                  <button type="button" class="cx-prompt-btn cx-prompt-btn--ghost" id="cx-prompt-next" aria-label="Another question">↻</button>
+                </div>
+              </div>
               <div id="chat-messages" class="chat-messages"></div>
               <div id="reply-preview" class="reply-preview" style="display:none;">
                 <div class="reply-preview-inner">
@@ -1522,6 +1620,186 @@
 </div><!-- /community -->
 
 
+<!-- ===== HYKE ABROAD PAGE ===== -->
+<div id="hyke-abroad" class="page">
+
+  <!-- Hero -->
+  <div class="ha-hero ib-page-hero">
+    <div class="hyke-switch" role="group" aria-label="Choose hyke type">
+      <a href="#" data-page="tickets">UK Hykes</a>
+      <a href="#" data-page="hyke-abroad">Hyke Abroad</a>
+    </div>
+    <div class="ib-page-hero-bg" style="background-image:url('images/img2.jpg')" aria-hidden="true"></div>
+    <div class="ha-hero-img" style="background-image:url('images/img2.jpg')"></div>
+    <div class="ha-hero-overlay"></div>
+    <div class="ha-hero-content">
+      <div class="section-label">Hyke Abroad · Lille</div>
+      <p>A Hyke It Up coach adventure across the Channel — great trails, great company, great night out.</p>
+    </div>
+    <p class="ib-annotation" aria-hidden="true">passports <span class="ib-circled">ready</span></p>
+  </div>
+
+  <!-- Trip highlights bar -->
+  <div class="ha-highlights">
+    <div class="ha-highlight">
+      <span class="ha-highlight-icon">🚌</span>
+      <span class="ha-highlight-label">Transport</span>
+      <span class="ha-highlight-val">Coach from London</span>
+    </div>
+    <div class="ha-highlight">
+      <span class="ha-highlight-icon">💷</span>
+      <span class="ha-highlight-label">Coach Cost</span>
+      <span class="ha-highlight-val">£350 per person</span>
+    </div>
+    <div class="ha-highlight">
+      <span class="ha-highlight-icon">📍</span>
+      <span class="ha-highlight-label">Departure</span>
+      <span class="ha-highlight-val">Stratford International</span>
+    </div>
+    <div class="ha-highlight">
+      <span class="ha-highlight-icon">🥾</span>
+      <span class="ha-highlight-label">Hyke Duration</span>
+      <span class="ha-highlight-val">3 – 4 Hours</span>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <section class="section ha-intro-section">
+    <div class="container">
+      <div class="section-label reveal">The Trip</div>
+      <h2 class="section-title reveal delay-1">A Weekend to Remember</h2>
+      <p class="ha-intro-text reveal delay-2">
+        Join us on our first international Hyke It Up experience as we head to the beautiful city of Lille, France.
+        We'll be travelling together by coach from Stratford International, settling into our hotel in and around Lille Town Centre,
+        lacing up our boots for a stunning 3–4 hour hyke through the French countryside, and finishing the weekend with a well-earned night out before heading home.
+        This is more than a hike — it's a full community adventure.
+      </p>
+    </div>
+  </section>
+
+  <!-- Itinerary timeline -->
+  <section class="section ha-itinerary-section">
+    <div class="container">
+      <div class="section-label reveal">What to Expect</div>
+      <h2 class="section-title reveal delay-1">Weekend Itinerary</h2>
+
+      <div class="ha-timeline">
+
+        <div class="ha-timeline-item reveal">
+          <div class="ha-timeline-marker">
+            <span class="ha-timeline-dot"></span>
+            <span class="ha-timeline-line"></span>
+          </div>
+          <div class="ha-timeline-card">
+            <div class="ha-timeline-date">Thursday 18th September 2026</div>
+            <div class="ha-timeline-time">🕖 7:00pm Departure</div>
+            <h3>All Aboard at Stratford International</h3>
+            <p>Meet your fellow Hykers at Stratford International station and board the coach heading to Lille, France. Settle in, get to know the group, and enjoy the overnight journey across the Channel.</p>
+          </div>
+        </div>
+
+        <div class="ha-timeline-item reveal delay-1">
+          <div class="ha-timeline-marker">
+            <span class="ha-timeline-dot"></span>
+            <span class="ha-timeline-line"></span>
+          </div>
+          <div class="ha-timeline-card">
+            <div class="ha-timeline-date">Friday 19th September 2026</div>
+            <div class="ha-timeline-time">🏨 Arrival — Time TBC</div>
+            <h3>Arrive & Settle In</h3>
+            <p>We'll arrive at Lille Town Centre and check in to our chosen hotels in the surrounding area. Take the day to rest up, explore the city, and soak in the atmosphere of one of France's most vibrant cities.</p>
+          </div>
+        </div>
+
+        <div class="ha-timeline-item reveal delay-2">
+          <div class="ha-timeline-marker">
+            <span class="ha-timeline-dot"></span>
+            <span class="ha-timeline-line"></span>
+          </div>
+          <div class="ha-timeline-card">
+            <div class="ha-timeline-date">Saturday 21st September 2026</div>
+            <div class="ha-timeline-time">🕘 9:00am Meet-Up</div>
+            <h3>Hyke Day 🥾</h3>
+            <p>Meet the group at the designated pick-up point at 9am sharp. From there we'll board the coach to our hyke location and take on a 3–4 hour trail through the scenic landscapes of Lille, France — taking in breathtaking views along the way.</p>
+            <div class="ha-timeline-tag">3 – 4 hour hyke &nbsp;·&nbsp; Scenic views &nbsp;·&nbsp; All levels welcome</div>
+          </div>
+        </div>
+
+        <div class="ha-timeline-item reveal delay-3">
+          <div class="ha-timeline-marker">
+            <span class="ha-timeline-dot"></span>
+            <span class="ha-timeline-line"></span>
+          </div>
+          <div class="ha-timeline-card">
+            <div class="ha-timeline-date">Saturday Evening</div>
+            <div class="ha-timeline-time">🌙 Night Out</div>
+            <h3>Celebrate & Explore</h3>
+            <p>After completing the hyke, we'll head back to our hotels to freshen up before heading out for a brilliant night out in Lille. Good food, good drinks, great company — you've earned it.</p>
+          </div>
+        </div>
+
+        <div class="ha-timeline-item reveal delay-4">
+          <div class="ha-timeline-marker">
+            <span class="ha-timeline-dot"></span>
+          </div>
+          <div class="ha-timeline-card">
+            <div class="ha-timeline-date">Return Journey</div>
+            <div class="ha-timeline-time">🕛 Depart 12:00pm — 20th September</div>
+            <h3>Homeward Bound</h3>
+            <p>After an unforgettable weekend, we'll board the coach back to Stratford International and arrive home with incredible memories and new friendships to last a lifetime.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- What's included -->
+  <section class="section ha-included-section">
+    <div class="container">
+      <div class="section-label reveal">The Details</div>
+      <h2 class="section-title reveal delay-1">What's Included</h2>
+      <div class="ha-included-grid">
+        <div class="ha-included-card reveal delay-1">
+          <span class="ha-included-icon">🚌</span>
+          <h4>Return Coach Travel</h4>
+          <p>Comfortable return coach travel from Stratford International directly to Lille and back.</p>
+        </div>
+        <div class="ha-included-card reveal delay-2">
+          <span class="ha-included-icon">🏨</span>
+          <h4>Hotel Accommodation</h4>
+          <p>Accommodation in and around Lille Town Centre for the duration of the trip.</p>
+        </div>
+        <div class="ha-included-card reveal delay-3">
+          <span class="ha-included-icon">🥾</span>
+          <h4>Guided Hyke</h4>
+          <p>A fully guided 3–4 hour hyke through the stunning French countryside with your Hyke It Up crew.</p>
+        </div>
+        <div class="ha-included-card reveal delay-4">
+          <span class="ha-included-icon">👥</span>
+          <h4>Community Experience</h4>
+          <p>Meet like-minded professionals and build lasting connections over a shared adventure.</p>
+        </div>
+      </div>
+      <p class="ha-included-note reveal">* Hotel accommodation costs are separate from the £350 coach transport fee. Full details will be shared with registered attendees.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="ha-cta-section">
+    <div class="ha-cta-bg" style="background-image:url('images/img5.jpg')"></div>
+    <div class="ha-cta-overlay"></div>
+    <div class="ha-cta-content">
+      <div class="section-label">Secure Your Spot</div>
+      <h2>Ready to Hyke Abroad?</h2>
+      <p>Places are limited. Register your interest now and we'll be in touch with everything you need to know ahead of the trip.</p>
+      <a href="#" data-page="contact" class="btn btn-primary ha-cta-btn">Register Your Interest →</a>
+    </div>
+  </section>
+
+</div><!-- /hyke-abroad -->
+
+
 <!-- ===== TICKET MODAL ===== -->
 <div id="ticket-modal" class="ticket-modal" style="display:none;" role="dialog" aria-modal="true">
   <div class="ticket-modal-backdrop"></div>
@@ -1571,7 +1849,8 @@
         <li><a href="#" data-page="about">About</a></li>
         <li><a href="#" data-page="members">Members Area</a></li>
         <li><a href="#" data-page="gallery">Gallery</a></li>
-        <li><a href="#" data-page="tickets">Upcoming Hykes</a></li>
+        <li><a href="#" data-page="tickets">Hykes</a></li>
+        <li><a href="#" data-page="hyke-abroad">Hyke Abroad</a></li>
         <li><a href="#" data-page="contact">Contact</a></li>
       </ul>
     </div>
@@ -1634,6 +1913,11 @@
 </div>
 
 <script src="https://js.stripe.com/v3/"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"></script>
+<script src="js/supabase-config.js"></script>
 <script src="js/main.js"></script>
+<script src="js/iceberg.js"></script>
+<script src="js/community-plus.js"></script>
+<script src="js/auth.js"></script>
 </body>
 </html>

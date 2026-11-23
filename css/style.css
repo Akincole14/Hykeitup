@@ -3051,3 +3051,261 @@ footer {
   .ea-popup-body { padding: 2rem 1.25rem 1.5rem; }
   .ea-popup-title { font-size: 1.3rem; }
 }
+
+/* ===== HYKE ABROAD PAGE ===== */
+
+/* Hero */
+.ha-hero {
+  position: relative;
+  height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+.ha-hero-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.05);
+  transition: transform 8s ease;
+}
+.ha-hero:hover .ha-hero-img { transform: scale(1); }
+.ha-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(10,30,15,0.78) 0%, rgba(26,26,26,0.72) 100%);
+}
+.ha-hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 5%;
+}
+.ha-hero-content h1 {
+  color: var(--white);
+  margin: 0.4rem 0 0.8rem;
+  font-size: clamp(2.6rem, 6vw, 4.8rem);
+}
+.ha-hero-content p {
+  color: rgba(255,255,255,0.72);
+  max-width: 540px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Highlights bar */
+.ha-highlights {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+.ha-highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1.4rem 2.2rem;
+  border-right: 1px solid var(--border);
+  flex: 1;
+  text-align: center;
+}
+.ha-highlight:last-child { border-right: none; }
+.ha-highlight-icon { font-size: 1.4rem; }
+.ha-highlight-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mid);
+}
+.ha-highlight-val {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+/* Intro */
+.ha-intro-section { padding-bottom: 1.5rem; }
+.ha-intro-text {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--mid);
+  line-height: 1.85;
+  font-size: 1.02rem;
+}
+
+/* Timeline */
+.ha-itinerary-section { background: var(--darker, #111); }
+.ha-timeline {
+  position: relative;
+  max-width: 740px;
+  margin: 2.5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.ha-timeline-item {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+.ha-timeline-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+}
+.ha-timeline-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--brand);
+  border: 3px solid var(--darker, #111);
+  outline: 2px solid var(--brand);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+.ha-timeline-line {
+  width: 2px;
+  flex: 1;
+  min-height: 2.5rem;
+  background: linear-gradient(to bottom, var(--brand), rgba(var(--brand-rgb, 76,153,90),0.1));
+  margin-top: 0.4rem;
+}
+.ha-timeline-item:last-child .ha-timeline-line { display: none; }
+.ha-timeline-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.8rem;
+  flex: 1;
+}
+.ha-timeline-date {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brand);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.ha-timeline-time {
+  font-size: 0.8rem;
+  color: var(--mid);
+  margin-bottom: 0.6rem;
+}
+.ha-timeline-card h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+  color: var(--white);
+}
+.ha-timeline-card p {
+  color: var(--mid);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin: 0;
+}
+.ha-timeline-tag {
+  display: inline-block;
+  margin-top: 0.8rem;
+  background: rgba(var(--brand-rgb, 76,153,90),0.12);
+  color: var(--brand);
+  border: 1px solid rgba(var(--brand-rgb, 76,153,90),0.25);
+  border-radius: 20px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+/* Included */
+.ha-included-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+.ha-included-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.2rem;
+  text-align: center;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.ha-included-card:hover {
+  border-color: var(--brand);
+  transform: translateY(-4px);
+}
+.ha-included-icon { font-size: 2rem; display: block; margin-bottom: 0.7rem; }
+.ha-included-card h4 { font-size: 0.9rem; color: var(--white); margin: 0 0 0.5rem; }
+.ha-included-card p { font-size: 0.82rem; color: var(--mid); line-height: 1.6; margin: 0; }
+.ha-included-note {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--mid);
+  opacity: 0.7;
+}
+
+/* CTA */
+.ha-cta-section {
+  position: relative;
+  padding: 6rem 5%;
+  text-align: center;
+  overflow: hidden;
+}
+.ha-cta-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+.ha-cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,20,12,0.82);
+}
+.ha-cta-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.ha-cta-content h2 {
+  color: var(--white);
+  margin: 0.4rem 0 0.8rem;
+}
+.ha-cta-content p {
+  color: rgba(255,255,255,0.68);
+  line-height: 1.75;
+  margin-bottom: 1.8rem;
+}
+.ha-cta-btn { padding: 0.9rem 2.2rem; font-size: 1rem; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .ha-hero { height: 380px; }
+  .ha-highlights { flex-wrap: wrap; }
+  .ha-highlight { flex: 1 1 45%; border-bottom: 1px solid var(--border); }
+  .ha-highlight:nth-child(odd) { border-right: 1px solid var(--border); }
+  .ha-highlight:nth-child(even) { border-right: none; }
+  .ha-highlight:nth-last-child(-n+2) { border-bottom: none; }
+  .ha-included-grid { grid-template-columns: 1fr 1fr; }
+  .ha-timeline-card { padding: 1.1rem 1.1rem; }
+}
+
+@media (max-width: 480px) {
+  .ha-highlights { flex-direction: column; }
+  .ha-highlight { border-right: none !important; border-bottom: 1px solid var(--border); }
+  .ha-highlight:last-child { border-bottom: none; }
+  .ha-included-grid { grid-template-columns: 1fr; }
+  .ha-timeline { gap: 0; }
+  .ha-timeline-card h3 { font-size: 0.95rem; }
+}
