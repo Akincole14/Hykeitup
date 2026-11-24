@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Hyke It Up — Welcome</title>
-  <meta name="description" content="Hyke It Up — a hiking community for millennials across the UK. Sign up for news, ticket releases and our next hyke." />
-  <meta property="og:title" content="Welcome to Hyke It Up" />
+  <title>Hyke It Up — Find Your Path</title>
+  <meta name="description" content="Hyke It Up — a hiking community for millennials across the UK. Find your path: sign up for news, ticket releases and our next hyke." />
+  <meta property="og:title" content="Hyke It Up — Find Your Path" />
   <meta property="og:description" content="Sign up for news, ticket releases and our next hyke." />
   <meta property="og:image" content="https://www.hykeitup.com/images/img6.jpg" />
   <meta property="og:url" content="https://www.hykeitup.com/" />
@@ -21,149 +21,137 @@
 
 <div class="lp-progress" id="lp-progress" aria-hidden="true"></div>
 
+<!-- Fixed photo backdrop: slideshow behind both screens -->
+<div class="lp-backdrop" aria-hidden="true">
+  <div class="lp-slide is-active" style="background-image:url('images/img6.jpg')"></div>
+  <div class="lp-slide" style="background-image:url('images/img1.jpg')"></div>
+  <div class="lp-slide" style="background-image:url('images/img2.jpg')"></div>
+  <div class="lp-slide" style="background-image:url('images/img4.jpg')"></div>
+  <div class="lp-slide" style="background-image:url('images/img5.jpg')"></div>
+  <div class="lp-slide" style="background-image:url('images/img7.jpg')"></div>
+  <div class="lp-backdrop-shade" id="lp-shade"></div>
+  <div class="lp-spotlight" id="lp-spotlight"></div>
+</div>
+
 <!-- ===== Top bar ===== -->
 <header class="lp-bar">
   <a href="#top" class="lp-bar-logo" aria-label="Hyke It Up — back to top"><img src="images/logo.png" alt="Hyke It Up" /></a>
-  <nav class="lp-bar-links" aria-label="Page sections">
-    <a href="#instagram">Instagram</a>
-    <a href="#signup" class="lp-pill">Sign up</a>
+  <nav class="lp-bar-links" aria-label="Social">
+    <a href="https://www.instagram.com/hykeitup/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+    <a href="https://www.tiktok.com/@hykeitup" target="_blank" rel="noopener noreferrer">TikTok ↗</a>
   </nav>
 </header>
 
-<main id="top">
+<main id="top" class="lp-main">
 
-  <!-- ===== Hero ===== -->
-  <section class="lp-hero" aria-label="Welcome">
-    <div class="lp-hero-slides" aria-hidden="true">
-      <div class="lp-slide is-active" style="background-image:url('images/img6.jpg')"></div>
-      <div class="lp-slide" style="background-image:url('images/img1.jpg')"></div>
-      <div class="lp-slide" style="background-image:url('images/img2.jpg')"></div>
-      <div class="lp-slide" style="background-image:url('images/img4.jpg')"></div>
-      <div class="lp-slide" style="background-image:url('images/img5.jpg')"></div>
-      <div class="lp-slide" style="background-image:url('images/img7.jpg')"></div>
+  <!-- ===== Screen 1: Welcome ===== -->
+  <section class="lp-screen lp-hero" aria-label="Welcome">
+    <p class="lp-welcome"><span class="lp-scribble-under">Welcome</span> to</p>
+    <h1 class="lp-wordmark" aria-label="Hyke It Up">
+      <span class="lp-word lp-word--logo"><img src="images/logo-hyke-light.png" alt="" /></span>
+      <span class="lp-word">IT</span>
+      <span class="lp-word">UP</span>
+    </h1>
+    <p class="lp-path">Find Your <span class="lp-path-word lp-scribble-circle">Path</span></p>
+    <p class="lp-hero-sub">A hiking community for millennials navigating the peaks and troughs of adulthood — monthly major hykes, weekend minis and trips abroad. Our new website is on its way.</p>
+    <div class="lp-hero-ctas">
+      <a href="#lp-card" class="lp-btn lp-btn--primary lp-magnetic" data-open-signup>Sign up for updates</a>
+      <a href="#socials" class="lp-btn lp-btn--ghost lp-magnetic">Follow the trail ↓</a>
     </div>
-    <div class="lp-hero-shade" aria-hidden="true"></div>
-    <div class="lp-spotlight" id="lp-spotlight" aria-hidden="true"></div>
-
-    <div class="lp-hero-inner">
-      <p class="lp-welcome"><span class="lp-scribble-under">Welcome</span> to</p>
-      <h1 class="lp-wordmark" aria-label="Hyke It Up">
-        <span class="lp-word lp-word--logo"><img src="images/logo-hyke-light.png" alt="" /></span>
-        <span class="lp-word">IT</span>
-        <span class="lp-word">UP</span>
-      </h1>
-      <p class="lp-hero-sub">A hiking community for millennials — monthly major hykes, weekend minis and trips abroad. Something big is on the way.</p>
-      <div class="lp-hero-ctas">
-        <a href="#signup" class="lp-btn lp-btn--primary lp-magnetic">Sign up for updates</a>
-        <a href="#instagram" class="lp-btn lp-btn--ghost lp-magnetic">See our Instagram</a>
-      </div>
-      <p class="lp-hand lp-hero-note" aria-hidden="true">the new site is <span class="lp-scribble-circle">coming</span></p>
-    </div>
-
-    <a href="#statement" class="lp-scroll-cue" aria-label="Scroll down"><span></span></a>
-  </section>
-
-  <!-- ===== Statement ===== -->
-  <section class="lp-statement" id="statement">
-    <div class="lp-statement-bg" style="background-image:url('images/img3.jpg')" aria-hidden="true"></div>
-    <div class="lp-statement-inner">
-      <span class="lp-index">01.</span>
-      <div>
-        <p class="lp-statement-text lp-split">Navigating life as a 30–40 something has its peaks and troughs. So we take it outside — fresh air, real conversation and a community that gets you off the sofa and onto the trail.</p>
-        <div class="lp-stats">
-          <div><b class="lp-count" data-to="7000" data-suffix="+">0</b><span>Community</span></div>
-          <div><b class="lp-count" data-to="50" data-suffix="+">0</b><span>Hykes completed</span></div>
-          <div><b>250–400</b><span>Monthly hykers</span></div>
-        </div>
-      </div>
+    <div class="lp-stats">
+      <div><b class="lp-count" data-to="7000" data-suffix="+">0</b><span>Community</span></div>
+      <div><b class="lp-count" data-to="50" data-suffix="+">0</b><span>Hykes completed</span></div>
+      <div><b>250–400</b><span>Monthly hykers</span></div>
     </div>
   </section>
 
-  <!-- ===== Sign up ===== -->
-  <section class="lp-signup" id="signup" aria-labelledby="signup-title">
-    <div class="lp-signup-visual" aria-hidden="true">
-      <img src="images/img7.jpg" alt="" class="lp-tile lp-tile--a" data-depth="16" />
-      <img src="images/img4.jpg" alt="" class="lp-tile lp-tile--b" data-depth="28" />
-      <img src="images/img1.jpg" alt="" class="lp-tile lp-tile--c" data-depth="10" />
+  <!-- ===== Screen 2: Instagram + TikTok ===== -->
+  <section class="lp-screen lp-socials" id="socials" aria-labelledby="socials-title">
+    <div class="lp-socials-head">
+      <p class="lp-label">On the trail</p>
+      <h2 class="lp-h2" id="socials-title">Follow <span class="lp-scribble-under">@hykeitup</span></h2>
     </div>
-
-    <div class="lp-signup-copy">
-      <p class="lp-label">Join Hyke It Up</p>
-      <h2 class="lp-h2">Be first on the <span class="lp-scribble-circle">trail</span></h2>
-      <ul class="lp-perks">
-        <li><span>01</span>Ticket releases before anyone else</li>
-        <li><span>02</span>Dates for our next hyke — UK and abroad</li>
-        <li><span>03</span>News, offers and community updates</li>
-      </ul>
+    <div class="lp-feeds">
+      <article class="lp-feed" aria-label="Instagram">
+        <header class="lp-feed-head">
+          <span class="lp-feed-name">Instagram</span>
+          <a href="https://www.instagram.com/hykeitup/" target="_blank" rel="noopener noreferrer">@hykeitup ↗</a>
+        </header>
+        <div class="lp-feed-body" id="lp-feed-instagram"></div>
+      </article>
+      <article class="lp-feed" aria-label="TikTok">
+        <header class="lp-feed-head">
+          <span class="lp-feed-name">TikTok</span>
+          <a href="https://www.tiktok.com/@hykeitup" target="_blank" rel="noopener noreferrer">@hykeitup ↗</a>
+        </header>
+        <div class="lp-feed-body" id="lp-feed-tiktok"></div>
+      </article>
     </div>
-
-    <div class="lp-card" id="lp-card">
-      <form id="lp-form" class="lp-form" novalidate>
-        <h3 class="lp-card-title" id="signup-title">Sign up</h3>
-        <p class="lp-card-sub">Register with us to receive news and updates about tickets and our next hyke. Please sign up here.</p>
-
-        <div class="lp-row">
-          <div class="lp-field">
-            <label for="lp-first">First name</label>
-            <input id="lp-first" name="first_name" type="text" autocomplete="given-name" maxlength="80" required />
-          </div>
-          <div class="lp-field">
-            <label for="lp-last">Second name</label>
-            <input id="lp-last" name="last_name" type="text" autocomplete="family-name" maxlength="80" required />
-          </div>
-        </div>
-        <div class="lp-field">
-          <label for="lp-email">Email address</label>
-          <input id="lp-email" name="email" type="email" autocomplete="email" maxlength="254" required />
-        </div>
-        <div class="lp-field">
-          <label for="lp-phone">Phone number <span class="lp-optional">(optional)</span></label>
-          <input id="lp-phone" name="phone" type="tel" autocomplete="tel" maxlength="30" />
-        </div>
-
-        <label class="lp-check">
-          <input id="lp-subscribe" name="subscribe" type="checkbox" />
-          <span class="lp-check-box" aria-hidden="true"></span>
-          <span>Subscribe to the mailing list — news, ticket releases and our next hyke dates. You can unsubscribe at any time.</span>
-        </label>
-
-        <!-- Bots fill this in; people never see it -->
-        <div class="lp-hp" aria-hidden="true"><label>Leave blank <input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label></div>
-
-        <p class="lp-error" id="lp-error" role="alert" hidden></p>
-        <button type="submit" class="lp-btn lp-btn--primary lp-submit" id="lp-submit">Sign up</button>
-      </form>
-
-      <div class="lp-success" id="lp-success" hidden tabindex="-1">
-        <div class="lp-success-icon" aria-hidden="true">🥾</div>
-        <h3 class="lp-card-title">You're in<span class="lp-dot">.</span></h3>
-        <p class="lp-card-sub" id="lp-success-text">Thanks for signing up — we'll be in touch with ticket news and our next hyke.</p>
-        <a href="#instagram" class="lp-btn lp-btn--ghost">Meanwhile, see our Instagram</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== Instagram ===== -->
-  <section class="lp-insta" id="instagram" aria-labelledby="insta-title">
-    <div class="lp-insta-head">
-      <div>
-        <p class="lp-label">On the trail</p>
-        <h2 class="lp-h2" id="insta-title">@hykeitup</h2>
-      </div>
-      <a class="lp-btn lp-btn--ghost lp-magnetic" href="https://www.instagram.com/hykeitup/" target="_blank" rel="noopener noreferrer">Follow on Instagram ↗</a>
-    </div>
-    <div class="lp-insta-feed" id="lp-insta-feed">
-      <!-- Filled by js/landing.js: live Instagram widget once connected, otherwise our photos -->
-    </div>
+    <footer class="lp-foot">© 2026 Hyke It Up · hykeitupofficial@gmail.com · Our full website is on its way.</footer>
   </section>
 
 </main>
 
-<footer class="lp-footer">
-  <img src="images/logo.png" alt="Hyke It Up" class="lp-footer-logo" />
-  <p class="lp-footer-line">Instagram &amp; TikTok: <a href="https://www.instagram.com/hykeitup/" target="_blank" rel="noopener noreferrer">@hykeitup</a> · Email: hykeitupofficial@gmail.com</p>
-  <p class="lp-footer-small">© 2026 Hyke It Up. Our full website is on its way.</p>
-</footer>
+<!-- ===== Floating sign-up box (fixed, centre-right) ===== -->
+<button type="button" class="lp-signup-fab" id="lp-signup-fab" aria-controls="lp-card" aria-expanded="false">Sign up</button>
+<div class="lp-card-scrim" id="lp-card-scrim" hidden></div>
+<aside class="lp-card" id="lp-card" aria-labelledby="signup-title">
+  <button type="button" class="lp-card-close" id="lp-card-close" aria-label="Close sign up">✕</button>
+  <form id="lp-form" class="lp-form" novalidate>
+    <p class="lp-label lp-card-label">Join Hyke It Up</p>
+    <h2 class="lp-card-title" id="signup-title">Sign up<span class="lp-dot">.</span></h2>
+    <p class="lp-card-sub">Register to receive news and updates about tickets and our next hyke. Please sign up here.</p>
+
+    <div class="lp-row">
+      <div class="lp-field">
+        <label for="lp-first">First name</label>
+        <input id="lp-first" name="first_name" type="text" autocomplete="given-name" maxlength="80" required />
+      </div>
+      <div class="lp-field">
+        <label for="lp-last">Second name</label>
+        <input id="lp-last" name="last_name" type="text" autocomplete="family-name" maxlength="80" required />
+      </div>
+    </div>
+    <div class="lp-field">
+      <label for="lp-email">Email address</label>
+      <input id="lp-email" name="email" type="email" autocomplete="email" maxlength="254" required />
+    </div>
+    <div class="lp-row">
+      <div class="lp-field">
+        <label for="lp-gender">Gender</label>
+        <select id="lp-gender" name="gender" required>
+          <option value="" selected disabled>Select…</option>
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+          <option value="prefer_not_to_say">Prefer not to say</option>
+        </select>
+      </div>
+      <div class="lp-field">
+        <label for="lp-phone">Phone <span class="lp-optional">(optional)</span></label>
+        <input id="lp-phone" name="phone" type="tel" autocomplete="tel" maxlength="30" />
+      </div>
+    </div>
+
+    <label class="lp-check">
+      <input id="lp-subscribe" name="subscribe" type="checkbox" />
+      <span class="lp-check-box" aria-hidden="true"></span>
+      <span>Subscribe to the mailing list — news, ticket releases and our next hyke dates. Unsubscribe any time.</span>
+    </label>
+
+    <!-- Bots fill this in; people never see it -->
+    <div class="lp-hp" aria-hidden="true"><label>Leave blank <input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label></div>
+
+    <p class="lp-error" id="lp-error" role="alert" hidden></p>
+    <button type="submit" class="lp-btn lp-btn--primary lp-submit" id="lp-submit">Sign up</button>
+  </form>
+
+  <div class="lp-success" id="lp-success" hidden tabindex="-1">
+    <div class="lp-success-icon" aria-hidden="true">🥾</div>
+    <h2 class="lp-card-title">You're in<span class="lp-dot">.</span></h2>
+    <p class="lp-card-sub" id="lp-success-text">Thanks for signing up — we'll be in touch with ticket news and our next hyke.</p>
+    <a href="#socials" class="lp-btn lp-btn--ghost" data-close-signup>Follow us meanwhile</a>
+  </div>
+</aside>
 
 <script src="js/supabase-config.js"></script>
 <script src="js/landing.js"></script>

@@ -12,6 +12,7 @@ create table if not exists public.mailing_signups (
   last_name      text not null check (char_length(last_name) between 1 and 80),
   email          text not null check (char_length(email) <= 254 and email ~* '^[^@\s]+@[^@\s]+\.[^@\s]{2,}$'),
   phone          text check (phone is null or char_length(phone) <= 30),
+  gender         text check (gender is null or gender in ('female', 'male', 'prefer_not_to_say')),
   subscribed     boolean not null default false,
   subscribed_at  timestamptz,
   source         text not null default 'landing' check (char_length(source) <= 40),
@@ -53,6 +54,7 @@ grant insert on public.mailing_signups to anon, authenticated;
 -- ---------------------------------------------------------------------
 -- select email as "Email Address", first_name as "First Name",
 --        last_name as "Last Name", coalesce(phone, '') as "Phone Number",
+--        coalesce(gender, '') as "Gender",
 --        subscribed_at as "Subscribed At"
 -- from public.mailing_signups
 -- where subscribed
