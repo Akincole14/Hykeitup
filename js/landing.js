@@ -178,16 +178,21 @@
     return res.ok && String(json.success) !== 'false';
   }
 
+  // Returns 'saved', 'duplicate' (email already on the list) or 'error'
   async function saveToList(data) {
     const cfg = window.HYU_SUPABASE || {};
-    if (!cfg.url || !cfg.anonKey) return false;
-    const res = await fetch(`${cfg.url}/rest/v1/mailing_signups`, {
-      method: 'POST',
-      headers: { apikey: cfg.anonKey, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
-      body: JSON.stringify({ ...data, source: 'landing' }),
-    });
-    if (res.status === 409) return true; // already on the list
-    return res.ok;
+    if (!cfg.url || !cfg.anonKey) return 'error';
+    try {
+      const res = await fetch(`${cfg.url}/rest/v1/mailing_signups`, {
+        method: 'POST',
+        headers: { apikey: cfg.anonKey, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+        body: JSON.stringify({ ...data, source: 'landing' }),
+      });
+      if (res.status === 409) return 'duplicate';
+      return res.ok ? 'saved' : 'error';
+    } catch {
+      return 'error';
+    }
   }
 
   function confetti(fromEl) {
@@ -233,28 +238,93 @@
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Signing you up…';
-    const [emailed, saved] = await Promise.all([
-      sendEmail(data).catch(() => false),
-      saveToList(data).catch(() => false),
-    ]);
+
+    // 1. Save to the list first — this is also the "already signed up?" check
+    const saved = await saveToList(data);
+    if (saved === 'duplicate') {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign up';
+      return showError("You've already signed up with this email address — you're on our list, so there's no need to register again.", email);
+    }
+    // 2. Only new sign-ups are emailed to us
+    const emailed = await sendEmail(data).catch(() => false);
     submitBtn.disabled = false;
     submitBtn.textContent = 'Sign up';
 
-    if (!emailed && !saved) {
+    if (saved !== 'saved' && !emailed) {
       return showError("Sorry — we couldn't sign you up just now. Please try again in a moment.");
     }
     if (!emailed) console.warn('[sign-up] Email notification not sent (FormSubmit may need activating).');
-    if (!saved) console.warn('[sign-up] Not saved to the mailing list table (run supabase/mailing-list.sql).');
+    if (saved !== 'saved') console.warn('[sign-up] Not saved to the mailing list table.');
 
-    $('lp-success-text').textContent = data.subscribed
-      ? `Thanks ${data.first_name} — you're on the mailing list. Look out for ticket news and our next hyke.`
-      : `Thanks ${data.first_name} — we've got your details and we'll be in touch about our next hyke.`;
+    showSuccess(data.first_name);
+  });
+
+  // ---------------------------------------------------------------
+  // "You're in." — celebration for 1 minute, then back to the form
+  // ---------------------------------------------------------------
+  const SUCCESS_MS = 60 * 1000;
+  let successTimer = null;
+
+  function showSuccess(firstName) {
+    $('lp-success-text').textContent =
+      `Thank you for joining, ${firstName}! Welcome to the community — keep a look out for our emails about upcoming hykes, socials, news and updates. We look forward to meeting you on a Hyke!`;
     form.hidden = true;
     const ok = $('lp-success');
     ok.hidden = false;
     ok.focus({ preventScroll: true });
     confetti($('lp-card'));
-  });
+    fireworks($('lp-fireworks'), 6000);
+    clearTimeout(successTimer);
+    successTimer = setTimeout(resetSignup, SUCCESS_MS);
+  }
+
+  function resetSignup() {
+    form.reset();
+    form.querySelectorAll('[aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
+    errEl.hidden = true;
+    $('lp-success').hidden = true;
+    form.hidden = false;
+  }
+
+  // Fireworks drawn on a small canvas behind the 🎉
+  function fireworks(canvas, duration) {
+    if (!canvas || reduceMotion) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.scale(dpr, dpr);
+    const colours = ['#D44F2C', '#E06840', '#F5F2EC', '#F2A65A', '#FFD166'];
+    const sparks = [];
+    const t0 = performance.now();
+    let nextBurst = 0;
+    function burst() {
+      const x = w * (0.15 + Math.random() * 0.7), y = h * (0.15 + Math.random() * 0.45);
+      const c = colours[Math.floor(Math.random() * colours.length)];
+      for (let i = 0; i < 46; i++) {
+        const a = (Math.PI * 2 * i) / 46, v = 1.2 + Math.random() * 2.4;
+        sparks.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, c });
+      }
+    }
+    function frame(now) {
+      const t = now - t0;
+      ctx.clearRect(0, 0, w, h);
+      if (t < duration && t > nextBurst) { burst(); nextBurst = t + 380 + Math.random() * 420; }
+      for (let i = sparks.length - 1; i >= 0; i--) {
+        const p = sparks[i];
+        p.x += p.vx; p.y += p.vy; p.vy += 0.045; p.vx *= 0.985; p.life -= 0.016;
+        if (p.life <= 0) { sparks.splice(i, 1); continue; }
+        ctx.globalAlpha = p.life;
+        ctx.fillStyle = p.c;
+        ctx.beginPath(); ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (t < duration || sparks.length) requestAnimationFrame(frame);
+      else ctx.clearRect(0, 0, w, h);
+    }
+    requestAnimationFrame(frame);
+  }
 
 
   // ---------------------------------------------------------------

@@ -321,3 +321,21 @@ a { color: inherit; }
   .lp-card { animation: none; }
   .lp-signup-fab { animation: none; }
 }
+
+/* ---------- Top bar email ---------- */
+.lp-bar-email { display: inline-flex; align-items: center; gap: 0.5rem; text-transform: none !important; letter-spacing: 0.02em !important; font-size: 0.82rem !important; }
+.lp-bar-email span { color: var(--brand-light); font-size: 0.95rem; }
+@media (max-width: 520px) { .lp-bar-email { font-size: 0.7rem !important; } }
+
+/* ---------- Success celebration ---------- */
+.lp-success { position: relative; overflow: hidden; padding: 2.2rem 0.5rem 1.6rem; }
+.lp-fireworks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.lp-success-icon, .lp-success .lp-card-title, .lp-success-text { position: relative; }
+.lp-success-icon { font-size: 3rem; }
+.lp-success-text { color: rgba(245,242,236,0.88); font-size: 0.92rem; line-height: 1.55; margin-top: 0.8rem; }
+
+/* ---------- Desktop: top-left logo +70% (60px → 102px) ---------- */
+@media (min-width: 961px) {
+  :root { --bar-h: 112px; }
+  .lp-bar-logo img { height: 102px; }
+}
