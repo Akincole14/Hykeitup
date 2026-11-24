@@ -47,6 +47,7 @@
     <li><a href="#" data-page="tickets" class="nav-hykes-link">Hykes</a></li>
     <li><a href="#" data-page="gallery">Gallery</a></li>
     <li><a href="#" data-page="community" class="nav-community-link">Community</a></li>
+    <li><a href="#" data-page="partners">Partnerships</a></li>
 
     <li class="nav-mobile-cta"><a href="#" data-page="contact" class="nav-cta">Join The Team</a></li>
   </ul>
@@ -618,7 +619,6 @@
     <div class="contact-tabs">
       <button class="contact-tab active" data-tab="enquiries">Enquiries</button>
       <button class="contact-tab" data-tab="join">Join Our Team</button>
-      <button class="contact-tab" data-tab="partners">Partnerships</button>
     </div>
   </div>
 
@@ -668,6 +668,10 @@
             <div class="form-group">
               <label for="phone">Phone Number <span class="form-optional">(optional)</span></label>
               <input type="tel" id="phone" name="phone" placeholder="+44 7000 000000" />
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" name="subject" placeholder="What's your enquiry about?" maxlength="120" required />
             </div>
             <div class="form-group">
               <label for="industry">Your Industry</label>
@@ -777,105 +781,6 @@
     </div>
   </div>
 
-  <!-- Tab: Partners -->
-  <div class="contact-panel" id="panel-partners">
-    <div class="contact-extra-section">
-      <div class="contact-extra-inner">
-        <div class="contact-extra-header">
-          <div class="section-label">Work With Us</div>
-          <h2>Partner With Hyke It Up</h2>
-          <p>We're building one of the UK's most engaged outdoor communities. Partnering with us means putting your brand in front of thousands of active, socially connected millennials who trust our recommendations.</p>
-        </div>
-
-        <div class="cp-why-grid">
-          <div class="cp-why-item">
-            <div class="cp-why-num">7,000+</div>
-            <div class="cp-why-label">Active Community Members</div>
-            <p>A fast-growing network of outdoor enthusiasts across the UK, built entirely through word of mouth and authentic content.</p>
-          </div>
-          <div class="cp-why-item">
-            <div class="cp-why-num">24+</div>
-            <div class="cp-why-label">Events Annually</div>
-            <p>From major full-day summit challenges to local mini hykes — consistent, high-quality touchpoints for your brand throughout the year.</p>
-          </div>
-          <div class="cp-why-item">
-            <div class="cp-why-num">90%</div>
-            <div class="cp-why-label">Member Retention Rate</div>
-            <p>Our members keep coming back. That loyalty means your partnership delivers repeated exposure to a genuinely engaged audience.</p>
-          </div>
-        </div>
-
-        <div class="cp-divider">
-          <div class="section-label" style="margin-bottom:0.5rem;">Partnership Options</div>
-          <h3 style="margin-bottom:1.5rem;">Ways to Get Involved</h3>
-        </div>
-        <div class="contact-partner-types">
-          <div class="contact-partner-card">
-            <div class="partner-card-icon">🏔️</div>
-            <h4>Event Sponsorship</h4>
-            <p>Sponsor a hyke with your branding across all event communications and social content.</p>
-          </div>
-          <div class="contact-partner-card">
-            <div class="partner-card-icon">🤝</div>
-            <h4>Brand Collaboration</h4>
-            <p>Co-create content, offer member discounts, or run co-branded campaigns.</p>
-          </div>
-          <div class="contact-partner-card">
-            <div class="partner-card-icon">🎁</div>
-            <h4>Product Gifting</h4>
-            <p>Get your gear in the hands of passionate outdoor enthusiasts on our hikes.</p>
-          </div>
-          <div class="contact-partner-card">
-            <div class="partner-card-icon">📸</div>
-            <h4>Media &amp; Press</h4>
-            <p>Feature stories, interviews, and behind-the-scenes access to our events.</p>
-          </div>
-        </div>
-        <form id="contactPartnerForm" class="contact-extra-form" style="margin-top:2.5rem;">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="cpName">Your Name</label>
-              <input type="text" id="cpName" name="cpName" placeholder="Your full name" required />
-            </div>
-            <div class="form-group">
-              <label for="cpCompany">Company / Organisation</label>
-              <input type="text" id="cpCompany" name="cpCompany" placeholder="Your company name" required />
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="cpEmail">Email Address</label>
-            <input type="email" id="cpEmail" name="cpEmail" placeholder="you@company.com" required />
-          </div>
-          <div class="form-group">
-            <label for="cpPhone">Phone Number <span class="form-optional">(optional)</span></label>
-            <input type="tel" id="cpPhone" name="cpPhone" placeholder="+44 7000 000000" />
-          </div>
-          <div class="form-group">
-            <label for="cpType">Type of Partnership</label>
-            <select id="cpType" name="cpType">
-              <option value="">Select partnership type</option>
-              <option>Event Sponsorship</option>
-              <option>Brand Collaboration</option>
-              <option>Product Gifting / Testing</option>
-              <option>Co-hosted Event</option>
-              <option>Media &amp; Press</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="cpMessage">Tell us more</label>
-            <textarea id="cpMessage" name="cpMessage" placeholder="Describe your idea and what you're hoping to achieve..."></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary form-submit">Send Enquiry →</button>
-        </form>
-        <div id="contactPartnerSuccess" class="form-success" style="display:none;">
-          <div class="icon">🤝</div>
-          <h3>Enquiry received!</h3>
-          <p>Thanks for reaching out. We'll get back to you within 3 business days.</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
 </div><!-- /contact -->
 
@@ -1462,7 +1367,7 @@
               <div class="chat-panel-header"><span>📢 Announcements</span></div>
               <div id="announcements-list" class="announcements-list"></div>
               <div id="admin-announce-form" class="admin-post-form" style="display:none;">
-                <textarea id="announce-input" placeholder="Write an announcement..." rows="3"></textarea>
+                <textarea id="announce-input" placeholder="Write an announcement… Add links by pasting a web address, or as [link text](https://…)" rows="3"></textarea>
                 <div class="admin-post-actions">
                   <label class="admin-img-label">
                     📎 Add Image
@@ -1851,6 +1756,7 @@
         <li><a href="#" data-page="gallery">Gallery</a></li>
         <li><a href="#" data-page="tickets">Hykes</a></li>
         <li><a href="#" data-page="hyke-abroad">Hyke Abroad</a></li>
+        <li><a href="#" data-page="partners">Partnerships</a></li>
         <li><a href="#" data-page="contact">Contact</a></li>
       </ul>
     </div>
@@ -1919,7 +1825,9 @@
 <script src="js/supabase-config.js"></script>
 <script src="js/main.js"></script>
 <script src="js/iceberg.js"></script>
+<script src="js/emoji-data.js"></script>
 <script src="js/community-plus.js"></script>
 <script src="js/auth.js"></script>
+<script src="js/chat-sync.js"></script>
 </body>
 </html>

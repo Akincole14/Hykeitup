@@ -649,7 +649,7 @@ footer a:hover { color: var(--brand-light); }
 /* ---------- Hykes: UK / Abroad switcher, top centre of both pages ---------- */
 .ib-page-hero > .hyke-switch {
   position: absolute;
-  top: calc(72px + 1.5rem);
+  top: calc(80px + 1.5rem);
   left: 50%;
   translate: -50% 0;
   z-index: 3;
@@ -705,4 +705,14 @@ body[data-page="community"] .nav-links a.nav-community-link { color: var(--white
   .comm-header-inner .comm-user { flex: 1; min-width: 0; }
   .community-switch--header { order: 3; flex-basis: 100%; justify-content: stretch; }
   .community-switch--header a { flex: 1; text-align: center; }
+}
+
+/* ---------- Nav: items 20% closer (60px → 48px gaps), logo +50% (46px → 69px) ---------- */
+@media (min-width: 769px) {
+  .nav-links { justify-content: center; gap: 48px; padding-right: 0; }
+  .nav-logo img { height: 69px; }
+  nav, nav.scrolled { height: 80px; }
+}
+@media (min-width: 769px) {
+  .community-chat { top: 80px !important; }
 }

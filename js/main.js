@@ -258,9 +258,51 @@ lightbox?.addEventListener('click', e => {
   }
 });
 
-// === CONTACT FORM (Formspree) ===
-// Sign up at formspree.io → create a form → paste your endpoint below
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+// === FORMS → EMAIL (FormSubmit) ===
+// Each form is emailed to its inbox via formsubmit.co (no account needed).
+// The very first submission to each address triggers an "Activate Form"
+// email to that inbox — click it once and every later submission is delivered.
+const FORM_ROUTES = {
+  contactForm: {
+    to: 'hykeitupofficial@gmail.com',
+    subject: f => `Enquiries – ${f.get('subject') || 'General enquiry'}`,
+    replyTo: 'email',
+  },
+  volunteerForm: {
+    to: 'hykeitupofficial@gmail.com',
+    subject: f => `Join Our Team – ${f.get('volRole') || 'Role not selected'}`,
+    replyTo: 'volEmail',
+  },
+  partnerForm: {
+    to: 'info@hykeitup.com',
+    subject: f => `Partnerships – ${f.get('partnerType') || 'General'} – ${f.get('partnerCompany') || ''}`.replace(/ – $/, ''),
+    replyTo: 'partnerEmail',
+  },
+};
+
+async function sendFormEmail(form) {
+  const route = FORM_ROUTES[form.id];
+  if (!route) throw new Error('No email route for ' + form.id);
+  const fd = new FormData(form);
+  // Use the visible label text as the field name so the email reads nicely
+  const data = {};
+  for (const [name, value] of fd.entries()) {
+    const el = form.elements[name];
+    const label = el?.id ? form.querySelector(`label[for="${el.id}"]`)?.textContent.replace(/\(optional\)/i, '').trim() : '';
+    data[label || name] = value || '—';
+  }
+  data._subject = route.subject(fd);
+  data._replyto = fd.get(route.replyTo) || '';
+  data._template = 'table';
+  data._captcha = 'false';
+  const res = await fetch(`https://formsubmit.co/ajax/${route.to}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify(data),
+  });
+  const json = await res.json().catch(() => ({}));
+  return res.ok && String(json.success) !== 'false';
+}
 
 const contactForm = document.getElementById('contactForm');
 contactForm?.addEventListener('submit', async e => {
@@ -270,13 +312,9 @@ contactForm?.addEventListener('submit', async e => {
   btn.disabled = true;
 
   try {
-    const res = await fetch(FORMSPREE_ENDPOINT, {
-      method: 'POST',
-      body: new FormData(contactForm),
-      headers: { 'Accept': 'application/json' },
-    });
+    const sent = await sendFormEmail(contactForm);
 
-    if (res.ok) {
+    if (sent) {
       // Save mailing list opt-in locally
       if (document.getElementById('mailingList')?.checked) {
         const subs = JSON.parse(localStorage.getItem('hyu_ea_submissions') || '[]');
@@ -316,12 +354,8 @@ function handleExtraForm(formId, successId) {
     btn.textContent = 'Sending…';
     btn.disabled = true;
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' },
-      });
-      if (res.ok) {
+      const sent = await sendFormEmail(form);
+      if (sent) {
         form.style.transition = 'opacity 0.4s';
         form.style.opacity = '0';
         setTimeout(() => {
@@ -346,7 +380,6 @@ function handleExtraForm(formId, successId) {
 
 handleExtraForm('volunteerForm', 'volunteerSuccess');
 handleExtraForm('partnerForm', 'partnerSuccess');
-handleExtraForm('contactPartnerForm', 'contactPartnerSuccess');
 
 // === CONTACT PAGE TABS ===
 document.querySelectorAll('.contact-tab').forEach(tab => {
@@ -1031,6 +1064,7 @@ document.getElementById('announcements-list')?.addEventListener('click', e => {
   }
 
   if (e.target.closest('.ann-action-btn.delete')) {
+    if (!getSession()?.isAdmin) return;
     let anns = getAnnouncements();
     anns = anns.filter(a => annId(a) !== id);
     communityStore('announcements', anns);
@@ -1112,11 +1146,14 @@ function renderMessages() {
     const isOwn = session && m.username === session.username;
     const textWithMentions = escapeHtml(m.text).replace(/@(\w+)/g, '<span class="msg-mention">@$1</span>');
     const editedMark = m.edited ? ' · <span class="msg-edited">edited</span>' : '';
-    const canAct = isOwn || session?.isAdmin;
+    // Members can edit their own messages; only admins can delete messages
+    const canEdit = isOwn || session?.isAdmin;
+    const canDelete = !!session?.isAdmin;
     const actions = `
       <div class="msg-actions">
         <button class="msg-action-btn reply">↩ Reply</button>
-        ${canAct ? '<button class="msg-action-btn edit">Edit</button><button class="msg-action-btn delete">Delete</button>' : ''}
+        ${canEdit ? '<button class="msg-action-btn edit">Edit</button>' : ''}
+        ${canDelete ? '<button class="msg-action-btn delete">Delete</button>' : ''}
       </div>`;
     const replyQuote = m.replyTo ? `
       <div class="msg-reply-quote${m.replyTo.id ? ' is-jumpable' : ''}" ${m.replyTo.id ? `data-target-id="${m.replyTo.id}"` : ''}>
@@ -1180,6 +1217,7 @@ document.getElementById('chat-messages')?.addEventListener('click', e => {
   }
 
   if (e.target.closest('.msg-action-btn.delete')) {
+    if (!getSession()?.isAdmin) return;
     let msgs = getMessages();
     msgs = msgs.filter(m => msgId(m) !== id);
     communityStore('messages', msgs);

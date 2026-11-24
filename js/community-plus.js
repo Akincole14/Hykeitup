@@ -180,7 +180,6 @@
   // ---------------------------------------------------------------
   // Emoji reactions on chat messages
   // ---------------------------------------------------------------
-  const REACTIONS = ['🧡', '🥾', '🙌', '😂'];
 
   // ---------------------------------------------------------------
   // Announcements appear inside the community chat feed for everyone.
@@ -207,14 +206,140 @@
             <span class="cx-ann-badge">📢 Announcement</span>
             <span class="cx-ann-meta">Hyke It Up · ${formatTime(a.timestamp)}${a.edited ? ' · edited' : ''}</span>
           </div>
-          <div class="cx-ann-text">${escapeHtml(a.text)}</div>
+          <div class="cx-ann-text cx-ann-preview">${richText(a.text)}</div>
           ${a.imageUrl && /^data:image\//.test(a.imageUrl) ? `<img src="${a.imageUrl}" alt="Announcement image" class="cx-ann-img" />` : ''}
-          <button type="button" class="cx-ann-reply">↩ Reply in chat</button>
+          <div class="cx-ann-actions">
+            <span class="cx-ann-actions-left">
+              <button type="button" class="cx-ann-open">Read more →</button>
+              <button type="button" class="cx-ann-reply">↩ Reply in chat</button>
+            </span>
+            ${getSession()?.isAdmin ? '<button type="button" class="cx-ann-delete">Delete</button>' : ''}
+          </div>
         </div>`;
       const before = msgEls.find(m => (stamps.get(m.dataset.id) || 0) > a.timestamp);
       container.insertBefore(el, before || null);
+      // Only offer "Read more" when the preview is actually cut short
+      const prev = el.querySelector('.cx-ann-preview');
+      el.classList.toggle('is-clipped', prev.scrollHeight > prev.clientHeight + 2);
     });
   }
+
+  // ---------------------------------------------------------------
+  // Announcement text → safe HTML with clickable links.
+  // Supports bare URLs (https://…, www.…) and [label](url).
+  // Links on our own site open in the same tab (and jump to the right
+  // page section, e.g. https://www.hykeitup.com/#tickets); everything
+  // else opens in a new tab.
+  // ---------------------------------------------------------------
+  const PAGE_IDS = [...document.querySelectorAll('.page[id]')].map(p => p.id);
+  const OWN_HOSTS = /(^|\.)hykeitup\.com$/i;
+
+  function linkTag(rawHref, label) {
+    let href = rawHref.trim();
+    if (/^www\./i.test(href)) href = 'https://' + href;
+    let url;
+    try { url = new URL(href, location.href); } catch { return escapeHtml(label); }
+    if (!/^https?:$/.test(url.protocol)) return escapeHtml(label);
+    const internal = url.host === location.host || OWN_HOSTS.test(url.hostname);
+    const page = internal && url.hash && PAGE_IDS.includes(url.hash.slice(1)) ? url.hash.slice(1) : '';
+    const attrs = internal
+      ? (page ? ` data-cx-page="${page}"` : '')
+      : ' target="_blank" rel="noopener noreferrer"';
+    const icon = internal ? '' : '<span class="cx-ext" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span>';
+    return `<a class="cx-link" href="${escapeHtml(url.href)}"${attrs}>${escapeHtml(label)}${icon}</a>`;
+  }
+
+  function richText(raw) {
+    const text = String(raw || '');
+    const re = /\[([^\]\n]{1,120})\]\(((?:https?:\/\/|www\.|\/|#)[^\s)]+)\)|((?:https?:\/\/|www\.)[^\s<]+[^\s<.,;:!?)\]'"])/gi;
+    let out = '', last = 0, m;
+    while ((m = re.exec(text))) {
+      out += escapeHtml(text.slice(last, m.index));
+      out += m[1] ? linkTag(m[2], m[1]) : linkTag(m[3], m[3].replace(/^https?:\/\//i, ''));
+      last = re.lastIndex;
+    }
+    return out + escapeHtml(text.slice(last));
+  }
+
+  // Our own page links (e.g. /#tickets) switch page without reloading
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a.cx-link[data-cx-page]');
+    if (!a) return;
+    e.preventDefault();
+    closeAnnModal();
+    showPage(a.dataset.cxPage);
+  });
+
+  // ---------------------------------------------------------------
+  // Announcement pop-out reader
+  // ---------------------------------------------------------------
+  let annModal = null;
+  let annReturnFocus = null;
+
+  function buildAnnModal() {
+    annModal = document.createElement('div');
+    annModal.className = 'cx-ann-modal';
+    annModal.hidden = true;
+    annModal.innerHTML = `
+      <div class="cx-ann-modal-backdrop" data-close></div>
+      <div class="cx-ann-modal-panel" role="dialog" aria-modal="true" aria-labelledby="cx-ann-modal-title">
+        <button type="button" class="cx-ann-modal-close" data-close aria-label="Close">✕</button>
+        <div class="cx-ann-head">
+          <span class="cx-ann-badge" id="cx-ann-modal-title">📢 Announcement</span>
+          <span class="cx-ann-meta" id="cx-ann-modal-meta"></span>
+        </div>
+        <div class="cx-ann-modal-body" id="cx-ann-modal-body" tabindex="0"></div>
+        <div class="cx-ann-modal-foot">
+          <button type="button" class="btn btn-primary btn-sm" id="cx-ann-modal-reply">↩ Reply in chat</button>
+          <button type="button" class="btn btn-outline btn-sm" data-close>Close</button>
+        </div>
+      </div>`;
+    document.body.appendChild(annModal);
+    annModal.addEventListener('click', e => { if (e.target.closest('[data-close]')) closeAnnModal(); });
+    annModal.querySelector('#cx-ann-modal-reply').addEventListener('click', () => {
+      const id = annModal.dataset.id;
+      const { item } = findReactable(id || '');
+      closeAnnModal();
+      if (item) setReplyContext({ text: item.text, username: '📢 Announcement', id });
+    });
+  }
+
+  function openAnnModal(id) {
+    const { item } = findReactable(id);
+    if (!item) return;
+    if (!annModal) buildAnnModal();
+    annReturnFocus = document.activeElement;
+    annModal.dataset.id = id;
+    $('cx-ann-modal-meta').textContent = `Hyke It Up · ${formatTime(item.timestamp)}${item.edited ? ' · edited' : ''}`;
+    $('cx-ann-modal-body').innerHTML =
+      `<div class="cx-ann-modal-text">${richText(item.text)}</div>` +
+      (item.imageUrl && /^data:image\//.test(item.imageUrl) ? `<img src="${item.imageUrl}" alt="Announcement image" class="cx-ann-modal-img" />` : '');
+    annModal.hidden = false;
+    document.body.classList.add('cx-modal-open');
+    requestAnimationFrame(() => annModal.classList.add('open'));
+    $('cx-ann-modal-body').scrollTop = 0;
+    annModal.querySelector('.cx-ann-modal-close').focus({ preventScroll: true });
+  }
+
+  function closeAnnModal() {
+    if (!annModal || annModal.hidden) return;
+    annModal.classList.remove('open');
+    document.body.classList.remove('cx-modal-open');
+    setTimeout(() => { annModal.hidden = true; }, 200);
+    annReturnFocus?.focus?.({ preventScroll: true });
+  }
+
+  document.addEventListener('keydown', e => {
+    if (!annModal || annModal.hidden) return;
+    if (e.key === 'Escape') closeAnnModal();
+    if (e.key === 'Tab') { // keep focus inside the pop-up
+      const f = [...annModal.querySelectorAll('button, a[href], [tabindex="0"]')];
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
 
   function findReactable(id) {
     if (id.startsWith(ANN_PREFIX)) {
@@ -239,12 +364,11 @@
       const r = m.reactions || {};
       const row = document.createElement('div');
       row.className = 'cx-reacts';
-      row.innerHTML = REACTIONS.map(emo => {
-        const who = r[emo] || [];
+      row.innerHTML = Object.entries(r).filter(([, who]) => who && who.length).map(([emo, who]) => {
         const mine = who.includes(session.username);
-        return `<button type="button" class="cx-react${who.length ? ' has' : ''}${mine ? ' mine' : ''}" data-emo="${emo}"
-          aria-pressed="${mine}" title="${who.length ? escapeHtml(who.join(', ')) : 'React'}">${emo}${who.length ? `<b>${who.length}</b>` : ''}</button>`;
-      }).join('');
+        return `<button type="button" class="cx-react has${mine ? ' mine' : ''}" data-emo="${escapeHtml(emo)}"
+          aria-pressed="${mine}" title="${escapeHtml(who.join(', '))}">${escapeHtml(emo)}<b>${who.length}</b></button>`;
+      }).join('') + `<button type="button" class="cx-react-add" aria-label="Add a reaction" title="Add a reaction"><span aria-hidden="true">😊</span><i aria-hidden="true">+</i></button>`;
       el.appendChild(row);
     });
     if (newestAnimated) {
@@ -281,6 +405,38 @@
       return;
     }
 
+    // Open the announcement pop-out (but let links and buttons do their own thing)
+    const card = e.target.closest('.cx-ann-card');
+    if (card && !e.target.closest('a, .cx-ann-reply, .cx-ann-delete')) {
+      e.stopPropagation();
+      openAnnModal(card.closest('.chat-msg').dataset.id);
+      return;
+    }
+
+    const addBtn = e.target.closest('.cx-react-add');
+    if (addBtn) {
+      e.stopPropagation();
+      const id = addBtn.closest('.chat-msg')?.dataset.id;
+      if (id) openPicker(addBtn, emo => toggleReaction(id, emo, addBtn));
+      return;
+    }
+
+    const annDel = e.target.closest('.cx-ann-delete');
+    if (annDel) {
+      e.stopPropagation();
+      if (!getSession()?.isAdmin) return;
+      const id = annDel.closest('.chat-msg')?.dataset.id || '';
+      if (annDel.dataset.confirm !== '1') {
+        annDel.dataset.confirm = '1';
+        annDel.textContent = 'Tap again to delete';
+        setTimeout(() => { annDel.dataset.confirm = ''; annDel.textContent = 'Delete'; }, 3000);
+        return;
+      }
+      communityStore('announcements', getAnnouncements().filter(a => ANN_PREFIX + annId(a) !== id));
+      renderAnnouncements();
+      return;
+    }
+
     const btn = e.target.closest('.cx-react');
     if (!btn) {
       // Stop main.js treating announcement cards as editable messages
@@ -288,12 +444,15 @@
       return;
     }
     e.stopPropagation();
-    const session = getSession();
     const id = btn.closest('.chat-msg')?.dataset.id;
-    if (!session || !id) return;
+    if (id) toggleReaction(id, btn.dataset.emo, btn);
+  }, true);
+
+  function toggleReaction(id, emo, originEl) {
+    const session = getSession();
+    if (!session || !id || !emo) return;
     const { list, item: m, key } = findReactable(id);
     if (!m) return;
-    const emo = btn.dataset.emo;
     m.reactions = m.reactions || {};
     const who = m.reactions[emo] || [];
     const had = who.includes(session.username);
@@ -301,12 +460,132 @@
     if (!m.reactions[emo].length) delete m.reactions[emo];
     communityStore(key, list);
 
-    if (!had) { const r = btn.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, emo); }
+    if (!had && originEl) { const r = originEl.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, emo); }
     const container = $('chat-messages');
     const keep = container.scrollTop;
     renderMessages();
     container.scrollTop = keep;
-  }, true);
+  }
+
+  // ---------------------------------------------------------------
+  // Emoji picker — one pop-up used for reactions and for typing
+  // ---------------------------------------------------------------
+  const RECENT_KEY = 'hyu_recent_emoji';
+  let picker = null;
+  let onPick = null;
+  let pickerAnchor = null;
+
+  function recentEmoji() {
+    try { return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; } catch { return []; }
+  }
+  function rememberEmoji(emo) {
+    try { localStorage.setItem(RECENT_KEY, JSON.stringify([emo, ...recentEmoji().filter(x => x !== emo)].slice(0, 24))); } catch {}
+  }
+
+  function buildPicker() {
+    const cats = window.HYU_EMOJI || [];
+    picker = document.createElement('div');
+    picker.className = 'cx-picker';
+    picker.setAttribute('role', 'dialog');
+    picker.setAttribute('aria-label', 'Choose an emoji');
+    picker.hidden = true;
+    picker.innerHTML = `
+      <div class="cx-picker-tabs" role="tablist">
+        <button type="button" class="cx-picker-tab" data-jump="recent" title="Recently used" aria-label="Recently used">🕘</button>
+        ${cats.map(c => `<button type="button" class="cx-picker-tab" data-jump="${c.id}" title="${c.name}" aria-label="${c.name}">${c.icon}</button>`).join('')}
+      </div>
+      <div class="cx-picker-scroll">
+        <section data-cat="recent"><h4>Recently used</h4><div class="cx-picker-grid" id="cx-picker-recent"></div></section>
+        ${cats.map(c => `<section data-cat="${c.id}"><h4>${c.name}</h4><div class="cx-picker-grid">${
+          c.list.split(/\s+/).filter(Boolean).map(e => `<button type="button" class="cx-emoji" data-e="${e}">${e}</button>`).join('')
+        }</div></section>`).join('')}
+      </div>`;
+    document.body.appendChild(picker);
+
+    picker.addEventListener('click', e => {
+      const tab = e.target.closest('.cx-picker-tab');
+      if (tab) {
+        const sec = picker.querySelector(`section[data-cat="${tab.dataset.jump}"]`);
+        const scroller = picker.querySelector('.cx-picker-scroll');
+        if (sec && scroller) scroller.scrollTo({ top: sec.offsetTop - scroller.offsetTop, behavior: 'smooth' });
+        return;
+      }
+      const em = e.target.closest('.cx-emoji');
+      if (em) {
+        const emo = em.dataset.e;
+        rememberEmoji(emo);
+        const cb = onPick;
+        closePicker();
+        cb?.(emo);
+      }
+    });
+  }
+
+  function renderRecent() {
+    const grid = picker.querySelector('#cx-picker-recent');
+    const recent = recentEmoji();
+    grid.innerHTML = recent.map(e => `<button type="button" class="cx-emoji" data-e="${escapeHtml(e)}">${escapeHtml(e)}</button>`).join('');
+    grid.closest('section').hidden = !recent.length;
+    picker.querySelector('.cx-picker-tab[data-jump="recent"]').hidden = !recent.length;
+  }
+
+  function openPicker(anchor, cb) {
+    if (!picker) buildPicker();
+    if (!picker.hidden && pickerAnchor === anchor) { closePicker(); return; }
+    onPick = cb;
+    pickerAnchor = anchor;
+    renderRecent();
+    picker.hidden = false;
+    picker.querySelector('.cx-picker-scroll').scrollTop = 0;
+    // Position next to the button, kept on screen
+    const r = anchor.getBoundingClientRect();
+    const w = picker.offsetWidth, h = picker.offsetHeight;
+    const pad = 10;
+    let left = Math.min(Math.max(pad, r.left + r.width / 2 - w / 2), window.innerWidth - w - pad);
+    let top = r.top - h - 8;
+    if (top < pad) top = Math.min(r.bottom + 8, window.innerHeight - h - pad);
+    picker.style.left = left + 'px';
+    picker.style.top = Math.max(pad, top) + 'px';
+    picker.querySelector('.cx-emoji')?.focus({ preventScroll: true });
+  }
+
+  function closePicker() {
+    if (picker) picker.hidden = true;
+    onPick = null;
+    pickerAnchor = null;
+  }
+
+  document.addEventListener('click', e => {
+    if (picker && !picker.hidden && !e.target.closest('.cx-picker, .cx-react-add, .cx-emoji-btn')) closePicker();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePicker(); });
+  window.addEventListener('resize', closePicker);
+  $('chat-messages')?.addEventListener('scroll', closePicker, { passive: true });
+
+  // Emoji button beside the chat box — inserts into your message
+  (function addComposerEmoji() {
+    const input = $('chat-input');
+    const send = $('send-msg-btn');
+    if (!input || !send || $('cx-emoji-btn')) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'cx-emoji-btn';
+    btn.className = 'cx-emoji-btn';
+    btn.setAttribute('aria-label', 'Add an emoji to your message');
+    btn.title = 'Emoji';
+    btn.textContent = '😊';
+    send.parentNode.insertBefore(btn, send);
+    btn.addEventListener('click', () => {
+      openPicker(btn, emo => {
+        const start = input.selectionStart ?? input.value.length;
+        const end = input.selectionEnd ?? input.value.length;
+        input.value = input.value.slice(0, start) + emo + input.value.slice(end);
+        const pos = start + emo.length;
+        input.focus();
+        input.setSelectionRange(pos, pos);
+      });
+    });
+  })();
 
   // ---------------------------------------------------------------
   // Community Chat / Leave a Review switcher (replaces nav dropdown)
@@ -481,6 +760,12 @@
     const originalAnn = window.renderAnnouncements;
     window.renderAnnouncements = function () {
       originalAnn.apply(this, arguments);
+      const byId = new Map(getAnnouncements().map(a => [annId(a), a]));
+      document.querySelectorAll('#announcements-list .announcement-msg').forEach(el => {
+        const a = byId.get(el.dataset.id);
+        const t = el.querySelector('.msg-text');
+        if (a && t) t.innerHTML = richText(a.text);
+      });
       if ($('chat-messages')) window.renderMessages();
     };
   }
