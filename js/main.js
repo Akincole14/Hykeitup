@@ -274,8 +274,9 @@ const FORM_ROUTES = {
     replyTo: 'volEmail',
   },
   partnerForm: {
-    to: 'info@hykeitup.com',
-    subject: f => `Partnerships – ${f.get('partnerType') || 'General'} – ${f.get('partnerCompany') || ''}`.replace(/ – $/, ''),
+    // Temporarily to Gmail — switch back to 'info@hykeitup.com' once its forwarding is set up
+    to: 'hykeitupofficial@gmail.com',
+    subject: f => `Partnerships & Sponsors – ${f.get('partnerType') || 'General'} – ${f.get('partnerCompany') || ''}`.replace(/ – $/, ''),
     replyTo: 'partnerEmail',
   },
 };
